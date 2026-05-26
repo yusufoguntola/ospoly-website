@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Search, ArrowUp, MapPin, Phone, Mail } from "lucide-react";
+import { Search, MapPin, Phone, Mail } from "lucide-react";
 
 // ─── Data ────────────────────────────────────────────────
 const LEFT_LINKS = [
@@ -105,85 +105,85 @@ function DiagonalPattern() {
   );
 }
 
-// ─── Gear crest SVG (inline, no Image dependency) ────────
-function GearCrest() {
-  return (
-    <svg
-      viewBox="0 0 120 120"
-      className="w-[90px] h-[90px] opacity-90"
-      aria-hidden="true"
-    >
-      {/* Outer ring */}
-      <circle
-        cx="60"
-        cy="60"
-        r="52"
-        fill="none"
-        stroke="#A06C00"
-        strokeWidth="2.5"
-      />
-      {/* Gear teeth */}
-      {Array.from({ length: 12 }).map((_, i) => {
-        const angle = (i * 30 * Math.PI) / 180;
-        const x = 60 + 50 * Math.sin(angle);
-        const y = 60 - 50 * Math.cos(angle);
-        return (
-          <rect
-            key={i}
-            x={x - 4}
-            y={y - 8}
-            width="8"
-            height="14"
-            rx="1.5"
-            fill="#A06C00"
-            transform={`rotate(${i * 30} ${x} ${y})`}
-          />
-        );
-      })}
-      {/* Inner filled circle */}
-      <circle
-        cx="60"
-        cy="60"
-        r="36"
-        fill="#091B34"
-        stroke="#A06C00"
-        strokeWidth="1.5"
-      />
-      {/* Torch vertical */}
-      <line
-        x1="60"
-        y1="38"
-        x2="60"
-        y2="82"
-        stroke="#A06C00"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-      />
-      {/* Cross bars */}
-      <line
-        x1="46"
-        y1="50"
-        x2="74"
-        y2="50"
-        stroke="#A06C00"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
-      <line
-        x1="50"
-        y1="58"
-        x2="70"
-        y2="58"
-        stroke="#A06C00"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      {/* Flame */}
-      <ellipse cx="60" cy="35" rx="6" ry="8" fill="#A06C00" />
-      <ellipse cx="60" cy="33" rx="3.5" ry="4.5" fill="#c9a227" />
-    </svg>
-  );
-}
+// // ─── Gear crest SVG (inline, no Image dependency) ────────
+// function GearCrest() {
+//   return (
+//     <svg
+//       viewBox="0 0 120 120"
+//       className="w-[90px] h-[90px] opacity-90"
+//       aria-hidden="true"
+//     >
+//       {/* Outer ring */}
+//       <circle
+//         cx="60"
+//         cy="60"
+//         r="52"
+//         fill="none"
+//         stroke="#A06C00"
+//         strokeWidth="2.5"
+//       />
+//       {/* Gear teeth */}
+//       {Array.from({ length: 12 }).map((_, i) => {
+//         const angle = (i * 30 * Math.PI) / 180;
+//         const x = 60 + 50 * Math.sin(angle);
+//         const y = 60 - 50 * Math.cos(angle);
+//         return (
+//           <rect
+//             key={i}
+//             x={x - 4}
+//             y={y - 8}
+//             width="8"
+//             height="14"
+//             rx="1.5"
+//             fill="#A06C00"
+//             transform={`rotate(${i * 30} ${x} ${y})`}
+//           />
+//         );
+//       })}
+//       {/* Inner filled circle */}
+//       <circle
+//         cx="60"
+//         cy="60"
+//         r="36"
+//         fill="#091B34"
+//         stroke="#A06C00"
+//         strokeWidth="1.5"
+//       />
+//       {/* Torch vertical */}
+//       <line
+//         x1="60"
+//         y1="38"
+//         x2="60"
+//         y2="82"
+//         stroke="#A06C00"
+//         strokeWidth="3.5"
+//         strokeLinecap="round"
+//       />
+//       {/* Cross bars */}
+//       <line
+//         x1="46"
+//         y1="50"
+//         x2="74"
+//         y2="50"
+//         stroke="#A06C00"
+//         strokeWidth="2.5"
+//         strokeLinecap="round"
+//       />
+//       <line
+//         x1="50"
+//         y1="58"
+//         x2="70"
+//         y2="58"
+//         stroke="#A06C00"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//       />
+//       {/* Flame */}
+//       <ellipse cx="60" cy="35" rx="6" ry="8" fill="#A06C00" />
+//       <ellipse cx="60" cy="33" rx="3.5" ry="4.5" fill="#c9a227" />
+//     </svg>
+//   );
+// }
 
 // ─── Main Component ───────────────────────────────────────
 export default function OspolyFooter() {
@@ -276,7 +276,7 @@ export default function OspolyFooter() {
             <Link
               href="/apply"
               className="
-                block text-center bg-white text-[#091B34] text-[13px] font-semibold
+                block text-center bg-white text-ospoly-deep text-[13px] font-semibold
                 tracking-[0.06em] py-3.5 px-8 rounded-sm
                 hover:bg-ospoly-pale transition-colors
               "
@@ -323,7 +323,7 @@ export default function OspolyFooter() {
       >
         <form
           onSubmit={handleSearch}
-          className="flex items-center bg-white/5 border border-white/10 rounded-full px-6 h-[58px] gap-4 max-w-full"
+          className="flex items-center bg-white/5 border border-white/10 rounded-full px-6 h-14.5 gap-4 max-w-full"
           role="search"
         >
           <input
@@ -342,7 +342,7 @@ export default function OspolyFooter() {
           <button
             type="submit"
             aria-label="Submit search"
-            className="text-white/40 hover:text-white transition-colors flex-shrink-0"
+            className="text-white/40 hover:text-white transition-colors shrink-0"
           >
             <Search size={20} strokeWidth={1.5} />
           </button>
@@ -459,7 +459,7 @@ export default function OspolyFooter() {
                 <Mail
                   size={16}
                   strokeWidth={1.5}
-                  className="flex-shrink-0 text-ospoly-gold"
+                  className="shrink-0 text-ospoly-gold"
                 />
                 <a
                   href="mailto:info@ospoly.edu.ng"

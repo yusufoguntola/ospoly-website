@@ -96,7 +96,7 @@ export default function ProgrammeContent({
                     key={bi}
                     className="flex items-start gap-2.5 text-gray-600 text-[15px] leading-relaxed"
                   >
-                    <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-ospoly-gold shrink-0" />
+                    <span className="mt-1.75 w-1.5 h-1.5 rounded-full bg-ospoly-gold shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -120,7 +120,7 @@ export default function ProgrammeContent({
           <div className="space-y-1.5">
             {quickInfo.map((item) => (
               <div key={item.label} className="flex gap-2 text-sm">
-                <span className="text-ospoly-navy font-semibold min-w-[100px]">
+                <span className="text-ospoly-navy font-semibold min-w-25">
                   {item.label}:
                 </span>
                 <span className="text-gray-600">{item.value}</span>

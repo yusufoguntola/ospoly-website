@@ -8,6 +8,7 @@ const page = () => {
           <PageHero
             title="News & Events"
             size="default"
+            description='Your source for the latest updates, achievements, and events from the OSPOLY community.'
           />
 
           <NewsUpdateSection />

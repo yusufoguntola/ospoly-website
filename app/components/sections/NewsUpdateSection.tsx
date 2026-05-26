@@ -212,7 +212,7 @@ function Pagination({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function NewsUpdateSection({
-  heading = "News & Update",
+  // heading = "News & Update",
   subheading = "The hub for institutional announcements, academic achievements, and official communiqués from Osun State Polytechnic, Iree.",
   // tabs,
   itemsPerPage = 3,
@@ -306,7 +306,7 @@ export default function NewsUpdateSection({
             transition={{ duration: 0.6 }}
             className="font-display font-bold text-ospoly-navy text-4xl sm:text-5xl leading-tight"
           >
-            {heading}
+            {activeTab.key === 'news' ? "News & Update" : "Events"}
           </motion.h2>
 
           <motion.p

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { ANNOUNCEMENTS } from "@/lib/data";
 
 const TABS = ["News", "Events", "Announcements"] as const;
@@ -27,16 +27,16 @@ export default function HeroSection() {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: `url('/assets/hero-section.png')`,
-            backgroundPosition: "center 30%",
+            // backgroundPosition: "center 30%",
           }}
         />
         {/* Fallback gradient when image is absent */}
-        <div
+        {/* <div
           className="absolute inset-0 bg-linear-to-b 
   from-ospoly-deep/70 
   via-ospoly-navy/50 
   to-ospoly-deep/90"
-        />
+        /> */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
         {/* <div className="absolute inset-0 backdrop-blur-[2px]" /> */}
         {/* Subtle grid texture */}
@@ -61,11 +61,13 @@ export default function HeroSection() {
         >
           <div className="w-36 h-36 lg:w-50 lg:h-50 rounded-full bg-ospoly-deep backdrop-blur-sm border-4 border-ospoly-gold/30 flex flex-col items-center justify-center gap-4 text-center shadow-2xl shadow-ospoly-gold/20 ">
             <span className="text-white font-display font-bold text-xl leading-tight block group-hover:hidden">
-              SKILLED <br/> FOR IMPACT
+              SKILLED <br /> FOR IMPACT
             </span>
-            <span className="text-ospoly-gold block group-hover:hidden">Since 1992</span>
-             <span className="text-white font-display font-bold text-xl leading-tight hidden group-hover:block">
-              WHAT SETS <br/> US APART
+            <span className="text-ospoly-gold block group-hover:hidden">
+              Since 1992
+            </span>
+            <span className="text-white font-display font-bold text-xl leading-tight hidden group-hover:block">
+              WHAT SETS <br /> US APART
             </span>
           </div>
 
@@ -117,15 +119,39 @@ export default function HeroSection() {
           </a>
         </motion.div> */}
       </div>
+      <div className="absolute bottom-5 left-0 w-full overflow-hidden leading-none">
+        <svg
+          viewBox="0 0 1440 160"
+          className="w-full h-40"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#98BCEE" />
+              <stop offset="100%" stopColor="#1F324D" stopOpacity="0.99"/>
+            </linearGradient>
+          </defs>
+          <path
+            d="M0,0 Q720,320 1440,0 L1440,160 L0,160 Z"
+            fill="url(#waveGradient)"
+          />
+        </svg>
+      </div>
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
         <svg
           viewBox="0 0 1440 160"
           className="w-full h-40"
           preserveAspectRatio="none"
         >
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#88ABD3" />
+              <stop offset="100%" stopColor="#1F324D" />
+            </linearGradient>
+          </defs>
           <path
-            d="M0,80 C300,140 1140,20 1440,80 L1440,160 L0,160 Z"
-            fill="#0b2a4a"
+            d="M0,0 Q720,320 1440,0 L1440,160 L0,160 Z"
+            fill="url(#waveGradient)"
           />
         </svg>
       </div>
