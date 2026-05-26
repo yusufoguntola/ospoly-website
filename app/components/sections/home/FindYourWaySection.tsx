@@ -25,7 +25,7 @@ interface QuickLink {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const DEFAULT_IMAGE =
-  "/assets/graduate.png";
+  "/assets/students.png";
 
 const QUICK_LINKS: QuickLink[] = [
   {
