@@ -44,7 +44,6 @@ export interface NewsUpdateSectionProps {
 
 // ─── Decorative shapes (top-right, matching the screenshot) ──────────────────
 
-
 function DecorativeShapes() {
   return (
     <div
@@ -66,8 +65,7 @@ function DecorativeShapes() {
         className="absolute top-2 right-24 w-10 h-10 border border-ospoly-sky/20 rounded-sm"
         style={{ transform: "rotate(30deg)" }}
       />
-            {/* <Image src={"/assets/logo-vector.png"} alt={""} width={500} height={500} /> */}
-
+      {/* <Image src={"/assets/logo-vector.png"} alt={""} width={500} height={500} /> */}
     </div>
   );
 }
@@ -81,7 +79,6 @@ interface ArticleRowProps {
 }
 
 function ArticleRow({ item, index, isInView }: ArticleRowProps) {
-  
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -162,7 +159,11 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   if (totalPages <= 1) return null;
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -218,7 +219,6 @@ export default function NewsUpdateSection({
   bgClass = "bg-white",
   className = "",
 }: NewsUpdateSectionProps) {
-
   const newsItems = Array.from({ length: 9 }, (_, i) => ({
     id: String(i + 1),
     title:
@@ -261,15 +261,13 @@ export default function NewsUpdateSection({
   const totalPages = Math.ceil((activeTab?.items.length ?? 0) / itemsPerPage);
   const pagedItems = (activeTab?.items ?? []).slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handleTabChange = (key: string) => {
     setActiveTabKey(key);
     setCurrentPage(1);
   };
-
-  
 
   return (
     <section
@@ -354,13 +352,13 @@ export default function NewsUpdateSection({
           onPageChange={setCurrentPage}
         />
       </div>
-        <Image
-    src="/assets/logo-vector.png"
-    alt="watermark"
-    width={300}
-    height={300}
-    className="absolute opacity-90 pointer-events-none"
-  />
+      <Image
+        src="/assets/logo-vector.png"
+        alt="watermark"
+        width={300}
+        height={300}
+        className="absolute opacity-90 pointer-events-none"
+      />
     </section>
   );
 }

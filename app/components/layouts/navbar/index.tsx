@@ -6,14 +6,14 @@ import Image from "next/image";
 
 // ─── Types ────────────────────────────────────────────────
 interface NavSection {
-  label: string;
+  label: { name: string; href: string };
   links: { text: string; href: string }[];
 }
 
 // ─── Data ─────────────────────────────────────────────────
 const NAV_SECTIONS: NavSection[] = [
   {
-    label: "About",
+    label: { name: "About", href: "/about" },
     links: [
       { text: "Ospoly Profile", href: "/about/ospoly-profile" },
       { text: "Administration", href: "/about/administration" },
@@ -21,7 +21,7 @@ const NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
-    label: "Admission",
+    label: { name: "Admission", href: "/admission" },
     links: [
       { text: "Undergraduate studies", href: "/admission/undergraduate-studies" },
       { text: "Postgraduate studies", href: "/admission/postgraduate-studies" },
@@ -32,17 +32,17 @@ const NAV_SECTIONS: NavSection[] = [
     ],
   },
   {
-    label: "Academics",
+    label: { name: "Academics", href: "/academics" },
     links: [
-      { text: "Faculties", href: "/academics/faculties" },
-      { text: "Postgraduate school", href: "/academics/postgraduate-school" },
+      { text: "Faculties", href: "/academics" },
+      { text: "Postgraduate school", href: "/academics" },
     ],
   },
   {
-    label: "News / Events",
+    label: { name: "News / Events", href: "/news-events" },
     links: [
-      { text: "Latest News", href: "/news" },
-      { text: "Upcoming Events", href: "/events" },
+      { text: "Latest News", href: "/news-events" },
+      { text: "Upcoming Events", href: "/news-events" },
     ],
   },
 ];
@@ -152,7 +152,7 @@ export default function OspolyNavbar() {
       {/* ── NAVBAR ─────────────────────────────────────── */}
       {!menuOpen && (
         <nav
-          className="relative z-50 flex items-center h-17 px-4 md:px-8 fixed max-w-7xl mx-auto"
+          className="relative z-50 flex justify-between items-center h-17 px-4 md:px-8 fixed max-w-7xl mx-auto"
           aria-label="Main navigation"
         >
           {/* Logo */}
@@ -177,10 +177,10 @@ export default function OspolyNavbar() {
           {searchOpen ? (
             <form
               onSubmit={handleSearchSubmit}
-              className="flex-1 flex items-center mx-2 sm:mx-4 animate-[fadeSlideIn_0.2s_ease] w-50"
+              className="flex-1 flex items-center animate-[fadeSlideIn_0.2s_ease] w-50"
               role="search"
             >
-              <div className="flex-1 flex items-center bg-white h-12.5 rounded-sm px-4 gap-3 shadow-[0_4px_28px_rgba(0,0,0,0.28)]">
+              <div className="flex-1 flex items-center bg-white h-12 md:h-17 rounded-bl-2xl px-4 gap-3 shadow-[0_4px_28px_rgba(0,0,0,0.28)]">
                 <input
                   ref={searchRef}
                   type="search"
@@ -188,9 +188,9 @@ export default function OspolyNavbar() {
                   onChange={(e) => setSearchValue(e.target.value)}
                   placeholder="SEARCH OSPOLY"
                   className="
-                  flex-1 bg-transparent border-none outline-none
+                  flex-1 bg-transparent py-2 outline-none
                   text-ospoly-deep text-[13px] font-medium tracking-[0.07em]
-                  placeholder:text-ospoly-deep/35
+                  placeholder:text-ospoly-deep/35 border-b
                   [&::-webkit-search-cancel-button]:hidden
                 "
                   aria-label="Search OSPOLY"
@@ -238,9 +238,9 @@ export default function OspolyNavbar() {
                 onClick={handleOpenSearch}
                 className="
                 flex items-center gap-2 text-white text-[11.5px] font-semibold
-                tracking-[0.12em] px-4 sm:px-6 h-17
+                tracking-[0.12em] px-4 sm:px-6 h-12 md:h-17
                 hover:bg-ospoly-navy transition-colors
-                border-r border-white/10
+                border-r border-white/10 cursor-pointer
                 bg-ospoly-deep rounded-bl-2xl
                 focus-visible:outline-none focus-visible:bg-white/10
               "
@@ -256,8 +256,8 @@ export default function OspolyNavbar() {
               onClick={() => setMenuOpen((prev) => !prev)}
               className={`
               flex items-center gap-2.5 text-white text-[11.5px] font-semibold
-              tracking-[0.12em] px-4 sm:px-6 h-17
-              bg-ospoly-deep rounded-br-2xl
+              tracking-[0.12em] px-4 sm:px-6 h-12 md:h-17
+              bg-ospoly-deep rounded-br-2xl cursor-pointer
               transition-colors focus-visible:outline-none focus-visible:bg-white/10
               ${menuOpen ? "bg-ospoly-navy" : "hover:bg-ospoly-navy"}
             `}
@@ -267,7 +267,7 @@ export default function OspolyNavbar() {
                 menuOpen ? "Close navigation menu" : "Open navigation menu"
               }
             >
-              MENU
+              <span className="hidden md:block">MENU</span>
               {/* Hamburger → X morphing icon */}
               <span
                 className="flex flex-col gap-[4.5px] w-4.5"
@@ -338,15 +338,15 @@ export default function OspolyNavbar() {
                 "
                 aria-label="Site search"
               />
-              <SearchIcon className="text-white/40 flex-shrink-0" />
+              <SearchIcon className="text-white/40 shrink-0" />
             </div>
             <button
               onClick={() => setMenuOpen(false)}
               className="
-                w-[42px] h-[42px] rounded-full border border-white/20 bg-transparent
+                w-10.5 h-10.5 rounded-full border border-white/20 bg-transparent
                 flex items-center justify-center text-white/70
                 hover:text-white hover:border-white/40
-                transition-colors flex-shrink-0
+                transition-colors shrink-0 cursor-pointer
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30
               "
               aria-label="Close menu"
@@ -370,7 +370,7 @@ export default function OspolyNavbar() {
           <div className="border-t border-white/7 pt-8 mb-7 grid grid-cols-2 lg:flex lg:justify-between gap-y-8">
             {NAV_SECTIONS.map((section, i) => (
               <div
-                key={section.label}
+                key={section.label.name}
                 className={`pr-5 lg:pr-8 ${
                   i % 2 !== 0 ? "pl-5 lg:pl-8 border-l border-white/6" : ""
                 } ${
@@ -385,9 +385,11 @@ export default function OspolyNavbar() {
                     : "lg:pl-0 lg:border-l-0"
                 }`}
               >
-                <h2 className="text-[11.5px] font-semibold text-ospoly-sky tracking-[0.08em] uppercase mb-4">
-                  {section.label}
+               <Link href={section.label.href} onClick={() => setMenuOpen(false)}>
+ <h2 className="text-[11.5px] font-semibold text-ospoly-sky tracking-[0.08em] uppercase mb-4">
+                  {section.label.name}
                 </h2>
+               </Link>
                 <ul className="flex flex-col gap-3 list-none">
                   {section.links.map((link, id) => (
                     <li key={id}>
@@ -395,8 +397,8 @@ export default function OspolyNavbar() {
                         href={link.href}
                         onClick={() => setMenuOpen(false)}
                         className="
-                          text-white/70 text-[13.5px] font-light leading-snug
-                          hover:text-white transition-colors block
+                          text-white text-[13.5px] font-light leading-snug
+                          hover:text-ospoly-gold transition-colors block
                           focus-visible:outline-none focus-visible:text-white
                         "
                       >

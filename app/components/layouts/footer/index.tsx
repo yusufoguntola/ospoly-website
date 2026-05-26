@@ -94,30 +94,14 @@ const SOCIAL_LINKS = [
 // ─── Diagonal gear / hex pattern (SVG bg) ────────────────
 function DiagonalPattern() {
   return (
-    <svg
-      className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.06]"
-      aria-hidden="true"
-    >
-      <defs>
-        <pattern
-          id="ospoly-grid"
-          x="0"
-          y="0"
-          width="80"
-          height="80"
-          patternUnits="userSpaceOnUse"
-          patternTransform="rotate(45)"
-        >
-          <path
-            d="M0 0 L80 0 L80 80"
-            fill="none"
-            stroke="white"
-            strokeWidth="0.8"
-          />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#ospoly-grid)" />
-    </svg>
+   <Image
+              src={"/assets/logo-vector.png"}
+              alt="Ospoly Logo"
+              width={3000}
+              height={1000}
+              className="w-[80vh] object-contain absolute -bottom-30 -left-20 opacity-[0.4]"
+              priority
+            />
   );
 }
 
@@ -219,7 +203,7 @@ export default function OspolyFooter() {
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.07, duration: 0.5, ease: "easeOut" },
+      transition: { delay: i * 0.07, duration: 0.5, ease: "easeOut" as const },
     }),
   };
 
@@ -248,37 +232,32 @@ export default function OspolyFooter() {
       >
         {/* subtle gear watermark */}
         <div
-          className="absolute right-6 top-1/2 -translate-y-1/2 opacity-[0.08] pointer-events-none"
+          className="absolute right-6 top-0 translate-y-1/2 opacity-[0.4] pointer-events-none"
           aria-hidden="true"
         >
-          <svg viewBox="0 0 200 200" className="w-[180px] h-[180px]">
-            {Array.from({ length: 12 }).map((_, i) => {
-              const angle = (i * 30 * Math.PI) / 180;
-              const x = 100 + 90 * Math.sin(angle);
-              const y = 100 - 90 * Math.cos(angle);
-              return (
-                <rect
-                  key={i}
-                  x={x - 7}
-                  y={y - 14}
-                  width="14"
-                  height="24"
-                  rx="2"
-                  fill="white"
-                  transform={`rotate(${i * 30} ${x} ${y})`}
-                />
-              );
-            })}
-            <circle
-              cx="100"
-              cy="100"
-              r="68"
-              fill="none"
-              stroke="white"
-              strokeWidth="4"
+        
+          <Image
+              src={"/assets/logo-vector.png"}
+              alt="Ospoly Logo"
+              width={120}
+              height={60}
+              className="w-50 object-contain"
+              priority
             />
-            <circle cx="100" cy="100" r="45" fill="white" />
-          </svg>
+        </div>
+         <div
+          className="absolute top-0 translate-y-1/2 opacity-[0.4] pointer-events-none"
+          aria-hidden="true"
+        >
+        
+          <Image
+              src={"/assets/logo-vector.png"}
+              alt="Ospoly Logo"
+              width={120}
+              height={60}
+              className="w-50 object-contain hidden md:block"
+              priority
+            />
         </div>
 
         <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 px-8 py-8 md:px-12">
@@ -293,7 +272,7 @@ export default function OspolyFooter() {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col gap-3 w-full sm:w-auto min-w-[280px]">
+          <div className="flex flex-col gap-3 w-full sm:w-auto min-w-70">
             <Link
               href="/apply"
               className="
