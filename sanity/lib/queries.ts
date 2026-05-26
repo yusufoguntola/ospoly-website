@@ -1,0 +1,276 @@
+import { client } from './client'
+
+// ─── Image projection helper ─────────────────────────────
+const imageFields = `
+  asset->{ url, metadata { dimensions } },
+  alt,
+  "url": asset->url
+`
+
+// ─── Hero Banner projection ───────────────────────────────
+const heroBannerFields = `
+  pageTitle,
+  subtitle,
+  overlayOpacity,
+  backgroundImage { ${imageFields} }
+`
+
+// ─── Global / Shared ─────────────────────────────────────
+
+export async function getFooterColumns() {
+  return client.fetch(`
+    *[_type == "footerColumn"] | order(sortOrder asc) {
+      _id,
+      columnHeading,
+      sortOrder,
+      links[] { label, url }
+    }
+  `)
+}
+
+export async function getActiveAnnouncements() {
+  const today = new Date().toISOString().split('T')[0]
+  return client.fetch(`
+    *[_type == "announcement" && active == true && (expiryDate == null || expiryDate >= $today)] {
+      _id,
+      messageText,
+      linkUrl,
+      linkLabel
+    }
+  `, { today })
+}
+
+export async function getKeyStatistics(page?: 'home' | 'about' | 'both') {
+  const filter = page
+    ? `&& (page == $page || page == "both")`
+    : ''
+  return client.fetch(`
+    *[_type == "keyStatistic" ${filter}] | order(sortOrder asc) {
+      _id,
+      statValue,
+      label,
+      sortOrder,
+      page
+    }
+  `, { page })
+}
+
+export async function getNewsletterCta() {
+  return client.fetch(`
+    *[_type == "newsletterCta"][0] {
+      headingText,
+      subtext,
+      ctaButtonLabel,
+      ctaButtonUrl,
+      socialLinks[] { platform, url }
+    }
+  `)
+}
+
+export async function getQuickLinks() {
+  return client.fetch(`
+    *[_type == "quickLink" && active == true] | order(sortOrder asc)[0...6] {
+      _id,
+      label,
+      linkUrl,
+      sortOrder,
+      icon { ${imageFields} }
+    }
+  `)
+}
+
+// ─── News & Events ────────────────────────────────────────
+
+export async function getNewsArticles(limit = 10, category?: string) {
+  const filter = category ? `&& category == $category` : ''
+  return client.fetch(`
+    *[_type == "newsArticle" && status == "published" ${filter}] | order(publishDate desc)[0...$limit] {
+      _id,
+      title,
+      slug,
+      category,
+      excerpt,
+      publishDate,
+      author,
+      tags,
+      featuredImage { ${imageFields} }
+    }
+  `, { limit: limit - 1, category })
+}
+
+export async function getNewsArticleBySlug(slug: string) {
+  return client.fetch(`
+    *[_type == "newsArticle" && slug.current == $slug][0] {
+      _id,
+      title,
+      slug,
+      category,
+      excerpt,
+      body,
+      publishDate,
+      author,
+      tags,
+      featuredImage { ${imageFields} }
+    }
+  `, { slug })
+}
+
+export async function getHomepageArticles(limit = 3) {
+  return client.fetch(`
+    *[_type == "newsArticle" && status == "published" && showOnHomepage == true] | order(publishDate desc)[0...$limit] {
+      _id,
+      title,
+      slug,
+      excerpt,
+      publishDate,
+      featuredImage { ${imageFields} }
+    }
+  `, { limit: limit - 1 })
+}
+
+export async function getEvents(limit = 10, includePast = false) {
+  const filter = includePast ? '' : `&& status != "past"`
+  return client.fetch(`
+    *[_type == "event" && status == "published" ${filter}] | order(eventDate asc)[0...$limit] {
+      _id,
+      eventTitle,
+      slug,
+      excerpt,
+      eventDate,
+      endDate,
+      location,
+      status,
+      featuredImage { ${imageFields} }
+    }
+  `, { limit: limit - 1 })
+}
+
+export async function getEventBySlug(slug: string) {
+  return client.fetch(`
+    *[_type == "event" && slug.current == $slug][0] {
+      _id,
+      eventTitle,
+      slug,
+      excerpt,
+      body,
+      eventDate,
+      endDate,
+      location,
+      status,
+      featuredImage { ${imageFields} }
+    }
+  `, { slug })
+}
+
+// ─── Academics ────────────────────────────────────────────
+
+export async function getFaculties() {
+  return client.fetch(`
+    *[_type == "faculty"] | order(sortOrder asc) {
+      _id,
+      facultyName,
+      slug,
+      deanName,
+      featuredImage { ${imageFields} }
+    }
+  `)
+}
+
+export async function getProgrammes(facultyId?: string) {
+  const filter = facultyId ? `&& faculty._ref == $facultyId` : ''
+  return client.fetch(`
+    *[_type == "programme" && status == "active" ${filter}] | order(programmeName asc) {
+      _id,
+      programmeName,
+      slug,
+      level,
+      duration,
+      accreditation,
+      faculty->{ _id, facultyName, slug },
+      icon { ${imageFields} },
+      featuredImage { ${imageFields} }
+    }
+  `, { facultyId })
+}
+
+export async function getProgrammeBySlug(slug: string) {
+  return client.fetch(`
+    *[_type == "programme" && slug.current == $slug][0] {
+      _id,
+      programmeName,
+      slug,
+      level,
+      duration,
+      accreditation,
+      description,
+      entryRequirements,
+      status,
+      faculty->{ _id, facultyName, slug },
+      icon { ${imageFields} },
+      featuredImage { ${imageFields} }
+    }
+  `, { slug })
+}
+
+// ─── Staff & Leadership ───────────────────────────────────
+
+export async function getStaffProfiles(category?: string) {
+  const filter = category ? `&& category == $category` : ''
+  return client.fetch(`
+    *[_type == "staffProfile" ${filter}] | order(sortOrder asc) {
+      _id,
+      fullName,
+      titleRole,
+      email,
+      category,
+      sortOrder,
+      photo { ${imageFields} }
+    }
+  `, { category })
+}
+
+// ─── Pages ────────────────────────────────────────────────
+
+export async function getAdmissionPage(type: 'undergraduate' | 'postgraduate' | 'distance-learning') {
+  return client.fetch(`
+    *[_type == "admissionPage" && admissionType == $type][0] {
+      _id,
+      pageTitle,
+      admissionType,
+      hero { ${heroBannerFields} },
+      introText,
+      requirements,
+      howToApply,
+      keyDates[] { label, date },
+      ctaButtonLabel,
+      ctaButtonUrl
+    }
+  `, { type })
+}
+
+export async function getAboutPage(identifier: 'about-ospoly' | 'vision-mission' | 'administration') {
+  return client.fetch(`
+    *[_type == "aboutPage" && pageIdentifier == $identifier][0] {
+      _id,
+      pageTitle,
+      pageIdentifier,
+      hero { ${heroBannerFields} },
+      bodyBlocks[] {
+        _type,
+        _key,
+        // richTextBlock
+        content,
+        // imageBlock
+        image { ${imageFields} },
+        // pullQuoteBlock
+        quote,
+        attribution,
+        // statGridBlock
+        stats[] { value, label },
+        // staffGridBlock
+        heading,
+        staff[]->{ _id, fullName, titleRole, category, photo { ${imageFields} } }
+      }
+    }
+  `, { identifier })
+}
