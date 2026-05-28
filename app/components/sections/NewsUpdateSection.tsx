@@ -90,12 +90,12 @@ function ArticleRow({ item, index, isInView }: ArticleRowProps) {
 
       <Link
         href={`/news/${item.slug}`}
-        className="group grid grid-cols-[140px_1fr_1fr] gap-6 items-start mb-8
-                   sm:grid-cols-[160px_1fr_1fr]
+        className="group grid grid-cols-2  gap-6 items-start mb-8
+                   md:grid-cols-[160px_1fr_1fr]
                    hover:[&_h3]:text-ospoly-gold transition-all"
       >
         {/* Image */}
-        <div className="relative w-35 sm:w-40 aspect-4/3 rounded-lg overflow-hidden bg-ospoly-pale shrink-0">
+        <div className="relative sm:w-40 aspect-4/3 rounded-lg overflow-hidden bg-ospoly-pale shrink-0">
           {item.imageUrl ? (
             <Image
               src={item.imageUrl}
@@ -174,7 +174,7 @@ function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
         aria-label="Previous page"
       >
         <ChevronLeft size={16} />
@@ -185,9 +185,9 @@ function Pagination({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`w-9 h-9 rounded-full text-sm font-semibold transition-all ${
+          className={`w-9 h-9 rounded-full text-sm font-semibold cursor-pointer transition-all ${
             page === currentPage
-              ? "bg-ospoly-navy text-white shadow-md shadow-ospoly-navy/20"
+              ? "bg-ospoly-deep text-white shadow-md shadow-ospoly-navy/20"
               : "text-gray-500 hover:text-ospoly-navy hover:bg-ospoly-pale/60"
           }`}
           aria-current={page === currentPage ? "page" : undefined}
@@ -200,7 +200,7 @@ function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+        className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
         aria-label="Next page"
       >
         <ChevronRight size={16} />
@@ -277,7 +277,7 @@ export default function NewsUpdateSection({
       {/* Decorative background shapes — top right */}
       <DecorativeShapes />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16">
+      <div className="relative w-full md:max-w-7xl mx-auto px-4 sm:px-6 py-16">
         {/* ── Tab Bar ─────────────────────────────────────── */}
         <div className="inline-flex rounded-lg overflow-hidden border border-gray-200 mb-12">
           {TABS.map((tab) => {
@@ -288,8 +288,8 @@ export default function NewsUpdateSection({
                 onClick={() => handleTabChange(tab.key)}
                 className={`p-5 w-40 text-sm font-semibold transition-all relative cursor-pointer ${
                   isActive
-                    ? "bg-ospoly-navy text-white"
-                    : " text-gray-500 hover:text-ospoly-gold hover:underline bg-ospoly-pale/40"
+                    ? "bg-ospoly-deep text-white"
+                    : " text-gray-500 hover:text-ospoly-gold hover:underline bg-ospoly-pale"
                 }`}
               >
                 {tab.label}

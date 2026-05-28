@@ -144,7 +144,7 @@ function FacultyCard({ faculty, index }: { faculty: Faculty; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
       transition={{ duration: 0.4, delay: index * 0.04 }}
-      className="bg-ospoly-pale/90 rounded-2xl transition-shadow overflow-hidden p-3"
+      className="bg-ospoly-pale/20 rounded-2xl transition-shadow overflow-hidden p-3"
     >
       <div className="p-3 ">
         <p className="font-display font-bold text-ospoly-navy text-sm leading-snug">
@@ -152,7 +152,7 @@ function FacultyCard({ faculty, index }: { faculty: Faculty; index: number }) {
           <span className="">({faculty.abbreviation})</span>
         </p>
       </div>
-      <div className="px-5 py-4 bg-ospoly-light/60 rounded-xl h-[75%]">
+      <div className="px-5 py-4 bg-ospoly-light/20 rounded-xl h-[80%]">
         <ul className="space-y-4">
           {faculty.departments.map((dept) => (
             <Link
@@ -160,7 +160,7 @@ function FacultyCard({ faculty, index }: { faculty: Faculty; index: number }) {
               key={dept}
               className="underline"
             >
-              <li className="flex items-start gap-2.5 text-[13px] leading-snug mb-3">
+              <li className="flex items-start gap-2.5 text-[13px] leading-snug mb-5">
                 <span className="mt-1.25 w-1.5 h-1.5 rounded-full bg-black shrink-0" />
                 {dept}
               </li>

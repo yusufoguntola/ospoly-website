@@ -4,63 +4,25 @@ import { useRef } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export interface CtaButton {
   label: string;
   href: string;
-  /** "primary" = filled gold,  "secondary" = ghost white */
   variant?: "primary" | "secondary";
 }
 
 export interface CtaBannerProps {
-  /**
-   * The headline. Use "\n" to control line breaks — each line animates in
-   * separately for the staggered effect seen in the screenshot.
-   * e.g. "READY TO\nLEARN, CREATE, AND\nCONTRIBUTE TO A\nSKILLED FUTURE."
-   */
   headline: string;
-
-  /**
-   * Optional supporting sub-text beneath the headline.
-   */
   subtext?: string;
-
-  /**
-   * Optional CTA buttons. If omitted the section stays purely typographic
-   * (matching the screenshot exactly).
-   */
   buttons?: CtaButton[];
-
-  /**
-   * Background image URL.
-   * Defaults to a hands-on workshop Unsplash photo.
-   * Swap with e.g. "/images/workshop.jpg".
-   */
   imageUrl?: string;
-
-  /**
-   * Overlay darkness 0–1. Defaults to 0.45 (light — lets the photo breathe).
-   */
   overlayOpacity?: number;
-
-  /**
-   * Section height. Default "default" = 75vh min, "tall" = 90vh min.
-   */
   size?: "default" | "tall";
-
-  /** Optional className on the outer <section>. */
   className?: string;
 }
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
-/** Splits a headline string on "\n" into lines, then each line into words. */
 function parseHeadline(text: string): string[][] {
   return text.split("\n").map((line) => line.trim().split(" "));
 }
-
-// ─── Animation variants ───────────────────────────────────────────────────────
 
 const lineVariants = {
   hidden: {},
@@ -79,8 +41,6 @@ const wordVariants = {
   },
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
 export default function CtaBanner({
   headline = "READY TO\nLEARN, CREATE, AND\nCONTRIBUTE TO A\nSKILLED FUTURE.",
   subtext,
@@ -93,7 +53,6 @@ export default function CtaBanner({
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-80px" });
 
-  // Subtle parallax on the background
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
@@ -101,8 +60,7 @@ export default function CtaBanner({
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
   const lines = parseHeadline(headline);
-
-  const minH = size === "tall" ? "min-h-[90vh]" : "min-h-[75vh]";
+  const minH = size === "tall" ? "min-h-[90vh]" : "min-h-[60vh] sm:min-h-[75vh]";
 
   return (
     <section
@@ -110,24 +68,21 @@ export default function CtaBanner({
       className={`relative w-full overflow-hidden flex items-center ${minH} ${className}`}
       aria-label="Call to action"
     >
-      {/* ── Background image with parallax ─────────────── */}
+      {/* Background image with parallax */}
       <motion.div
         className="absolute inset-[-15%] bg-cover bg-center"
-        style={{
-          backgroundImage: `url('${imageUrl}')`,
-          y: bgY,
-        }}
+        style={{ backgroundImage: `url('${imageUrl}')`, y: bgY }}
         aria-hidden
       />
 
-      {/* ── Overlay ─────────────────────────────────────── */}
+      {/* Overlay */}
       <div
         className="absolute inset-0 bg-ospoly-deep"
         style={{ opacity: overlayOpacity }}
         aria-hidden
       />
 
-      {/* ── Very subtle vignette — edges darker ─────────── */}
+      {/* Vignette */}
       <div
         className="absolute inset-0"
         style={{
@@ -137,8 +92,8 @@ export default function CtaBanner({
         aria-hidden
       />
 
-      {/* ── Content ─────────────────────────────────────── */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-8 sm:px-12 py-20">
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-12 py-14 sm:py-20">
         {/* Staggered headline */}
         <h2 className="font-display font-black text-white uppercase leading-[0.95] tracking-tight">
           {lines.map((words, lineIdx) => (
@@ -150,7 +105,7 @@ export default function CtaBanner({
               animate={isInView ? "visible" : "hidden"}
               className="flex flex-wrap gap-x-[0.28em] overflow-hidden"
               style={{
-                fontSize: "clamp(2.8rem, 7vw, 4rem)",
+                fontSize: "clamp(1.8rem, 6vw, 4rem)",
                 lineHeight: 1.0,
                 marginBottom: "0.05em",
               }}
@@ -174,7 +129,7 @@ export default function CtaBanner({
             initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: lines.length * 0.18 + 0.2 }}
-            className="text-white/70 text-lg mt-8 max-w-xl leading-relaxed"
+            className="text-white/70 text-base sm:text-lg mt-6 sm:mt-8 max-w-xs sm:max-w-xl leading-relaxed"
           >
             {subtext}
           </motion.p>
@@ -189,14 +144,14 @@ export default function CtaBanner({
               duration: 0.6,
               delay: lines.length * 0.18 + (subtext ? 0.4 : 0.25),
             }}
-            className="flex flex-wrap gap-4 mt-10"
+            className="flex flex-wrap gap-3 sm:gap-4 mt-8 sm:mt-10"
           >
             {buttons.map((btn) =>
               btn.variant === "secondary" ? (
                 <Link
                   key={btn.label}
                   href={btn.href}
-                  className="inline-flex items-center px-7 py-3.5 rounded-xl border-2 border-white/60 text-white text-sm font-semibold hover:bg-white/10 hover:border-white transition-all"
+                  className="inline-flex items-center px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border-2 border-white/60 text-white text-sm font-semibold hover:bg-white/10 hover:border-white transition-all"
                 >
                   {btn.label}
                 </Link>
@@ -204,7 +159,7 @@ export default function CtaBanner({
                 <Link
                   key={btn.label}
                   href={btn.href}
-                  className="inline-flex items-center px-7 py-3.5 rounded-xl bg-ospoly-gold text-white text-sm font-semibold hover:bg-ospoly-gold/90 transition-all shadow-lg shadow-ospoly-gold/20 hover:shadow-ospoly-gold/40 hover:-translate-y-0.5"
+                  className="inline-flex items-center px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-ospoly-gold text-white text-sm font-semibold hover:bg-ospoly-gold/90 transition-all shadow-lg shadow-ospoly-gold/20 hover:shadow-ospoly-gold/40 hover:-translate-y-0.5"
                 >
                   {btn.label}
                 </Link>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { ANNOUNCEMENTS } from "@/lib/data";
+import Image from "next/image";
 
 const TABS = ["News", "Events", "Announcements"] as const;
 
@@ -60,75 +61,98 @@ export default function HeroSection() {
           className="relative mb-6 group cursor-pointer"
         >
           <div className="w-36 h-36 lg:w-50 lg:h-50 rounded-full bg-ospoly-deep backdrop-blur-sm border-4 border-ospoly-gold/30 flex flex-col items-center justify-center gap-4 text-center shadow-2xl shadow-ospoly-gold/20 ">
-            <span className="text-white font-display font-bold text-xl leading-tight block group-hover:hidden">
-              SKILLED <br /> FOR IMPACT
-            </span>
-            <span className="text-ospoly-gold block group-hover:hidden">
-              Since 1992
-            </span>
-            <span className="text-white font-display font-bold text-xl leading-tight hidden group-hover:block">
-              WHAT SETS <br /> US APART
-            </span>
+            <div className="block group-hover:hidden md:space-y-4">
+              <p className="text-white font-display font-bold text-lg md:text-xl leading-tight ">
+                SKILLED <br /> FOR IMPACT
+              </p>
+              <div className="flex flex-col items-center justify-center gap-2">
+                <p className="text-ospoly-gold ">Since 1992</p>
+                <svg
+                  width="18"
+                  height="9"
+                  viewBox="0 0 18 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className=""
+                >
+                  <g clip-path="url(#clip0_2191_198)">
+                    <g clip-path="url(#clip1_2191_198)">
+                      <path
+                        d="M8.79958 8.52004L4.76758 5.13204L5.57958 4.04004L8.79958 6.72804L12.0196 4.04004L12.8316 5.13204L8.79958 8.52004Z"
+                        fill="#B48B3C"
+                      />
+                      <path
+                        d="M8.79958 4.73977L4.76758 1.32377L5.57958 0.259766L8.79958 2.94777L12.0196 0.259766L12.8316 1.32377L8.79958 4.73977Z"
+                        fill="#B48B3C"
+                      />
+                    </g>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_2191_198">
+                      <rect width="17.6" height="8.8" fill="white" />
+                    </clipPath>
+                    <clipPath id="clip1_2191_198">
+                      <rect
+                        width="16.8"
+                        height="8.4"
+                        fill="white"
+                        transform="translate(0.399902 0.120117)"
+                      />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div className="hidden group-hover:block  space-y-3">
+              <p className="text-white font-display font-bold text-lg md:text-xl leading-tight">
+                WHAT SETS <br /> US APART
+              </p>
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="text-center mx-auto"
+              >
+                <path
+                  d="M12.0001 21.2501C11.8101 21.2501 11.6201 21.1801 11.4701 21.0301L5.40012 14.9601C5.11012 14.6701 5.11012 14.1901 5.40012 13.9001C5.69012 13.6101 6.17012 13.6101 6.46012 13.9001L12.0001 19.4401L17.5401 13.9001C17.8301 13.6101 18.3101 13.6101 18.6001 13.9001C18.8901 14.1901 18.8901 14.6701 18.6001 14.9601L12.5301 21.0301C12.3801 21.1801 12.1901 21.2501 12.0001 21.2501Z"
+                  fill="#B48B3C"
+                />
+                <path
+                  d="M12 21.08C11.59 21.08 11.25 20.74 11.25 20.33V3.5C11.25 3.09 11.59 2.75 12 2.75C12.41 2.75 12.75 3.09 12.75 3.5V20.33C12.75 20.74 12.41 21.08 12 21.08Z"
+                  fill="#B48B3C"
+                />
+              </svg>
+            </div>
           </div>
 
-          {/* Orbit ring */}
+          {/* Spinning Gear Image */}
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute inset-0 rounded-full border-2 border-dashed border-ospoly-sky/20 scale-125"
-          />
+            className="absolute inset-0 scale-150 flex items-center justify-center pointer-events-none"
+          >
+            <Image
+              src="/assets/vector.png"
+              alt=""
+              className="w-full h-full object-contain opacity-"
+              height={100}
+              width={100}
+            />
+          </motion.div>
         </motion.div>
-
-        {/* <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="text-white font-display font-bold text-3xl sm:text-5xl lg:text-6xl text-center px-4 max-w-4xl leading-tight"
-        >
-          Osun State Polytechnic,{" "}
-          <span className="text-ospoly-sky">Iree</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.8 }}
-          className="text-ospoly-light/80 text-base sm:text-lg mt-4 text-center px-4 max-w-xl"
-        >
-          Producing highly-motivated, technically proficient, and efficient
-          manpower for Nigeria and the world.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1 }}
-          className="flex flex-wrap gap-3 mt-8 justify-center"
-        >
-          <a
-            href="/admissions/apply"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-ospoly-gold text-white font-semibold rounded-xl hover:bg-ospoly-gold/90 transition-all shadow-lg shadow-ospoly-gold/20 hover:shadow-ospoly-gold/40 hover:-translate-y-0.5"
-          >
-            Apply Now <ChevronRight size={16} />
-          </a>
-          <a
-            href="/academics"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/20 hover:bg-white/20 transition-all"
-          >
-            Explore Programmes
-          </a>
-        </motion.div> */}
       </div>
       <div className="absolute bottom-5 left-0 w-full overflow-hidden leading-none">
         <svg
           viewBox="0 0 1440 160"
-          className="w-full h-40"
+          className="w-full h-50"
           preserveAspectRatio="none"
         >
           <defs>
             <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#98BCEE" />
-              <stop offset="100%" stopColor="#1F324D" stopOpacity="0.99"/>
+              <stop offset="0%" stopColor="#98BCEE" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#1F324D" />
             </linearGradient>
           </defs>
           <path
@@ -140,7 +164,7 @@ export default function HeroSection() {
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
         <svg
           viewBox="0 0 1440 160"
-          className="w-full h-40"
+          className="w-full h-50"
           preserveAspectRatio="none"
         >
           <defs>
@@ -164,26 +188,21 @@ export default function HeroSection() {
         className="absolute -bottom-20 left-0 right-0 z-20 p-5 bg-white max-w-7xl mx-auto rounded-2xl"
       >
         <div className="px-4 sm:px-6">
-          <div className="overflow-hidde">
+          <div className="overflow-hidden">
             {/* Tabs */}
             <div className="flex gap-3 mb-4">
               {TABS.map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-6 py-3 text-center text-sm font-semibold cursor-pointer transition-all relative ${
+                  className={`px-6 py-3 text-center font-bold cursor-pointer transition-all relative ${
                     activeTab === tab
                       ? "bg-ospoly-deep text-white rounded"
-                      : "text-ospoly-deep hover:bg-ospoly-pale rounded"
+                      : "text-gray-400 hover:bg-ospoly-pale rounded"
                   }`}
                 >
                   {tab}
-                  {/* {activeTab === tab && (
-                    <motion.div
-                      layoutId="tab-indicator"
-                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-ospoly-navy"
-                    />
-                  )} */}
+              
                 </button>
               ))}
               {/* Play button */}
@@ -203,11 +222,11 @@ export default function HeroSection() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.1 * i }}
-                  className={`px-5 py-4 text-sm text-ospoly-navy hover:bg-ospoly-pale/30 transition-colors cursor-pointer ${
+                  className={`px-5 py-4 text-sm text-ospoly-navy  hover:bg-ospoly-pale/30 transition-colors cursor-pointer ${
                     activeItem === i ? "bg-ospoly-pale/20" : ""
                   }`}
                 >
-                  <span className="block font-medium leading-snug line-clamp-2">
+                  <span className="block font-bold leading-snug line-clamp-2">
                     {item.title}
                   </span>
                 </motion.a>

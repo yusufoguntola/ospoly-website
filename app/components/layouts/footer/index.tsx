@@ -239,9 +239,9 @@ export default function OspolyFooter() {
           <Image
               src={"/assets/logo-vector.png"}
               alt="Ospoly Logo"
-              width={120}
-              height={60}
-              className="w-50 object-contain"
+              width={100}
+              height={100}
+              className="w-full h-full object-contain opacity-50"
               priority
             />
         </div>

@@ -3,69 +3,43 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import {
-  ChevronRightCircle,
-} from "lucide-react";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+import { ChevronRightCircle } from "lucide-react";
 
 interface QuickLink {
   key: string;
   label: string;
   href: string;
-  // Icon: React.ElementType;
-  /**
-   * Background image for this link's hover state.
-   * Defaults to Unsplash stock photos — swap with local /images/* paths.
-   */
   imageUrl: string;
-  // description: string;
 }
 
-// ─── Data ─────────────────────────────────────────────────────────────────────
-
-const DEFAULT_IMAGE =
-  "/assets/students.png";
+const DEFAULT_IMAGE = "/assets/news.png";
 
 const QUICK_LINKS: QuickLink[] = [
   {
     key: "certificate",
     label: "Certificate Application",
     href: "/portal/certificate",
-   
-    imageUrl:
-      "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1400&q=80&fit=crop",
-    },
+    imageUrl: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1400&q=80&fit=crop",
+  },
   {
     key: "elibrary",
     label: "E-Library",
     href: "/portal/elibrary",
- 
-    imageUrl:
-      "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1400&q=80&fit=crop",
-    
+    imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1400&q=80&fit=crop",
   },
   {
     key: "transcript",
     label: "Transcript Portal",
     href: "/portal/transcript",
-    
-    imageUrl:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80&fit=crop",
-    
+    imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80&fit=crop",
   },
   {
     key: "elearning",
     label: "E-Learning Portal",
     href: "/portal/elearning",
-  
-    imageUrl:
-      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1400&q=80&fit=crop",
-    
+    imageUrl: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1400&q=80&fit=crop",
   },
 ];
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
 
 interface LinkCellProps {
   link: QuickLink;
@@ -81,38 +55,27 @@ function LinkCell({ link, isHovered, onEnter, onLeave }: LinkCellProps) {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       className={`
-        relative flex flex-col items-center gap-3 p-5 min-h-30 transition-colors duration-300 group justify-center even:border-l first:border-b last:border-t border-ospoly-sky
-        ${isHovered && "bg-ospoly-overlay"}
+        relative flex flex-col items-center gap-2 sm:gap-3 p-4 sm:p-5 min-h-24 sm:min-h-30
+        transition-colors duration-300 group justify-center
+        even:border-l first:border-b last:border-t border-white
+        ${isHovered ? "bg-ospoly-overlay" : ""}
       `}
     >
-    
       <div>
-        {/* Label */}
-        <p
-          className={`text-sm font-semibold leading-snug transition-colors duration-200 ${
-            isHovered ? "text-white" : "text-ospoly-light/75"
-          }`}
-        >
+        <p className="text-xs sm:text-sm font-semibold leading-snug text-white text-center">
           {link.label}
         </p>
-
-        
       </div>
-
-      {/* Arrow */}
       <motion.div
         animate={{ opacity: isHovered ? 1 : 0, x: isHovered ? 0 : -6 }}
         transition={{ duration: 0.25 }}
-        className="mt-aut"
         aria-hidden
       >
-        <ChevronRightCircle size={28} className="text-white" />
+        <ChevronRightCircle size={22} className="text-white sm:w-7 sm:h-7" />
       </motion.div>
     </Link>
   );
 }
-
-// ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function FindYourWaySection() {
   const [hovered, setHovered] = useState<string | null>(null);
@@ -122,8 +85,7 @@ export default function FindYourWaySection() {
 
   return (
     <section className="relative w-full overflow-hidden">
-
-      {/* ── Background crossfade ─────────────────────────── */}
+      {/* Background crossfade */}
       <AnimatePresence initial={false}>
         <motion.div
           key={activeBg}
@@ -145,20 +107,9 @@ export default function FindYourWaySection() {
         aria-hidden
       />
 
-      {/* Grid texture */}
-      {/* <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(180,207,246,0.6) 1px,transparent 1px),linear-gradient(90deg,rgba(180,207,246,0.6) 1px,transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-        aria-hidden
-      /> */}
-
-      {/* ── Content ─────────────────────────────────────── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 py-16 md:py-42 min-h-120 flex items-center">
-        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-42 min-h-80 sm:min-h-100 lg:min-h-120 flex items-center">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
 
           {/* Left — heading + programme pills */}
           <motion.div
@@ -167,12 +118,10 @@ export default function FindYourWaySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-
-            <h2 className="font-display font-bold text-white text-3xl sm:text-5xl leading-tight mb-3">
+            <h2 className="font-display font-bold text-white text-2xl sm:text-3xl md:text-4xl leading-tight mb-3">
               Find Your Way
             </h2>
-
-            <p className="text-ospoly-light/65 leading-relaxed mb-8 max-w-55">
+            <p className="text-white text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-xs sm:max-w-sm md:max-w-55">
               Explore the courses, paths, and opportunities that Osun State
               Polytechnic has to offer.
             </p>
@@ -185,10 +134,9 @@ export default function FindYourWaySection() {
                 <Link
                   key={prog.label}
                   href={prog.href}
-                  className="inline-flex items-center gap-2 self-start p-5 rounded-full border border-ospoly-sky/35 text-ospoly-sky font-medium hover:bg-ospoly-sky/10 hover:border-ospoly-sky transition-all group w-70 justify-center"
+                  className="inline-flex items-center gap-2 self-start p-4 sm:p-5 rounded-full border border-white/35 text-white text-sm font-medium hover:bg-white/10 hover:border-white transition-all group w-full sm:w-64 md:w-70 justify-center"
                 >
                   {prog.label}
-                 
                 </Link>
               ))}
             </div>
@@ -200,7 +148,7 @@ export default function FindYourWaySection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.15 }}
-            className="grid grid-cols-2 rounded-2xl overflow-hidden "
+            className="grid grid-cols-2 rounded-2xl overflow-hidden"
           >
             {QUICK_LINKS.map((link) => (
               <LinkCell
