@@ -169,6 +169,8 @@ export interface PageHeroProps {
    */
   showFinder?: boolean;
   onFilterChange?: (filters: HeroFilters) => void;
+  /** Real faculty names from Sanity. Falls back to hardcoded list when omitted. */
+  facultyOptions?: string[];
 }
 
 export interface HeroFilters {
@@ -180,7 +182,7 @@ export interface HeroFilters {
 
 // ─── Filter data ──────────────────────────────────────────────────────────────
 
-const FACULTY_OPTIONS = [
+const DEFAULT_FACULTY_OPTIONS = [
   "Faculty of Information and Communication Technology",
   "Faculty of Science",
   "Faculty of Art and Industrial Design",
@@ -196,11 +198,7 @@ const LEVEL_OPTIONS = [
 ];
 const MODE_OPTIONS = ["Full-Time", "Part-Time / Distance Learning"];
 
-const FILTER_GROUPS = [
-  { key: "faculty" as const, label: "By Faculties", options: FACULTY_OPTIONS },
-  { key: "level" as const, label: "By Level", options: LEVEL_OPTIONS },
-  { key: "mode" as const, label: "By Modes", options: MODE_OPTIONS },
-];
+
 
 // ─── Height map ───────────────────────────────────────────────────────────────
 
@@ -320,6 +318,7 @@ export default function PageHero({
   className = "",
   showFinder = false,
   onFilterChange,
+  facultyOptions,
 }: PageHeroProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -338,6 +337,13 @@ export default function PageHero({
     level: null,
     mode: null,
   });
+
+  // Build filter groups here so faculty options can come from props
+  const FILTER_GROUPS = [
+    { key: "faculty" as const, label: "By Faculties", options: facultyOptions?.length ? facultyOptions : DEFAULT_FACULTY_OPTIONS },
+    { key: "level"   as const, label: "By Level",     options: LEVEL_OPTIONS },
+    { key: "mode"    as const, label: "By Modes",     options: MODE_OPTIONS },
+  ];
 
   // Notify parent on any change
   useEffect(() => {
@@ -372,33 +378,33 @@ export default function PageHero({
   return (
     <section
       ref={ref}
-      className={`relative w-full overflow-hidden flex items-center ${SIZE_CLASS[size]} ${className}`}
+      className={`relative w-full flex items-center ${SIZE_CLASS[size]} ${className}`}
       aria-label={`${title} page banner`}
     >
-      {/* Background with parallax */}
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${imageUrl}')`, y: bgY, scale: 1.1 }}
-        aria-hidden
-      />
-
-      {/* Dark overlay */}
-      <div
-        className="absolute inset-0 bg-ospoly-deep"
-        style={{ opacity: overlayOpacity }}
-        aria-hidden
-      />
-
-      {/* Grid texture */}
-      <div
-        className="absolute inset-0 opacity-[0.035]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(180,207,246,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(180,207,246,0.5) 1px,transparent 1px)",
-          backgroundSize: "52px 52px",
-        }}
-        aria-hidden
-      />
+      {/* Background layers wrapped in overflow-hidden so the scaled image
+          is clipped to the section bounds, while content/dropdowns can still
+          escape the section via z-index */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${imageUrl}')`, y: bgY, scale: 1.1 }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-ospoly-deep"
+          style={{ opacity: overlayOpacity }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(180,207,246,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(180,207,246,0.5) 1px,transparent 1px)",
+            backgroundSize: "52px 52px",
+          }}
+          aria-hidden
+        />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 pb-10 py-20">
