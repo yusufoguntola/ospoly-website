@@ -1,6 +1,6 @@
-import { AnnouncementItem, NavItem, NewsArticle, StatItem } from "@/types";
+import { StatItem } from "@/types";
 
-export const NAV_ITEMS: NavItem[] = [
+export const NAV_ITEMS = [
   {
     label: "About",
     href: "/about",
@@ -40,7 +40,7 @@ export const STATS: StatItem[] = [
   { value: "150+", label: "Quality Infrastructure Facilities" },
 ];
 
-export const ANNOUNCEMENTS: AnnouncementItem[] = [
+export const ANNOUNCEMENTS = [
   {
     id: "1",
     title: "OSPOLY Unveils New Ultra-Modern Innovation & Skills Development Center",
@@ -58,7 +58,7 @@ export const ANNOUNCEMENTS: AnnouncementItem[] = [
   },
 ];
 
-export const NEWS_ARTICLES: NewsArticle[] = [
+export const NEWS_ARTICLES = [
   {
     id: "1",
     title: "Engineering Faculty Secures National NBTE Accreditation for All HND Programmes",
