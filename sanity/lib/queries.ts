@@ -30,14 +30,20 @@ export async function getFooterColumns() {
 
 export async function getActiveAnnouncements() {
   const today = new Date().toISOString().split('T')[0]
-  return client.fetch(`
+
+  return client.fetch(
+    `
     *[_type == "announcement" && active == true && (expiryDate == null || expiryDate >= $today)] {
       _id,
       messageText,
+      category,
       linkUrl,
-      linkLabel
+      linkLabel,
+      expiryDate
     }
-  `, { today })
+  `,
+    { today }
+  )
 }
 
 export async function getKeyStatistics(page?: 'home' | 'about' | 'both') {

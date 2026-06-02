@@ -12,6 +12,22 @@ export const announcement = defineType({
       description: 'Max 200 characters',
       validation: (Rule) => Rule.required().max(200),
     }),
+
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'News', value: 'News' },
+          { title: 'Events', value: 'Events' },
+          { title: 'Announcements', value: 'Announcements' },
+        ],
+        layout: 'radio',
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+
     defineField({
       name: 'linkUrl',
       title: 'Link URL',
@@ -20,12 +36,14 @@ export const announcement = defineType({
       validation: (Rule) =>
         Rule.uri({ allowRelative: true, scheme: ['http', 'https'] }),
     }),
+
     defineField({
       name: 'linkLabel',
       title: 'Link Label',
       type: 'string',
       description: "e.g. 'Visit'",
     }),
+
     defineField({
       name: 'active',
       title: 'Active',
@@ -34,6 +52,7 @@ export const announcement = defineType({
       initialValue: true,
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: 'expiryDate',
       title: 'Expiry Date',
@@ -41,13 +60,22 @@ export const announcement = defineType({
       description: 'Auto-hides after this date',
     }),
   ],
+
   preview: {
-    select: { title: 'messageText', active: 'active', expiryDate: 'expiryDate' },
-    prepare({ title, active, expiryDate }) {
+    select: {
+      title: 'messageText',
+      category: 'category',
+      active: 'active',
+      expiryDate: 'expiryDate',
+    },
+    prepare({ title, category, active, expiryDate }) {
       const status = active ? '🟢 Active' : '🔴 Inactive'
+
       return {
         title,
-        subtitle: `${status}${expiryDate ? ` · Expires ${expiryDate}` : ''}`,
+        subtitle: `${category} · ${status}${
+          expiryDate ? ` · Expires ${expiryDate}` : ''
+        }`,
       }
     },
   },
