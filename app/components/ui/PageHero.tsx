@@ -372,33 +372,33 @@ export default function PageHero({
   return (
     <section
       ref={ref}
-      className={`relative w-full overflow-hidden flex items-center ${SIZE_CLASS[size]} ${className}`}
+      className={`relative w-full flex items-center ${SIZE_CLASS[size]} ${className}`}
       aria-label={`${title} page banner`}
     >
-      {/* Background with parallax */}
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${imageUrl}')`, y: bgY, scale: 1.1 }}
-        aria-hidden
-      />
-
-      {/* Dark overlay */}
-      <div
-        className="absolute inset-0 bg-ospoly-deep"
-        style={{ opacity: overlayOpacity }}
-        aria-hidden
-      />
-
-      {/* Grid texture */}
-      <div
-        className="absolute inset-0 opacity-[0.035]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(180,207,246,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(180,207,246,0.5) 1px,transparent 1px)",
-          backgroundSize: "52px 52px",
-        }}
-        aria-hidden
-      />
+      {/* Background layers wrapped in overflow-hidden so the scaled image
+          is clipped to the section bounds, while content/dropdowns can still
+          escape the section via z-index */}
+      <div className="absolute inset-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${imageUrl}')`, y: bgY, scale: 1.1 }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 bg-ospoly-deep"
+          style={{ opacity: overlayOpacity }}
+          aria-hidden
+        />
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(180,207,246,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(180,207,246,0.5) 1px,transparent 1px)",
+            backgroundSize: "52px 52px",
+          }}
+          aria-hidden
+        />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 pb-10 py-20">

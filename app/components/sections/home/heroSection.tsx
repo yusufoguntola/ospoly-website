@@ -318,9 +318,7 @@ export default function HeroSection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 * i }}
-                    className={`px-5 py-4 text-sm text-ospoly-navy hover:bg-ospoly-pale/30 transition-colors cursor-pointer ${
-                      activeItem === i ? "bg-ospoly-pale/20" : ""
-                    }`}
+                    className={`px-5 py-4 text-sm text-ospoly-navy hover:bg-ospoly-pale/30 transition-colors cursor-pointer`}
                   >
                     <span className="block font-bold leading-snug line-clamp-2">
                       {item.title}

@@ -2,11 +2,10 @@ import ApplyCard from "@/app/components/sections/admission/ApplyCard";
 import ProgrammeContent from "@/app/components/sections/admission/ProgrammeContent";
 import ProgrammeLayout from "@/app/components/sections/admission/ProgrammeLayout";
 
-
 const BREADCRUMBS = [
-  { label: "Home",         href: "/" },
-  { label: "Academics",    href: "/academics" },
-  { label: "Programmes",   href: "/academics/programmes" },
+  { label: "Home", href: "/" },
+  { label: "Academics", href: "/academics" },
+  { label: "Programmes", href: "/academics" },
   { label: "Distance Learning" },
 ];
 
@@ -69,8 +68,16 @@ export default function DistanceLearningPage() {
         ]}
         sections={SECTIONS}
         buttons={[
-          { label: "Explore programs", href: "/academics/programmes", variant: "outline" },
-          { label: "Apply Now",        href: "https://ospolyportal.com", variant: "filled" },
+          {
+            label: "Explore programs",
+            href: "/programmes",
+            variant: "outline",
+          },
+          {
+            label: "Apply Now",
+            href: "https://ospolyportal.com",
+            variant: "filled",
+          },
         ]}
       />
     </ProgrammeLayout>

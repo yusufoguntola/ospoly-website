@@ -2,11 +2,10 @@ import ApplyCard from "@/app/components/sections/admission/ApplyCard";
 import ProgrammeContent from "@/app/components/sections/admission/ProgrammeContent";
 import ProgrammeLayout from "@/app/components/sections/admission/ProgrammeLayout";
 
-
 const BREADCRUMBS = [
-  { label: "Home",         href: "/" },
-  { label: "Academics",    href: "/academics" },
-  { label: "Programmes",   href: "/academics/programmes" },
+  { label: "Home", href: "/" },
+  { label: "Academics", href: "/academics" },
+  { label: "Programmes", href: "/academics" },
   { label: "Postgraduate Studies" },
 ];
 
@@ -61,9 +60,17 @@ export default function PostgraduateStudiesPage() {
         ]}
         sections={SECTIONS}
         buttons={[
-          { label: "Download Prospectus", href: "/prospectus.pdf",                   variant: "outline" },
-          { label: "Explore Programs",    href: "/academics/programmes",              variant: "outline" },
-          { label: "Apply for PG Programs", href: "https://ospolyportal.com",        variant: "filled"  },
+          {
+            label: "Download Prospectus",
+            href: "/prospectus.pdf",
+            variant: "outline",
+          },
+          { label: "Explore Programs", href: "/academics", variant: "outline" },
+          {
+            label: "Apply for PG Programs",
+            href: "https://ospolyportal.com",
+            variant: "filled",
+          },
         ]}
       />
     </ProgrammeLayout>

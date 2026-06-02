@@ -18,19 +18,22 @@ const PROGRAMMES = [
     label: "Undergraduate Program",
     href: "/admission/undergraduate-studies",
     imageUrl:
-      "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=75&fit=crop",
+      // "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=75&fit=crop",
+      "/assets/ug.jpg",
   },
   {
     label: "Post Graduate Program",
     href: "/admission/postgraduate-studies",
     imageUrl:
-      "https://images.unsplash.com/photo-1627556704302-624286467c65?w=800&q=75&fit=crop",
+      // "https://images.unsplash.com/photo-1627556704302-624286467c65?w=800&q=75&fit=crop",
+      "/assets/pgd.jpg",
   },
   {
     label: "Distance Learning / Part-Time Studies",
     href: "/admission/distance-learning",
     imageUrl:
-      "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=75&fit=crop",
+      // "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=75&fit=crop",
+      "/assets/dsl.jpg",
   },
 ];
 
@@ -63,7 +66,7 @@ export default function ProgrammesPage() {
                     src={prog.imageUrl}
                     alt={prog.label}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105 rounded-2xl"
+                    className="object-cover object-top-right transition-transform duration-500 group-hover:scale-105 rounded-2xl"
                     sizes="680px"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-ospoly-deep/25 to-transparent" />

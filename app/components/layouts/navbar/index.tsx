@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { DiagonalPattern } from "../footer";
 
 // ─── Types ────────────────────────────────────────────────
 interface NavSection {
@@ -82,10 +83,10 @@ function OspolyCrest() {
       aria-label="OSPOLY home"
     >
       <Image
-        src={"/assets/logo.png"}
+        src={"/assets/logo-svg.svg"}
         alt="Ospoly Logo"
         width={120}
-        height={60}
+        height={80}
         className="w-20 h-auto sm:w-25 md:w-30 object-contain"
         priority
       />
@@ -150,9 +151,10 @@ export default function OspolyNavbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 font-(family-name:--font-barlow,'Barlow',sans-serif) bg-transparent p-4">
       {/* ── NAVBAR ─────────────────────────────────────── */}
+      
       {!menuOpen && (
         <nav
-          className="relative z-50 flex justify-between items-center h-17 px-4 md:px-8 fixed max-w-7xl mx-auto"
+          className="relative z-50 flex justify-between items-center h-17 px-4 md:px-8 max-w-7xl mx-auto"
           aria-label="Main navigation"
         >
           {/* Logo */}
@@ -162,10 +164,10 @@ export default function OspolyNavbar() {
             aria-label="OSPOLY home"
           >
             <Image
-              src={"/assets/logo.png"}
+              src={"/assets/logo-svg.svg"}
               alt="Ospoly Logo"
               width={120}
-              height={60}
+              height={100}
               className="w-20 h-auto sm:w-25 md:w-30 object-contain"
               priority
             />
@@ -314,14 +316,7 @@ export default function OspolyNavbar() {
         }}
       >
         {/* Diagonal grid pattern */}
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.035]"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.6) 40px,rgba(255,255,255,0.6) 41px)",
-          }}
-          aria-hidden="true"
-        />
+       <DiagonalPattern/>
 
         <div className="relative px-4 sm:px-8 md:px-12 pt-19 max-w-7xl mx-auto">
           {/* ── Search + close row ── */}

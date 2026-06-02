@@ -2,11 +2,10 @@ import ApplyCard from "@/app/components/sections/admission/ApplyCard";
 import ProgrammeContent from "@/app/components/sections/admission/ProgrammeContent";
 import ProgrammeLayout from "@/app/components/sections/admission/ProgrammeLayout";
 
-
 const BREADCRUMBS = [
-  { label: "Home",         href: "/" },
-  { label: "Academics",    href: "/academics" },
-  { label: "Programmes",   href: "/academics/programmes" },
+  { label: "Home", href: "/" },
+  { label: "Academics", href: "/academics" },
+  { label: "Programmes", href: "/academics" },
   { label: "Undergraduate Studies" },
 ];
 
@@ -63,12 +62,19 @@ export default function UndergraduateStudiesPage() {
         ]}
         sections={SECTIONS}
         quickInfo={[
-          { label: "Duration",      value: "2 Years (4 Semesters)" },
-          { label: "Requirements",  value: "5 O'Level Credits (Incl. English & Maths)" },
+          { label: "Duration", value: "2 Years (4 Semesters)" },
+          {
+            label: "Requirements",
+            value: "5 O'Level Credits (Incl. English & Maths)",
+          },
         ]}
         buttons={[
-          { label: "Explore Programs", href: "/academics/programmes",           variant: "outline" },
-          { label: "Apply for ND/HND", href: "https://ospolyportal.com",        variant: "filled"  },
+          { label: "Explore Programs", href: "/academics", variant: "outline" },
+          {
+            label: "Apply for ND/HND",
+            href: "https://ospolyportal.com",
+            variant: "filled",
+          },
         ]}
       />
     </ProgrammeLayout>

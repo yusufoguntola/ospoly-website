@@ -92,14 +92,14 @@ const SOCIAL_LINKS = [
 ];
 
 // ─── Diagonal gear / hex pattern (SVG bg) ────────────────
-function DiagonalPattern() {
+export function DiagonalPattern() {
   return (
     <Image
-      src={"/assets/logo-vector.png"}
+      src={"/assets/logo-vector.svg"}
       alt="Ospoly Logo"
-      width={3000}
-      height={1000}
-      className="w-[80vh] object-contain absolute -bottom-30 -left-20 opacity-[0.4]"
+      width={2000}
+      height={500}
+      className="w-[70vh] object-contain absolute -bottom-30 -left-20"
       priority
     />
   );
@@ -241,7 +241,7 @@ export default function OspolyFooter() {
               alt="Ospoly Logo"
               width={100}
               height={100}
-              className="w-full h-full object-contain opacity-50"
+              className="w-full h-full object-contain"
               priority
             />
           </div>
@@ -273,7 +273,7 @@ export default function OspolyFooter() {
             {/* CTAs */}
             <div className="flex flex-col gap-3 w-full sm:w-auto min-w-70">
               <Link
-                href="/apply"
+                href="/admission"
                 className="
                 block text-center bg-white text-ospoly-deep text-[13px] font-semibold
                 tracking-[0.06em] py-3.5 px-8 rounded-sm
