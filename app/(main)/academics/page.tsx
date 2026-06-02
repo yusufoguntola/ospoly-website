@@ -156,7 +156,7 @@ function FacultyCard({ faculty, index }: { faculty: Faculty; index: number }) {
         <ul className="space-y-4">
           {faculty.departments.map((dept) => (
             <Link
-              href={`/departments/${dept.toLowerCase().replace(/\s+/g, "-")}`}
+              href={`#`}
               key={dept}
               className="underline"
             >
