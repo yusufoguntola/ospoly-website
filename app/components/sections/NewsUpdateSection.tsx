@@ -89,7 +89,7 @@ function ArticleRow({ item, index, isInView }: ArticleRowProps) {
       {index > 0 && <div className="h-px bg-gray-100 mb-8" />}
 
       <Link
-        href={`/news/${item.slug}`}
+        href={`/${item.slug}`}
         className="group grid grid-cols-2  gap-6 items-start mb-8
                    md:grid-cols-[160px_1fr_1fr]
                    hover:[&_h3]:text-ospoly-gold transition-all"
@@ -230,7 +230,7 @@ export default function NewsUpdateSection({
     ],
     category: ["Academics", "Research", "Campus"][i % 3],
     date: `May ${10 - i}, 2025`,
-    slug: `engineering-faculty-nbte-${i + 1}`,
+    slug: `news-events`,
   }));
 
   const eventsItems = Array.from({ length: 4 }, (_, i) => ({
@@ -242,7 +242,7 @@ export default function NewsUpdateSection({
     imageUrl: "/assets/news.png",
     category: "Events",
     date: `June ${20 + i}, 2025`,
-    slug: `annual-festival-${i + 1}`,
+    slug: `news-events`,
   }));
 
   const TABS: NewsTab[] = [

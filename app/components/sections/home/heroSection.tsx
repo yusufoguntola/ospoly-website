@@ -1,10 +1,90 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
-import { ANNOUNCEMENTS } from "@/lib/data";
 import Image from "next/image";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+export interface HeroAnnouncement {
+  id: string;
+  title: string;
+  href: string;
+  category?: "News" | "Events" | "Announcements";
+}
+
+// ─── Fallback data (used until Sanity is populated) ───────────────────────────
+
+const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
+  // ─── NEWS ─────────────────────────────────────────────
+  {
+    id: "1",
+    title:
+      "Engineering Faculty Secures National NBTE Accreditation for All HND Programmes",
+    href: "/news-events",
+    category: "News",
+  },
+  {
+    id: "2",
+    title:
+      "Polytechnic Ranked Among Top Technical Institutions in Nigeria for Academic Excellence",
+    href: "/news-events",
+    category: "News",
+  },
+  {
+    id: "3",
+    title:
+      "Institution Launches New Industry Partnership Program for Student Internship Opportunities",
+    href: "/news-events",
+    category: "News",
+  },
+
+  // ─── ANNOUNCEMENTS ────────────────────────────────────
+  {
+    id: "4",
+    title: "2025/2026 Admission is now open — Apply before the deadline",
+    href: "/admission/undergraduate-studies",
+    category: "Announcements",
+  },
+  {
+    id: "5",
+    title:
+      "Important Notice: Students are advised to complete course registration before deadline",
+    href: "/admission/undergraduate-studies",
+    category: "Announcements",
+  },
+  {
+    id: "6",
+    title:
+      "Resumption Date for 2025/2026 Academic Session Has Been Officially Released",
+    href: "/admission/undergraduate-studies",
+    category: "Announcements",
+  },
+
+  // ─── EVENTS ───────────────────────────────────────────
+  {
+    id: "7",
+    title:
+      "Annual Inter-Faculty Sports & Cultural Festival — Registration Open",
+    href: "/news-events",
+    category: "Events",
+  },
+  {
+    id: "8",
+    title:
+      "2026 Innovation Week: Hackathon and Startup Pitch Competition Announced",
+    href: "/news-events",
+    category: "Events",
+  },
+  {
+    id: "9",
+    title:
+      "Orientation Week Schedule Released for Newly Admitted Students",
+    href: "/news-events",
+    category: "Events",
+  },
+];
 
 const TABS = ["News", "Events", "Announcements"] as const;
 
@@ -12,35 +92,32 @@ export default function HeroSection() {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("News");
   const [activeItem, setActiveItem] = useState(0);
 
+  const items = FALLBACK_ANNOUNCEMENTS;
+  const filteredItems = useMemo(() => {
+    return items.filter((item) => item.category === activeTab);
+  }, [items, activeTab]);
+
   useEffect(() => {
-    const interval = setInterval(
-      () => setActiveItem((p) => (p + 1) % ANNOUNCEMENTS.length),
-      4000,
-    );
+    if (!filteredItems.length) return;
+
+    // setActiveItem(0); // reset when tab changes
+
+    const interval = setInterval(() => {
+      setActiveItem((prev) => (prev + 1) % filteredItems.length);
+    }, 4000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [filteredItems.length, activeTab]);
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidde">
-      {/* Background — campus aerial photo placeholder */}
+    <section className="relative w-full min-h-screen">
+      {/* Background */}
       <div className="absolute inset-0">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('/assets/hero-section.png')`,
-            // backgroundPosition: "center 30%",
-          }}
+          style={{ backgroundImage: `url('/assets/hero-section.png')` }}
         />
-        {/* Fallback gradient when image is absent */}
-        {/* <div
-          className="absolute inset-0 bg-linear-to-b 
-  from-ospoly-deep/70 
-  via-ospoly-navy/50 
-  to-ospoly-deep/90"
-        /> */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
-        {/* <div className="absolute inset-0 backdrop-blur-[2px]" /> */}
-        {/* Subtle grid texture */}
         <div
           className="absolute inset-0 opacity-5"
           style={{
@@ -60,23 +137,22 @@ export default function HeroSection() {
           transition={{ duration: 0.8, ease: "backOut", delay: 0.3 }}
           className="relative mb-6 group cursor-pointer"
         >
-          <div className="w-36 h-36 lg:w-50 lg:h-50 rounded-full bg-ospoly-deep backdrop-blur-sm border-4 border-ospoly-gold/30 flex flex-col items-center justify-center gap-4 text-center shadow-2xl shadow-ospoly-gold/20 ">
+          <div className="w-36 h-36 lg:w-50 lg:h-50 rounded-full bg-ospoly-deep backdrop-blur-sm border-4 border-ospoly-gold/30 flex flex-col items-center justify-center gap-4 text-center shadow-2xl shadow-ospoly-gold/20">
             <div className="block group-hover:hidden md:space-y-4">
-              <p className="text-white font-display font-bold text-lg md:text-xl leading-tight ">
+              <p className="text-white font-display font-bold text-lg md:text-xl leading-tight">
                 SKILLED <br /> FOR IMPACT
               </p>
               <div className="flex flex-col items-center justify-center gap-2">
-                <p className="text-ospoly-gold ">Since 1992</p>
+                <p className="text-ospoly-gold">Since 1992</p>
                 <svg
                   width="18"
                   height="9"
                   viewBox="0 0 18 9"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className=""
                 >
-                  <g clip-path="url(#clip0_2191_198)">
-                    <g clip-path="url(#clip1_2191_198)">
+                  <g clipPath="url(#clip0_2191_198)">
+                    <g clipPath="url(#clip1_2191_198)">
                       <path
                         d="M8.79958 8.52004L4.76758 5.13204L5.57958 4.04004L8.79958 6.72804L12.0196 4.04004L12.8316 5.13204L8.79958 8.52004Z"
                         fill="#B48B3C"
@@ -103,7 +179,7 @@ export default function HeroSection() {
                 </svg>
               </div>
             </div>
-            <div className="hidden group-hover:block  space-y-3">
+            <div className="hidden group-hover:block space-y-3">
               <p className="text-white font-display font-bold text-lg md:text-xl leading-tight">
                 WHAT SETS <br /> US APART
               </p>
@@ -127,22 +203,24 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Spinning Gear Image */}
+          {/* Spinning Gear */}
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className="absolute inset-0 scale-150 flex items-center justify-center pointer-events-none"
           >
             <Image
-              src="/assets/vector.png"
+              src="/assets/Vector.png"
               alt=""
-              className="w-full h-full object-contain opacity-"
+              className="w-full h-full object-contain"
               height={100}
               width={100}
             />
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Wave SVGs */}
       <div className="absolute bottom-5 left-0 w-full overflow-hidden leading-none">
         <svg
           viewBox="0 0 1440 160"
@@ -150,14 +228,20 @@ export default function HeroSection() {
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient
+              id="waveGradient1"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="#98BCEE" stopOpacity="0.3" />
               <stop offset="100%" stopColor="#1F324D" />
             </linearGradient>
           </defs>
           <path
             d="M0,0 Q720,320 1440,0 L1440,160 L0,160 Z"
-            fill="url(#waveGradient)"
+            fill="url(#waveGradient1)"
           />
         </svg>
       </div>
@@ -168,19 +252,25 @@ export default function HeroSection() {
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <linearGradient
+              id="waveGradient2"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
               <stop offset="0%" stopColor="#88ABD3" />
               <stop offset="100%" stopColor="#1F324D" />
             </linearGradient>
           </defs>
           <path
             d="M0,0 Q720,320 1440,0 L1440,160 L0,160 Z"
-            fill="url(#waveGradient)"
+            fill="url(#waveGradient2)"
           />
         </svg>
       </div>
 
-      {/* News Ticker Card — overlapping the hero bottom */}
+      {/* News Ticker Card */}
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
@@ -194,18 +284,19 @@ export default function HeroSection() {
               {TABS.map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-6 py-3 text-center font-bold cursor-pointer transition-all relative ${
+                  onClick={() => {
+                    setActiveTab(tab);
+                    setActiveItem(0);
+                  }}
+                  className={`px-6 py-3 text-center font-bold cursor-pointer transition-all ${
                     activeTab === tab
                       ? "bg-ospoly-deep text-white rounded"
                       : "text-gray-400 hover:bg-ospoly-pale rounded"
                   }`}
                 >
                   {tab}
-              
                 </button>
               ))}
-              {/* Play button */}
               <div className="ml-auto flex items-center pr-4">
                 <button className="w-7 h-7 rounded-full bg-ospoly-deep flex items-center justify-center">
                   <ChevronRight size={12} className="text-white ml-0.5" />
@@ -215,27 +306,33 @@ export default function HeroSection() {
 
             {/* Ticker Items */}
             <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100">
-              {ANNOUNCEMENTS.map((item, i) => (
-                <motion.a
-                  key={item.id}
-                  href={`/news/${item.id}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.1 * i }}
-                  className={`px-5 py-4 text-sm text-ospoly-navy  hover:bg-ospoly-pale/30 transition-colors cursor-pointer ${
-                    activeItem === i ? "bg-ospoly-pale/20" : ""
-                  }`}
-                >
-                  <span className="block font-bold leading-snug line-clamp-2">
-                    {item.title}
-                  </span>
-                </motion.a>
-              ))}
+              {filteredItems.length === 0 ? (
+                <p className="px-5 py-4 text-sm text-gray-400">
+                  No {activeTab} available
+                </p>
+              ) : (
+                filteredItems.map((item, i) => (
+                  <motion.a
+                    key={item.id}
+                    href={item.href}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.1 * i }}
+                    className={`px-5 py-4 text-sm text-ospoly-navy hover:bg-ospoly-pale/30 transition-colors cursor-pointer ${
+                      activeItem === i ? "bg-ospoly-pale/20" : ""
+                    }`}
+                  >
+                    <span className="block font-bold leading-snug line-clamp-2">
+                      {item.title}
+                    </span>
+                  </motion.a>
+                ))
+              )}
             </div>
 
             {/* Dot indicators */}
             <div className="flex items-center justify-center gap-1.5 py-2">
-              {ANNOUNCEMENTS.map((_, i) => (
+              {filteredItems.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveItem(i)}

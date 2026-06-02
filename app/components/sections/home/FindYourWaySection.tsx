@@ -18,25 +18,25 @@ const QUICK_LINKS: QuickLink[] = [
   {
     key: "certificate",
     label: "Certificate Application",
-    href: "/portal/certificate",
+    href: "#",
     imageUrl: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1400&q=80&fit=crop",
   },
   {
     key: "elibrary",
     label: "E-Library",
-    href: "/portal/elibrary",
+    href: "#",
     imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1400&q=80&fit=crop",
   },
   {
     key: "transcript",
     label: "Transcript Portal",
-    href: "/portal/transcript",
+    href: "#",
     imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80&fit=crop",
   },
   {
     key: "elearning",
     label: "E-Learning Portal",
-    href: "/portal/elearning",
+    href: "#",
     imageUrl: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1400&q=80&fit=crop",
   },
 ];
@@ -128,8 +128,8 @@ export default function FindYourWaySection() {
 
             <div className="flex flex-col gap-3">
               {[
-                { label: "Undergraduate programmes", href: "/academics/undergraduate" },
-                { label: "Graduate Programmes", href: "/academics/graduate" },
+                { label: "Undergraduate programmes", href: "/admission/undergraduate-studies" },
+                { label: "Graduate Programmes", href: "/admission/postgraduate-studies" },
               ].map((prog) => (
                 <Link
                   key={prog.label}

@@ -48,9 +48,9 @@ const NAV_SECTIONS: NavSection[] = [
 ];
 
 const FOOTER_LINKS = [
-  { text: "Alumni", href: "/alumni" },
-  { text: "Contact Us", href: "/contact" },
-  { text: "Calendar", href: "/calendar" },
+  { text: "Alumni", href: "#" },
+  { text: "Contact Us", href: "#footer" },
+  { text: "Calendar", href: "#" },
 ];
 
 // ─── Sub-components ───────────────────────────────────────
