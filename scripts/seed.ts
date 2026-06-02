@@ -16,6 +16,10 @@
 
 import { createClient } from '@sanity/client'
 import * as dotenv from 'dotenv'
+type BaseDoc = {
+  _id: string
+  _type: string
+}
 
 dotenv.config({ path: '.env.local' })
 
@@ -45,7 +49,7 @@ function key() {
   return Math.random().toString(36).slice(2, 10)
 }
 
-async function upsert(doc: Record<string, any>) {
+async function upsert<T extends BaseDoc>(doc: T) {
   const result = await client.createOrReplace(doc)
   console.log(`✓ ${doc._type}: ${doc._id}`)
   return result

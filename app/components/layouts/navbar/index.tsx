@@ -449,6 +449,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { DiagonalPattern } from "../footer";
 
 // ─── Types ────────────────────────────────────────────────
 interface NavSection {
@@ -470,8 +471,8 @@ const NAV_SECTIONS: NavSection[] = [
     label: { name: "Admission", href: "/admission" },
     links: [
       { text: "Undergraduate studies",          href: "/admission/undergraduate-studies" },
-      { text: "Postgraduate studies",           href: "/admission/postgraduate-studies" },
-      { text: "Distance learning / Part-time",  href: "/admission/distance-learning" },
+      { text: "Part-time Studies",  href: "/admission/distance-learning" },
+      { text: "Affiliation programmes",           href: "/admission/postgraduate-studies" },
     ],
   },
   {
@@ -491,9 +492,9 @@ const NAV_SECTIONS: NavSection[] = [
 ];
 
 const FOOTER_LINKS = [
-  { text: "Alumni",     href: "/alumni" },
-  { text: "Contact Us", href: "/contact" },
-  { text: "Calendar",   href: "/calendar" },
+  { text: "Alumni", href: "#" },
+  { text: "Contact Us", href: "#footer" },
+  { text: "Calendar", href: "#" },
 ];
 
 // ─── Sub-components ───────────────────────────────────────
@@ -514,25 +515,6 @@ function SearchIcon({ className }: { className?: string }) {
       <circle cx="11" cy="11" r="8" />
       <line x1="21" y1="21" x2="16.65" y2="16.65" />
     </svg>
-  );
-}
-
-function OspolyCrest() {
-  return (
-    <Link
-      href="/"
-      className="flex items-center gap-2.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
-      aria-label="OSPOLY home"
-    >
-      <Image
-        src="/assets/logo.png"
-        alt="Ospoly Logo"
-        width={120}
-        height={60}
-        className="w-20 h-auto sm:w-25 md:w-30 object-contain"
-        priority
-      />
-    </Link>
   );
 }
 
@@ -580,7 +562,7 @@ export default function OspolyNavbar() {
   }, [menuOpen]);
 
   // Close menu on route change
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  // useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   function handleOpenSearch() {
     setSearchOpen(true);
@@ -600,9 +582,11 @@ export default function OspolyNavbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 font-(family-name:--font-barlow,'Barlow',sans-serif) bg-transparent p-4">
       {/* ── NAVBAR ─────────────────────────────────────── */}
-      {!menuOpen && (
+      
+      {/* {!menuOpen && ( */}
         <nav
-          className="relative z-50 flex justify-between items-center h-17 px-4 md:px-8 fixed max-w-7xl mx-auto"
+          className={`relative z-50 flex justify-between items-center h-17 px-4 md:px-8 max-w-7xl mx-auto transition-opacity duration-300 ${menuOpen ? "opacity-0" : "opacity-100"}`}
+          // {``}
           aria-label="Main navigation"
         >
           {/* Logo */}
@@ -612,10 +596,10 @@ export default function OspolyNavbar() {
             aria-label="OSPOLY home"
           >
             <Image
-              src="/assets/logo.png"
+              src={"/assets/logo-svg.svg"}
               alt="Ospoly Logo"
               width={120}
-              height={60}
+              height={100}
               className="w-20 h-auto sm:w-25 md:w-30 object-contain"
               priority
             />
@@ -682,7 +666,7 @@ export default function OspolyNavbar() {
             </button>
           </div>
         </nav>
-      )}
+      {/* )} */}
 
       {/* ── MENU OVERLAY ───────────────────────────────── */}
       <div
@@ -701,11 +685,27 @@ export default function OspolyNavbar() {
           style={{ backgroundImage: "repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,0.6) 40px,rgba(255,255,255,0.6) 41px)" }}
           aria-hidden="true"
         />
+       <DiagonalPattern/>
 
         <div className="relative px-4 sm:px-8 md:px-12 pt-19 max-w-7xl mx-auto">
           {/* Search + close row */}
           <div className="flex items-center justify-between gap-3 sm:gap-4 mb-10">
-            <OspolyCrest />
+           {/* Logo */}
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 shrink-0 mr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
+            aria-label="OSPOLY home"
+            onClick={() => setMenuOpen(false)}
+          >
+            <Image
+              src={"/assets/logo-svg.svg"}
+              alt="Ospoly Logo"
+              width={120}
+              height={100}
+              className="w-20 h-auto sm:w-25 md:w-30 object-contain"
+              priority
+            />
+          </Link>
             <div className="md:flex-1 flex items-center bg-white/6 border border-white/10 rounded-full px-5 h-12.5 gap-3">
               <input
                 type="search"

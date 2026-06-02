@@ -20,7 +20,7 @@ interface MissionSectionProps {
 
 const FALLBACK_STATS: StatItem[] = [
   { value: '98%',    label: 'Graduate Rate' },
-  { value: '1,000+', label: 'Students' },
+  { value: '10,000+', label: 'Students' },
   { value: '4,000+', label: 'Faculty' },
   { value: '150+',   label: 'No. of Programs' },
 ]
@@ -30,6 +30,9 @@ export default function MissionSection({ stats }: MissionSectionProps) {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const STATS = stats?.length ? stats : FALLBACK_STATS
+
+  console.log(stats);
+  
 
   return (
     <section

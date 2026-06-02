@@ -53,8 +53,10 @@ export async function getActiveAnnouncements(): Promise<SanityAnnouncement[]> {
     *[_type == "announcement" && active == true && (expiryDate == null || expiryDate >= $today)] {
       _id,
       messageText,
+      category,
       linkUrl,
-      linkLabel
+      linkLabel,
+      expiryDate
     }
   `,
     { today },

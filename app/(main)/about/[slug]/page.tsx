@@ -114,7 +114,7 @@ export default async function AboutSubPage({
       newsItems={newsItems}
       eventItems={eventItems}
     >
-      <article className="max-w-2xl">
+      <article className="max-w-">
         <BodyBlockRenderer blocks={bodyBlocks} />
       </article>
     </AboutLayout>

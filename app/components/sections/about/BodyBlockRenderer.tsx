@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import RectorQuote from "./RectorQuote";
 import type { SanityPortableTextContent } from "@/sanity/lib/sanity.types";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ───────────────────────────────────────────────
 
 interface SanityImage {
   url: string;
@@ -14,13 +14,13 @@ interface SanityImage {
   caption?: string;
 }
 
-interface RichTextBlock {
+interface RichTextBlockType {
   _type: "richTextBlock";
   _key: string;
   content: SanityPortableTextContent[];
 }
 
-interface ImageBlock {
+interface ImageBlockType {
   _type: "imageBlock";
   _key: string;
   image: SanityImage;
@@ -33,7 +33,7 @@ interface PullQuoteBlock {
   attribution?: string;
 }
 
-interface StatGridBlock {
+interface StatGridBlockType {
   _type: "statGridBlock";
   _key: string;
   stats: { value: string; label: string }[];
@@ -47,7 +47,7 @@ interface StaffMember {
   photo?: SanityImage;
 }
 
-interface StaffGridBlock {
+interface StaffGridBlockType {
   _type: "staffGridBlock";
   _key: string;
   heading?: string;
@@ -55,26 +55,89 @@ interface StaffGridBlock {
 }
 
 type BodyBlock =
-  | RichTextBlock
-  | ImageBlock
+  | RichTextBlockType
+  | ImageBlockType
   | PullQuoteBlock
-  | StatGridBlock
-  | StaffGridBlock;
+  | StatGridBlockType
+  | StaffGridBlockType;
 
-// ─── Rich Text ────────────────────────────────────────────────────────────────
+// ─── PortableText Custom Components (PRECISION CONTROL) ───
+
+const portableTextComponents = {
+  block: {
+    h1: ({ children }: { children?: React.ReactNode }) => (
+      <h1 className="font-display text-3xl font-bold text-ospoly-navy mb-4">
+        {children}
+      </h1>
+    ),
+    h2: ({ children }: { children?: React.ReactNode }) => (
+      <h2 className="font-display text-2xl font-bold text-ospoly-navy mb-3">
+        {children}
+      </h2>
+    ),
+    h3: ({ children }: { children?: React.ReactNode }) => (
+      <h3 className="font-display text-xl font-bold text-ospoly-navy mb-2">
+        {children}
+      </h3>
+    ),
+    normal: ({ children }: { children?: React.ReactNode }) => (
+      <p className="text-gray-700 leading-[1.9] mb-4 text-[15px]">
+        {children}
+      </p>
+    ),
+  }, list: {
+    bullet: ({ children }: { children?: React.ReactNode }) => (
+      <ul className="space-y-1 mb-4">{children}</ul>
+    ),
+  },
+  listItem: {
+    bullet: ({ children }: { children?: React.ReactNode }) => (
+      <li className="flex items-start gap-2  leading-relaxed list-item">
+        <span className="mt-2 w-1.5 h-1.5 rounded-full shrink-0" />
+        {children}
+      </li>
+    ),
+  },
+};
+
+// ─── Rich Text Block ──────────────────────────────────────
 
 function RichTextBlock({ content }: { content: SanityPortableTextContent[] }) {
   return (
-    <div className="prose prose-gray max-w-2xl text-[15px] leading-[1.85]
-                    prose-headings:font-display prose-headings:text-ospoly-navy
-                    prose-a:text-ospoly-gold prose-a:no-underline hover:prose-a:underline
-                    prose-strong:text-ospoly-navy">
-      <PortableText value={content} />
+    <div
+      className="
+        prose max-w-3xl
+
+        /* Base text */
+        text-gray-700
+
+        /* Headings */
+        prose-headings:font-display
+        prose-headings:text-ospoly-navy
+        prose-headings:font-bold
+
+        /* Paragraph spacing */
+        prose-p:mb-4
+
+        /* Strong text */
+        prose-strong:text-ospoly-navy
+        prose-strong:font-semibold
+
+        /* Links */
+        prose-a:text-ospoly-gold
+        prose-a:no-underline
+        hover:prose-a:underline
+
+        /* Lists */
+        prose-li:marker:text-ospoly-gold
+      "
+    >
+      <PortableText value={content} components={portableTextComponents} />
     </div>
   );
 }
 
-// ─── Image Block ──────────────────────────────────────────────────────────────
+// ─── Image Block ──────────────────────────────────────────
 
 function ImageBlock({ image }: { image: SanityImage }) {
   return (
@@ -97,7 +160,7 @@ function ImageBlock({ image }: { image: SanityImage }) {
   );
 }
 
-// ─── Stat Grid Block ──────────────────────────────────────────────────────────
+// ─── Stat Grid Block ──────────────────────────────────────
 
 function StatGridBlock({ stats }: { stats: { value: string; label: string }[] }) {
   return (
@@ -122,7 +185,7 @@ function StatGridBlock({ stats }: { stats: { value: string; label: string }[] })
   );
 }
 
-// ─── Staff Grid Block ─────────────────────────────────────────────────────────
+// ─── Staff Grid Block ─────────────────────────────────────
 
 function StaffCard({ member, index }: { member: StaffMember; index: number }) {
   return (
@@ -132,32 +195,26 @@ function StaffCard({ member, index }: { member: StaffMember; index: number }) {
       transition={{ duration: 0.5, delay: 0.08 + index * 0.1 }}
       className="flex flex-col sm:flex-row items-start sm:items-center gap-6 py-10 border-b border-gray-100 last:border-0"
     >
-     
-      {/* Text side */}
+      {/* Text */}
       <div className="flex-1 min-w-0 order-2 sm:order-1">
-        {/* <h3 className="font-display font-bold text-ospoly-navy text-xl sm:text-2xl mb-1">
-          {member.role}
-        </h3> */}
-        <p className=" text-sm font-bold">{member.fullName}</p>
+        <p className="text-sm font-bold">{member.fullName}</p>
         <p className="text-gray-400 text-xs mt-0.5">
           {member.titleRole}
         </p>
       </div>
 
-      {/* Portrait */}
+      {/* Image */}
       <div className="order-1 sm:order-2 shrink-0">
         <div className="relative w-32.5 h-38.75 rounded-lg overflow-hidden border border-gray-200 shadow-sm bg-ospoly-pale">
           {member.photo?.url ? (
             <Image
-            src={member.photo.url}
-            alt={member.photo.alt ?? member.fullName}
-              
+              src={member.photo.url}
+              alt={member.photo.alt ?? member.fullName}
               fill
               className="object-cover object-top"
               sizes="130px"
             />
           ) : (
-            /* Placeholder avatar */
             <div className="absolute inset-0 flex items-end justify-center pb-3">
               <svg viewBox="0 0 80 90" className="w-16 text-ospoly-navy/20" fill="currentColor">
                 <ellipse cx="40" cy="32" rx="20" ry="22" />
@@ -166,7 +223,7 @@ function StaffCard({ member, index }: { member: StaffMember; index: number }) {
             </div>
           )}
         </div>
-        </div>
+      </div>
     </motion.div>
   );
 }
@@ -179,16 +236,14 @@ function StaffGridBlock({ heading, staff }: { heading?: string; staff: StaffMemb
           {heading}
         </h3>
       )}
-      {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 max-w-2xl"> */}
-        {staff.map((member, i) => (
-          <StaffCard key={member._id} member={member} index={i} />
-        ))}
-      {/* </div> */}
+      {staff.map((member, i) => (
+        <StaffCard key={member._id} member={member} index={i} />
+      ))}
     </div>
   );
 }
 
-// ─── Main Renderer ────────────────────────────────────────────────────────────
+// ─── Main Renderer ───────────────────────────────────────
 
 export default function BodyBlockRenderer({ blocks }: { blocks: BodyBlock[] }) {
   if (!blocks?.length) return null;
@@ -204,9 +259,9 @@ export default function BodyBlockRenderer({ blocks }: { blocks: BodyBlock[] }) {
             return <ImageBlock key={block._key} image={block.image} />;
 
           case "pullQuoteBlock":
-            // Split attribution into name + title at the first comma
             const [name = "", ...rest] = (block.attribution ?? "").split(",");
             const attrTitle = rest.join(",").trim();
+
             return (
               <RectorQuote
                 key={block._key}

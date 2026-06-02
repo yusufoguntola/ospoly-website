@@ -30,14 +30,60 @@ const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
   },
   {
     id: "2",
+    title:
+      "Polytechnic Ranked Among Top Technical Institutions in Nigeria for Academic Excellence",
+    href: "/news-events",
+    category: "News",
+  },
+  {
+    id: "3",
+    title:
+      "Institution Launches New Industry Partnership Program for Student Internship Opportunities",
+    href: "/news-events",
+    category: "News",
+  },
+
+  // ─── ANNOUNCEMENTS ────────────────────────────────────
+  {
+    id: "4",
     title: "2025/2026 Admission is now open — Apply before the deadline",
     href: "/admission/undergraduate-studies",
     category: "Announcements",
   },
   {
-    id: "3",
+    id: "5",
+    title:
+      "Important Notice: Students are advised to complete course registration before deadline",
+    href: "/admission/undergraduate-studies",
+    category: "Announcements",
+  },
+  {
+    id: "6",
+    title:
+      "Resumption Date for 2025/2026 Academic Session Has Been Officially Released",
+    href: "/admission/undergraduate-studies",
+    category: "Announcements",
+  },
+
+  // ─── EVENTS ───────────────────────────────────────────
+  {
+    id: "7",
     title:
       "Annual Inter-Faculty Sports & Cultural Festival — Registration Open",
+    href: "/news-events",
+    category: "Events",
+  },
+  {
+    id: "8",
+    title:
+      "2026 Innovation Week: Hackathon and Startup Pitch Competition Announced",
+    href: "/news-events",
+    category: "Events",
+  },
+  {
+    id: "9",
+    title:
+      "Orientation Week Schedule Released for Newly Admitted Students",
     href: "/news-events",
     category: "Events",
   },
@@ -56,8 +102,6 @@ export default function HeroSection({ announcements }: HeroSectionProps) {
 
   useEffect(() => {
     if (!filteredItems.length) return;
-
-    // setActiveItem(0); // reset when tab changes
 
     const interval = setInterval(() => {
       setActiveItem((prev) => (prev + 1) % filteredItems.length);
@@ -167,7 +211,7 @@ export default function HeroSection({ announcements }: HeroSectionProps) {
             className="absolute inset-0 scale-150 flex items-center justify-center pointer-events-none"
           >
             <Image
-              src="/assets/vector.png"
+              src="/assets/Vector.png"
               alt=""
               className="w-full h-full object-contain"
               height={100}
@@ -275,9 +319,7 @@ export default function HeroSection({ announcements }: HeroSectionProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 * i }}
-                    className={`px-5 py-4 text-sm text-ospoly-navy hover:bg-ospoly-pale/30 transition-colors cursor-pointer ${
-                      activeItem === i ? "bg-ospoly-pale/20" : ""
-                    }`}
+                    className={`px-5 py-4 text-sm text-ospoly-navy hover:bg-ospoly-pale/30 transition-colors cursor-pointer`}
                   >
                     <span className="block font-bold leading-snug line-clamp-2">
                       {item.title}

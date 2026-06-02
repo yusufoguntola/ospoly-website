@@ -29,6 +29,7 @@ export default async function Home() {
     id:    a._id,
     title: a.messageText,
     href:  a.linkUrl ?? '#',
+    category: a.category ?? 'News',
   }))
 
   const stats = rawStats.map((s: SanityKeyStatistic) => ({

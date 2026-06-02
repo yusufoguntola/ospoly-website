@@ -80,6 +80,7 @@ export interface SanityAnnouncement {
   messageText: string
   linkUrl?: string
   linkLabel?: string
+  category?: "News" | "Events" | "Announcements";
 }
 
 export interface SanityKeyStatistic {
