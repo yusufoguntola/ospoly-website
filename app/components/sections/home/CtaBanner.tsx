@@ -45,7 +45,8 @@ export default function CtaBanner({
   headline = "READY TO\nLEARN, CREATE, AND\nCONTRIBUTE TO A\nSKILLED FUTURE.",
   subtext,
   buttons,
-  imageUrl = "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80&fit=crop",
+  imageUrl = "/assets/lab-cta.png",
+  // "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80&fit=crop",
   overlayOpacity = 0.45,
   size = "default",
   className = "",
@@ -76,11 +77,11 @@ export default function CtaBanner({
       />
 
       {/* Overlay */}
-      <div
+      {/* <div
         className="absolute inset-0 bg-ospoly-deep"
         style={{ opacity: overlayOpacity }}
         aria-hidden
-      />
+      /> */}
 
       {/* Vignette */}
       <div

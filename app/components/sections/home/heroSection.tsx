@@ -114,10 +114,25 @@ export default function HeroSection({ announcements }: HeroSectionProps) {
     <section className="relative w-full min-h-screen">
       {/* Background */}
       <div className="absolute inset-0">
-        <div
+        {/* <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('/assets/hero-section.png')` }}
-        />
+        /> */}
+        <div className="absolute inset-0">
+  {/* Video */}
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-full h-full object-cover"
+  >
+    <source src="/assets/ospoly-video.mp4" type="video/mp4" />
+  </video>
+
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/20" />
+</div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
         <div
           className="absolute inset-0 opacity-5"
