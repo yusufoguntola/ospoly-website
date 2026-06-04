@@ -2,12 +2,11 @@ export const dynamic = 'force-static'
 export const revalidate = 60
 
 import { notFound } from 'next/navigation'
-import { getAboutPage, getNewsArticles, getEvents } from '@/sanity/lib/queries'
+import { getAboutPage, getNewsArticles } from '@/sanity/lib/queries'
 import type {
   SanityBodyBlock,
   SanityStatGridBlock,
   SanityNewsArticle,
-  SanityEvent,
 } from '@/sanity/lib/sanity.types'
 import AboutLayout from '@/app/components/sections/about/AboutLayout'
 import BodyBlockRenderer from '@/app/components/sections/about/BodyBlockRenderer'
@@ -50,10 +49,9 @@ export default async function AboutSubPage({
   const identifier = SLUG_MAP[slug]
   if (!identifier) notFound()
 
-  const [pageData, rawNews, rawEvents] = await Promise.all([
+  const [pageData, allArticles] = await Promise.all([
     getAboutPage(identifier).catch(() => null),
-    getNewsArticles(30).catch((): SanityNewsArticle[] => []),
-    getEvents(30).catch((): SanityEvent[] => []),
+    getNewsArticles(60).catch((): SanityNewsArticle[] => []),
   ])
 
   if (!pageData) notFound()
@@ -71,33 +69,41 @@ export default async function AboutSubPage({
   )
   const glanceStats: SanityStatItem[] | undefined = statGridBlock?.stats
 
-  const newsItems: NewsItem[] = rawNews.map((a: SanityNewsArticle) => ({
-    id:       a._id,
-    title:    a.title,
-    excerpt:  a.excerpt ?? '',
-    imageUrl: a.featuredImage?.url ?? '',
-    category: a.category === 'upcoming-events' ? 'Upcoming Events' : 'News',
-    date:     a.publishDate
-      ? new Date(a.publishDate).toLocaleDateString('en-NG', {
-          day: 'numeric', month: 'long', year: 'numeric',
-        })
-      : undefined,
-    slug: a.slug.current,
-  }))
+  // ── News tab: category === 'news' OR 'blog' ─────────────────────────────────
+  const newsItems: NewsItem[] = allArticles
+    .filter((a) => a.category === 'news' || a.category === 'blog')
+    .map((a) => ({
+      id:       a._id,
+      title:    a.title,
+      excerpt:  a.excerpt ?? '',
+      imageUrl: a.featuredImage?.url ?? '',
+      category: a.category === 'blog' ? 'Blog' : 'News',
+      date:     a.publishDate
+        ? new Date(a.publishDate).toLocaleDateString('en-NG', {
+            day: 'numeric', month: 'long', year: 'numeric',
+          })
+        : undefined,
+      slug: a.category === 'news'
+        ? (a.externalLink ?? '')
+        : (a.slug?.current ?? ''),
+    }))
 
-  const eventItems: NewsItem[] = rawEvents.map((e: SanityEvent) => ({
-    id:       e._id,
-    title:    e.eventTitle,
-    excerpt:  e.excerpt ?? '',
-    imageUrl: e.featuredImage?.url ?? '',
-    category: 'Events',
-    date:     e.eventDate
-      ? new Date(e.eventDate).toLocaleDateString('en-NG', {
-          day: 'numeric', month: 'long', year: 'numeric',
-        })
-      : undefined,
-    slug: e.slug.current,
-  }))
+  // ── Events tab: category === 'events' ───────────────────────────────────────
+  const eventItems: NewsItem[] = allArticles
+    .filter((a) => a.category === 'events')
+    .map((a) => ({
+      id:       a._id,
+      title:    a.title,
+      excerpt:  a.excerpt ?? '',
+      imageUrl: a.featuredImage?.url ?? '',
+      category: 'Events',
+      date:     a.publishDate
+        ? new Date(a.publishDate).toLocaleDateString('en-NG', {
+            day: 'numeric', month: 'long', year: 'numeric',
+          })
+        : undefined,
+      slug: a.slug?.current ?? '',
+    }))
 
   const bodyBlocks: SanityBodyBlock[] = (pageData.bodyBlocks ?? []).filter(
     (b): b is SanityBodyBlock => b._type !== 'statGridBlock'

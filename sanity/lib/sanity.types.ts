@@ -118,11 +118,12 @@ export interface SanityNewsArticle {
   _id: string
   title: string
   slug: SanitySlug
-  category: 'news' | 'upcoming-events'
+  category: 'news' | 'events' | 'blog'
   excerpt: string
   publishDate: string
   author?: string
   tags?: string[]
+  externalLink?: string          // only populated when category === 'news'
   featuredImage?: SanityImage
 }
 
@@ -179,7 +180,7 @@ export interface SanityProgramme {
   _id: string
   programmeName: string
   slug: SanitySlug
-  level: SanityProgrammeLevel
+  level: SanityProgrammeLevel[]
   duration?: string
   accreditation?: string
   faculty: SanityFacultyRef

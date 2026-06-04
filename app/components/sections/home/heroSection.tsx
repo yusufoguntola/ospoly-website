@@ -11,7 +11,7 @@ export interface HeroAnnouncement {
   id: string;
   title: string;
   href: string;
-  category?: "News" | "Events" | "Announcements";
+  category?: "News" | "Events" | "Blog";
 }
 
 interface HeroSectionProps {
@@ -46,23 +46,21 @@ const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
   // ─── ANNOUNCEMENTS ────────────────────────────────────
   {
     id: "4",
-    title: "2025/2026 Admission is now open — Apply before the deadline",
-    href: "/admission/undergraduate-studies",
-    category: "Announcements",
+    title: "How Osun State Polytechnic is Shaping the Next Generation of Tech Innovators",
+    href: "/news-events",
+    category: "Blog",
   },
   {
     id: "5",
-    title:
-      "Important Notice: Students are advised to complete course registration before deadline",
-    href: "/admission/undergraduate-studies",
-    category: "Announcements",
+    title: "Life on Campus: A First-Year Student's Guide to Thriving at OSPOLY",
+    href: "/news-events",
+    category: "Blog",
   },
   {
     id: "6",
-    title:
-      "Resumption Date for 2025/2026 Academic Session Has Been Officially Released",
-    href: "/admission/undergraduate-studies",
-    category: "Announcements",
+    title: "From Classroom to Career: Alumni Stories That Inspire",
+    href: "/news-events",
+    category: "Blog",
   },
 
   // ─── EVENTS ───────────────────────────────────────────
@@ -89,7 +87,7 @@ const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
   },
 ];
 
-const TABS = ["News", "Events", "Announcements"] as const;
+const TABS = ["News", "Events", "Blog"] as const;
 
 export default function HeroSection({ announcements }: HeroSectionProps) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("News");

@@ -112,9 +112,14 @@ export async function getNewsArticles(
   category?: string,
 ): Promise<SanityNewsArticle[]> {
   const filter = category ? `&& category == $category` : "";
+
   return client.fetch(
     `
-    *[_type == "newsArticle" && status == "published" ${filter}] | order(publishDate desc)[0...$limit] {
+    *[
+      _type == "newsArticle" &&
+      status == "published"
+      ${filter}
+    ] | order(publishDate desc)[0...$limit] {
       _id,
       title,
       slug,
@@ -123,10 +128,11 @@ export async function getNewsArticles(
       publishDate,
       author,
       tags,
+      externalLink,
       featuredImage { ${imageFields} }
     }
   `,
-    { limit: limit - 1, category },
+    { limit, category },
   );
 }
 
@@ -231,11 +237,19 @@ export async function getFaculties(): Promise<SanityFaculty[]> {
 
 export async function getProgrammes(
   facultyId?: string,
+  level?: string, // 👈 add this
 ): Promise<SanityProgramme[]> {
-  const filter = facultyId ? `&& faculty._ref == $facultyId` : "";
+  const facultyFilter = facultyId ? `&& faculty._ref == $facultyId` : "";
+  const levelFilter = level ? `&& $level in level` : "";
+
   return client.fetch(
     `
-    *[_type == "programme" && status == "active" ${filter}] | order(programmeName asc) {
+    *[
+      _type == "programme" &&
+      status == "active"
+      ${facultyFilter}
+      ${levelFilter}
+    ] | order(programmeName asc) {
       _id,
       programmeName,
       slug,
@@ -247,7 +261,7 @@ export async function getProgrammes(
       featuredImage { ${imageFields} }
     }
   `,
-    { facultyId },
+    { facultyId, level },
   );
 }
 

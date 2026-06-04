@@ -47,7 +47,7 @@ export default function CtaBanner({
   buttons,
   imageUrl = "/assets/lab-cta.png",
   // "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1600&q=80&fit=crop",
-  overlayOpacity = 0.45,
+  // overlayOpacity = 0.45,
   size = "default",
   className = "",
 }: CtaBannerProps) {

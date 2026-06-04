@@ -25,9 +25,7 @@ export interface NewsTab {
 }
 
 export interface NewsUpdateSectionProps {
-  /** Live news articles from Sanity */
   newsItems: NewsItem[];
-  /** Live events from Sanity */
   eventItems: NewsItem[];
   subheading?: string;
   itemsPerPage?: number;
@@ -43,18 +41,9 @@ function DecorativeShapes() {
       className="pointer-events-none absolute top-0 right-0 w-48 h-56 overflow-hidden"
       aria-hidden
     >
-      <div
-        className="absolute -top-6 -right-7 w-36 h-36 border border-ospoly-pale rounded-sm"
-        style={{ transform: "rotate(18deg)" }}
-      />
-      <div
-        className="absolute top-14 -right-2.5 w-20 h-20 border border-ospoly-light/40 rounded-sm"
-        style={{ transform: "rotate(12deg)" }}
-      />
-      <div
-        className="absolute top-2 right-24 w-10 h-10 border border-ospoly-sky/20 rounded-sm"
-        style={{ transform: "rotate(30deg)" }}
-      />
+      <div className="absolute -top-6 -right-7 w-36 h-36 border border-ospoly-pale rounded-sm" />
+      <div className="absolute top-14 -right-2.5 w-20 h-20 border border-ospoly-light/40 rounded-sm" />
+      <div className="absolute top-2 right-24 w-10 h-10 border border-ospoly-sky/20 rounded-sm" />
     </div>
   );
 }
@@ -65,7 +54,6 @@ interface ArticleRowProps {
   item: NewsItem;
   index: number;
   isInView: boolean;
-  /** Base path for the link — /news or /events */
   basePath: string;
 }
 
@@ -79,7 +67,13 @@ function ArticleRow({ item, index, isInView, basePath }: ArticleRowProps) {
       {index > 0 && <div className="h-px bg-gray-100 mb-8" />}
 
       <Link
-        href={`${basePath}/${item.slug}`}
+        href={
+          item.slug.startsWith("http") || item.slug.startsWith("//")
+            ? item.slug // external URL — use as-is
+            : `${basePath}/${item.slug}` // internal slug — prefix with basePath
+        }
+        target={item.slug.startsWith("http") ? "_blank" : undefined}
+        rel={item.slug.startsWith("http") ? "noopener noreferrer" : undefined}
         className="group grid grid-cols-2 gap-6 items-start mb-8
                    md:grid-cols-[160px_1fr_1fr]
                    hover:[&_h3]:text-ospoly-gold transition-all"
@@ -120,9 +114,11 @@ function ArticleRow({ item, index, isInView, basePath }: ArticleRowProps) {
               {item.category}
             </span>
           )}
+
           <h3 className="font-display font-bold text-ospoly-navy text-base sm:text-lg leading-snug transition-colors duration-200">
             {item.title}
           </h3>
+
           {item.date && (
             <p className="text-gray-400 text-xs mt-2">{item.date}</p>
           )}
@@ -174,7 +170,6 @@ function Pagination({
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
-        aria-label="Previous page"
       >
         <ChevronLeft size={16} />
       </button>
@@ -183,12 +178,11 @@ function Pagination({
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`w-9 h-9 rounded-full text-sm font-semibold cursor-pointer transition-all ${
+          className={`w-9 h-9 rounded-full text-sm font-semibold transition-all ${
             page === currentPage
               ? "bg-ospoly-deep text-white shadow-md shadow-ospoly-navy/20"
               : "text-gray-500 hover:text-ospoly-navy hover:bg-ospoly-pale/60"
           }`}
-          aria-current={page === currentPage ? "page" : undefined}
         >
           {page}
         </button>
@@ -198,7 +192,6 @@ function Pagination({
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
-        aria-label="Next page"
       >
         <ChevronRight size={16} />
       </button>
@@ -209,16 +202,24 @@ function Pagination({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function NewsUpdateSection({
-  newsItems = [], // ← add default
-  eventItems = [], // ← add default
+  newsItems = [],
+  eventItems = [],
   subheading = "The hub for institutional announcements, academic achievements, and official communiqués from Osun State Polytechnic, Iree.",
   itemsPerPage = 3,
   bgClass = "bg-white",
   className = "",
 }: NewsUpdateSectionProps) {
   const TABS: NewsTab[] = [
-    { key: "news", label: "News", items: newsItems },
-    { key: "events", label: "Upcoming Events", items: eventItems },
+    {
+      key: "news",
+      label: "News",
+      items: newsItems,
+    },
+    {
+      key: "events",
+      label: "Upcoming Events",
+      items: eventItems,
+    },
   ];
 
   const [activeTabKey, setActiveTabKey] = useState(TABS[0].key);
@@ -229,12 +230,12 @@ export default function NewsUpdateSection({
 
   const activeTab = TABS.find((t) => t.key === activeTabKey) ?? TABS[0];
   const totalPages = Math.ceil(activeTab.items.length / itemsPerPage);
+
   const pagedItems = activeTab.items.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
 
-  // Link base path per tab
   const basePath = activeTabKey === "news" ? "/news" : "/events";
 
   const handleTabChange = (key: string) => {
@@ -250,7 +251,7 @@ export default function NewsUpdateSection({
       <DecorativeShapes />
 
       <div className="relative w-full md:max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        {/* ── Tab Bar ─────────────────────────────────────── */}
+        {/* Tabs */}
         <div className="inline-flex rounded-lg overflow-hidden border border-gray-200 mb-12">
           {TABS.map((tab) => {
             const isActive = tab.key === activeTabKey;
@@ -258,59 +259,44 @@ export default function NewsUpdateSection({
               <button
                 key={tab.key}
                 onClick={() => handleTabChange(tab.key)}
-                className={`p-5 w-40 text-sm font-semibold transition-all relative cursor-pointer ${
+                className={`p-5 w-40 text-sm font-semibold transition-all cursor-pointer ${
                   isActive
                     ? "bg-ospoly-deep text-white"
-                    : "text-gray-500 hover:text-ospoly-gold hover:underline bg-ospoly-pale"
+                    : "text-gray-500 hover:text-ospoly-gold bg-ospoly-pale"
                 }`}
               >
                 {tab.label}
-                {/* Item count badge */}
-                {/* {tab.items.length > 0 && (
-                  <span
-                    className={`ml-2 text-xs rounded-full px-1.5 py-0.5 ${
-                      isActive
-                        ? "bg-white/20 text-white"
-                        : "bg-gray-200 text-gray-500"
-                    }`}
-                  >
-                    {tab.items.length}
-                  </span>
-                )} */}
               </button>
             );
           })}
         </div>
 
-        {/* ── Section Header ──────────────────────────────── */}
+        {/* Header */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end mb-12">
           <motion.h2
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="font-display font-bold text-ospoly-navy text-4xl sm:text-5xl leading-tight"
+            className="font-display font-bold text-ospoly-navy text-4xl sm:text-5xl"
           >
-            {activeTab.key === "news" ? "News & Update" : "Events"}
+            {activeTab.key === "news" ? "News & Blog" : "Events"}
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, x: 20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-gray-600 text-sm sm:text-base leading-relaxed"
+            className="text-gray-600 text-sm sm:text-base"
           >
             {subheading}
           </motion.p>
         </div>
 
-        {/* ── Article List ────────────────────────────────── */}
+        {/* List */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${activeTabKey}-page-${currentPage}`}
+            key={`${activeTabKey}-${currentPage}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
           >
             {pagedItems.length > 0 ? (
               pagedItems.map((item, i) => (
@@ -328,7 +314,7 @@ export default function NewsUpdateSection({
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Pagination ──────────────────────────────────── */}
+        {/* Pagination */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

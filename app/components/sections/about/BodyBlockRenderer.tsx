@@ -92,7 +92,7 @@ const portableTextComponents = {
   },
   listItem: {
     bullet: ({ children }: { children?: React.ReactNode }) => (
-      <li className="flex items-start gap-2  leading-relaxed list-item">
+      <li className="items-start gap-2  leading-relaxed list-item">
         <span className="mt-2 w-1.5 h-1.5 rounded-full shrink-0" />
         {children}
       </li>
