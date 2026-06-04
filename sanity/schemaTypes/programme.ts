@@ -121,9 +121,13 @@ export const programme = defineType({
       status: "status",
     },
     prepare({ title, faculty, level, media, status }) {
+      const levelText = Array.isArray(level)
+        ? level.map((l) => l.toUpperCase()).join(", ")
+        : level?.toUpperCase();
+
       return {
         title,
-        subtitle: `${level?.toUpperCase()} · ${faculty ?? "No faculty"} · ${status}`,
+        subtitle: `${levelText} · ${faculty ?? "No faculty"} · ${status}`,
         media,
       };
     },

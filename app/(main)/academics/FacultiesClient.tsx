@@ -12,7 +12,7 @@ import PageHero, { HeroFilters } from "@/app/components/ui/PageHero";
 interface Department {
   name: string;
   slug: string;
-  level: string;
+  level: string[];
 }
 
 export interface FacultyItem {
