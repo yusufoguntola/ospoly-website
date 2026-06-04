@@ -169,6 +169,8 @@ export interface PageHeroProps {
    */
   showFinder?: boolean;
   onFilterChange?: (filters: HeroFilters) => void;
+  /** Real faculty names from Sanity. Falls back to hardcoded list when omitted. */
+  facultyOptions?: string[];
 }
 
 export interface HeroFilters {
@@ -180,7 +182,7 @@ export interface HeroFilters {
 
 // ─── Filter data ──────────────────────────────────────────────────────────────
 
-const FACULTY_OPTIONS = [
+const DEFAULT_FACULTY_OPTIONS = [
   "Faculty of Information and Communication Technology",
   "Faculty of Science",
   "Faculty of Art and Industrial Design",
@@ -196,11 +198,7 @@ const LEVEL_OPTIONS = [
 ];
 const MODE_OPTIONS = ["Full-Time", "Part-Time / Distance Learning"];
 
-const FILTER_GROUPS = [
-  { key: "faculty" as const, label: "By Faculties", options: FACULTY_OPTIONS },
-  { key: "level" as const, label: "By Level", options: LEVEL_OPTIONS },
-  { key: "mode" as const, label: "By Modes", options: MODE_OPTIONS },
-];
+
 
 // ─── Height map ───────────────────────────────────────────────────────────────
 
@@ -320,6 +318,7 @@ export default function PageHero({
   className = "",
   showFinder = false,
   onFilterChange,
+  facultyOptions,
 }: PageHeroProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -338,6 +337,13 @@ export default function PageHero({
     level: null,
     mode: null,
   });
+
+  // Build filter groups here so faculty options can come from props
+  const FILTER_GROUPS = [
+    { key: "faculty" as const, label: "By Faculties", options: facultyOptions?.length ? facultyOptions : DEFAULT_FACULTY_OPTIONS },
+    { key: "level"   as const, label: "By Level",     options: LEVEL_OPTIONS },
+    { key: "mode"    as const, label: "By Modes",     options: MODE_OPTIONS },
+  ];
 
   // Notify parent on any change
   useEffect(() => {

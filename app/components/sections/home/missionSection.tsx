@@ -2,12 +2,37 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { STATS } from "@/lib/data";
 import Image from "next/image";
+import Link from "next/link";
 
-export default function MissionSection() {
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+export interface StatItem {
+  value: string;
+  label: string;
+}
+
+interface MissionSectionProps {
+  stats?: StatItem[];
+}
+
+// ─── Fallback stats (used until Sanity is populated) ─────────────────────────
+
+const FALLBACK_STATS: StatItem[] = [
+  { value: '98%',    label: 'Graduate Rate' },
+  { value: '10,000+', label: 'Students' },
+  { value: '4,000+', label: 'Faculty' },
+  { value: '150+',   label: 'No. of Programs' },
+]
+
+export default function MissionSection({ stats }: MissionSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  const STATS = stats?.length ? stats : FALLBACK_STATS
+
+  console.log(stats);
+  
 
   return (
     <section
@@ -32,12 +57,12 @@ export default function MissionSection() {
               the fields of Science, Engineering, Environmental Studies, Information
               and Communication Technology, Management, and Financial Studies.
             </p>
-            <a
+            <Link
               href="/about/vision"
               className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 border border-white rounded-full text-white text-sm font-semibold hover:bg-ospoly-navy transition-all group"
             >
               Read more
-            </a>
+            </Link>
           </motion.div>
 
           {/* Image Side */}
@@ -62,7 +87,13 @@ export default function MissionSection() {
               transition={{ duration: 0.5, delay: 0.5 }}
               className="absolute -bottom-8 sm:-bottom-10 md:-bottom-15 -left-4 sm:-left-8 md:-left-15 text-white rounded-2xl px-3 sm:px-5 py-3"
             >
-              <Image src={"/assets/logo-vector.png"} alt={""} width={80} height={80} className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24" />
+              <Image
+                src="/assets/logo-vector.png"
+                alt=""
+                width={80}
+                height={80}
+                className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24"
+              />
             </motion.div>
           </motion.div>
         </div>

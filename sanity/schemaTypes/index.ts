@@ -1,7 +1,7 @@
 import { type SchemaTypeDefinition } from 'sanity'
 import { aboutPage } from './aboutPage'
 import { admissionPage } from './admissionPage'
-import { announcement } from './announcement'
+// import { announcement } from './announcement'
 import { faculty } from './faculty'
 import { footerColumn } from './footerColumn'
 import { heroBanner } from './heroBanner'
@@ -11,7 +11,7 @@ import { newsletterCta } from './newsletterCta'
 import { programme } from './programme'
 import { quickLink } from './quickLink'
 import { staffProfile } from './staffProfile'
-import { event } from "./event";
+// import { event } from "./event";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -20,14 +20,14 @@ export const schema: { types: SchemaTypeDefinition[] } = {
  
   // Global / Shared
   footerColumn,
-  announcement,
+  // announcement,
   keyStatistic,
   newsletterCta,
   quickLink,
  
   // News & Events
   newsArticle,
-  event,
+  // event,
  
   // Academics
   faculty,

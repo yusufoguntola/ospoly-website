@@ -1,17 +1,12 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import PageHero from "../../components/ui/PageHero";
-import Breadcrumb from "../../components/ui/Breadcrumb";
-
+import PageHero from "@/app/components/ui/PageHero";
+import Breadcrumb from "@/app/components/ui/Breadcrumb";
 
 const BREADCRUMBS = [
   { label: "Home",      href: "/" },
-  { label: "Academics", href: "/academics" },
-  { label: "Faculties" },
-];
+  { label: "Admission", href: "/admission" },
+]
 
 const PROGRAMMES = [
   {
@@ -19,25 +14,25 @@ const PROGRAMMES = [
     href: "/admission/undergraduate-studies",
     imageUrl:
       // "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=75&fit=crop",
-      "/assets/ug.jpg",
+      "/assets/UNG.png",
   },
   {
     label: "Post Graduate Program",
     href: "/admission/postgraduate-studies",
     imageUrl:
       // "https://images.unsplash.com/photo-1627556704302-624286467c65?w=800&q=75&fit=crop",
-      "/assets/pgd.jpg",
+      "/assets/PGS.png",
   },
   {
     label: "Distance Learning / Part-Time Studies",
     href: "/admission/distance-learning",
     imageUrl:
       // "https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=800&q=75&fit=crop",
-      "/assets/dsl.jpg",
+      "/assets/PTS.png",
   },
-];
+]
 
-export default function ProgrammesPage() {
+export default function AdmissionPage() {
   return (
     <div className="bg-white min-h-screen">
       <PageHero
@@ -51,12 +46,8 @@ export default function ProgrammesPage() {
 
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
           {PROGRAMMES.map((prog, i) => (
-            <motion.div
+            <div
               key={prog.href}
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
-              className=""
             >
               <Link href={prog.href} >
               <div
@@ -67,7 +58,7 @@ export default function ProgrammesPage() {
                     src={prog.imageUrl}
                     alt={prog.label}
                     fill
-                    className="object-cover object-top-right transition-transform duration-500 group-hover:scale-105 rounded-2xl"
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105 rounded-2xl"
                     sizes="680px"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-ospoly-deep/25 to-transparent" />
@@ -82,10 +73,10 @@ export default function ProgrammesPage() {
                 </div>
               </div>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
     </div>
-  );
+  )
 }

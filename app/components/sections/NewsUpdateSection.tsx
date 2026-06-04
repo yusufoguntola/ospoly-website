@@ -19,30 +19,21 @@ export interface NewsItem {
 }
 
 export interface NewsTab {
-  /** Label shown on the tab button */
   label: string;
-  /** Unique key for this tab */
   key: string;
-  /** Articles/items for this tab */
   items: NewsItem[];
 }
 
 export interface NewsUpdateSectionProps {
-  /** Section heading — e.g. "News & Update" */
-  heading?: string;
-  /** Subheading text on the right */
+  newsItems: NewsItem[];
+  eventItems: NewsItem[];
   subheading?: string;
-  /** Array of tabs. First tab is active by default. */
-  // tabs: NewsTab[];
-  /** How many items per page (default: 3) */
   itemsPerPage?: number;
-  /** Background colour class (default: "bg-white") */
   bgClass?: string;
-  /** Optional className forwarded to the outer section */
   className?: string;
 }
 
-// ─── Decorative shapes (top-right, matching the screenshot) ──────────────────
+// ─── Decorative shapes ────────────────────────────────────────────────────────
 
 function DecorativeShapes() {
   return (
@@ -50,22 +41,9 @@ function DecorativeShapes() {
       className="pointer-events-none absolute top-0 right-0 w-48 h-56 overflow-hidden"
       aria-hidden
     >
-      {/* Large rotated square */}
-      <div
-        className="absolute -top-6 -right-7 w-36 h-36 border border-ospoly-pale rounded-sm"
-        style={{ transform: "rotate(18deg)" }}
-      />
-      {/* Smaller rotated square */}
-      <div
-        className="absolute top-14 -right-2.5 w-20 h-20 border border-ospoly-light/40 rounded-sm"
-        style={{ transform: "rotate(12deg)" }}
-      />
-      {/* Tiny accent */}
-      <div
-        className="absolute top-2 right-24 w-10 h-10 border border-ospoly-sky/20 rounded-sm"
-        style={{ transform: "rotate(30deg)" }}
-      />
-      {/* <Image src={"/assets/logo-vector.png"} alt={""} width={500} height={500} /> */}
+      <div className="absolute -top-6 -right-7 w-36 h-36 border border-ospoly-pale rounded-sm" />
+      <div className="absolute top-14 -right-2.5 w-20 h-20 border border-ospoly-light/40 rounded-sm" />
+      <div className="absolute top-2 right-24 w-10 h-10 border border-ospoly-sky/20 rounded-sm" />
     </div>
   );
 }
@@ -76,21 +54,27 @@ interface ArticleRowProps {
   item: NewsItem;
   index: number;
   isInView: boolean;
+  basePath: string;
 }
 
-function ArticleRow({ item, index, isInView }: ArticleRowProps) {
+function ArticleRow({ item, index, isInView, basePath }: ArticleRowProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      {/* Top divider (except first item) */}
       {index > 0 && <div className="h-px bg-gray-100 mb-8" />}
 
       <Link
-        href={`/${item.slug}`}
-        className="group grid grid-cols-2  gap-6 items-start mb-8
+        href={
+          item.slug.startsWith("http") || item.slug.startsWith("//")
+            ? item.slug // external URL — use as-is
+            : `${basePath}/${item.slug}` // internal slug — prefix with basePath
+        }
+        target={item.slug.startsWith("http") ? "_blank" : undefined}
+        rel={item.slug.startsWith("http") ? "noopener noreferrer" : undefined}
+        className="group grid grid-cols-2 gap-6 items-start mb-8
                    md:grid-cols-[160px_1fr_1fr]
                    hover:[&_h3]:text-ospoly-gold transition-all"
       >
@@ -105,7 +89,6 @@ function ArticleRow({ item, index, isInView }: ArticleRowProps) {
               sizes="160px"
             />
           ) : (
-            // Placeholder when no image
             <div className="absolute inset-0 bg-linear-to-br from-ospoly-pale to-ospoly-light/40 flex items-center justify-center">
               <svg
                 className="w-8 h-8 text-ospoly-sky/40"
@@ -131,9 +114,11 @@ function ArticleRow({ item, index, isInView }: ArticleRowProps) {
               {item.category}
             </span>
           )}
+
           <h3 className="font-display font-bold text-ospoly-navy text-base sm:text-lg leading-snug transition-colors duration-200">
             {item.title}
           </h3>
+
           {item.date && (
             <p className="text-gray-400 text-xs mt-2">{item.date}</p>
           )}
@@ -141,13 +126,24 @@ function ArticleRow({ item, index, isInView }: ArticleRowProps) {
 
         {/* Excerpt */}
         <div className="hidden sm:block">
-          {/* Decorative quote-like left border on first item */}
           <p className="text-gray-500 text-sm leading-relaxed line-clamp-5">
             {item.excerpt}
           </p>
         </div>
       </Link>
     </motion.div>
+  );
+}
+
+// ─── Empty state ──────────────────────────────────────────────────────────────
+
+function EmptyState({ label }: { label: string }) {
+  return (
+    <div className="py-20 text-center">
+      <p className="text-gray-400 text-sm">
+        No {label.toLowerCase()} to display right now. Check back soon.
+      </p>
+    </div>
   );
 }
 
@@ -170,38 +166,32 @@ function Pagination({
 
   return (
     <div className="flex items-center justify-center gap-2 pt-6 border-t border-gray-100">
-      {/* Prev */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
-        aria-label="Previous page"
       >
         <ChevronLeft size={16} />
       </button>
 
-      {/* Page numbers */}
       {pages.map((page) => (
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          className={`w-9 h-9 rounded-full text-sm font-semibold cursor-pointer transition-all ${
+          className={`w-9 h-9 rounded-full text-sm font-semibold transition-all ${
             page === currentPage
               ? "bg-ospoly-deep text-white shadow-md shadow-ospoly-navy/20"
               : "text-gray-500 hover:text-ospoly-navy hover:bg-ospoly-pale/60"
           }`}
-          aria-current={page === currentPage ? "page" : undefined}
         >
           {page}
         </button>
       ))}
 
-      {/* Next */}
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         className="w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ospoly-navy hover:bg-ospoly-pale/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
-        aria-label="Next page"
       >
         <ChevronRight size={16} />
       </button>
@@ -212,57 +202,41 @@ function Pagination({
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function NewsUpdateSection({
-  // heading = "News & Update",
+  newsItems = [],
+  eventItems = [],
   subheading = "The hub for institutional announcements, academic achievements, and official communiqués from Osun State Polytechnic, Iree.",
-  // tabs,
   itemsPerPage = 3,
   bgClass = "bg-white",
   className = "",
 }: NewsUpdateSectionProps) {
-  const newsItems = Array.from({ length: 9 }, (_, i) => ({
-    id: String(i + 1),
-    title:
-      "Engineering Faculty Secures National NBTE Accreditation for All HND Programmes",
-    excerpt:
-      "The National Board for Technical Education (NBTE) has officially renewed full accreditation for all Higher National Diploma (HND) programmes in the Faculty of Engineering, citing the Polytechnic's state-of-the-art workshops and qualified faculty. This achievement underscores OSPOLY's commitment to quality technical training…",
-    imageUrl: ["/assets/news.png", "/assets/news.png", "/assets/news.png"][
-      i % 3
-    ],
-    category: ["Academics", "Research", "Campus"][i % 3],
-    date: `May ${10 - i}, 2025`,
-    slug: `news-events`,
-  }));
-
-  const eventsItems = Array.from({ length: 4 }, (_, i) => ({
-    id: String(i + 1),
-    title:
-      "Annual Inter-Faculty Sports & Cultural Festival — Registration Open",
-    excerpt:
-      "Students and staff are invited to participate in the annual Sports and Cultural Festival scheduled for the last week of June. Events include football, athletics, debate, and traditional dance competitions.",
-    imageUrl: "/assets/news.png",
-    category: "Events",
-    date: `June ${20 + i}, 2025`,
-    slug: `news-events`,
-  }));
-
   const TABS: NewsTab[] = [
-    { key: "news", label: "News", items: newsItems },
-    { key: "events", label: "Upcoming Events", items: eventsItems },
+    {
+      key: "news",
+      label: "News",
+      items: newsItems,
+    },
+    {
+      key: "events",
+      label: "Upcoming Events",
+      items: eventItems,
+    },
   ];
 
-  const [activeTabKey, setActiveTabKey] = useState(TABS[0]?.key ?? "");
+  const [activeTabKey, setActiveTabKey] = useState(TABS[0].key);
   const [currentPage, setCurrentPage] = useState(1);
 
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
-  // Derived data
   const activeTab = TABS.find((t) => t.key === activeTabKey) ?? TABS[0];
-  const totalPages = Math.ceil((activeTab?.items.length ?? 0) / itemsPerPage);
-  const pagedItems = (activeTab?.items ?? []).slice(
+  const totalPages = Math.ceil(activeTab.items.length / itemsPerPage);
+
+  const pagedItems = activeTab.items.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  const basePath = activeTabKey === "news" ? "/news" : "/events";
 
   const handleTabChange = (key: string) => {
     setActiveTabKey(key);
@@ -274,11 +248,10 @@ export default function NewsUpdateSection({
       ref={sectionRef}
       className={`relative overflow-hidden ${bgClass} ${className}`}
     >
-      {/* Decorative background shapes — top right */}
       <DecorativeShapes />
 
       <div className="relative w-full md:max-w-7xl mx-auto px-4 sm:px-6 py-16">
-        {/* ── Tab Bar ─────────────────────────────────────── */}
+        {/* Tabs */}
         <div className="inline-flex rounded-lg overflow-hidden border border-gray-200 mb-12">
           {TABS.map((tab) => {
             const isActive = tab.key === activeTabKey;
@@ -286,10 +259,10 @@ export default function NewsUpdateSection({
               <button
                 key={tab.key}
                 onClick={() => handleTabChange(tab.key)}
-                className={`p-5 w-40 text-sm font-semibold transition-all relative cursor-pointer ${
+                className={`p-5 w-40 text-sm font-semibold transition-all cursor-pointer ${
                   isActive
                     ? "bg-ospoly-deep text-white"
-                    : " text-gray-500 hover:text-ospoly-gold hover:underline bg-ospoly-pale"
+                    : "text-gray-500 hover:text-ospoly-gold bg-ospoly-pale"
                 }`}
               >
                 {tab.label}
@@ -298,35 +271,32 @@ export default function NewsUpdateSection({
           })}
         </div>
 
-        {/* ── Section Header ──────────────────────────────── */}
+        {/* Header */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end mb-12">
           <motion.h2
             initial={{ opacity: 0, x: -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="font-display font-bold text-ospoly-navy text-4xl sm:text-5xl leading-tight"
+            className="font-display font-bold text-ospoly-navy text-4xl sm:text-5xl"
           >
-            {activeTab.key === 'news' ? "News & Update" : "Events"}
+            {activeTab.key === "news" ? "News & Blog" : "Events"}
           </motion.h2>
 
           <motion.p
             initial={{ opacity: 0, x: 20 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-gray-600 text-sm sm:text-base leading-relaxed"
+            className="text-gray-600 text-sm sm:text-base"
           >
             {subheading}
           </motion.p>
         </div>
 
-        {/* ── Article List ────────────────────────────────── */}
+        {/* List */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={`${activeTabKey}-page-${currentPage}`}
+            key={`${activeTabKey}-${currentPage}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
           >
             {pagedItems.length > 0 ? (
               pagedItems.map((item, i) => (
@@ -335,23 +305,23 @@ export default function NewsUpdateSection({
                   item={item}
                   index={i}
                   isInView={isInView}
+                  basePath={basePath}
                 />
               ))
             ) : (
-              <div className="py-20 text-center text-gray-400 text-sm">
-                No items to display.
-              </div>
+              <EmptyState label={activeTab.label} />
             )}
           </motion.div>
         </AnimatePresence>
 
-        {/* ── Pagination ──────────────────────────────────── */}
+        {/* Pagination */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
       </div>
+
       <Image
         src="/assets/logo-vector.png"
         alt="watermark"

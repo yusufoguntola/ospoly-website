@@ -12,7 +12,7 @@ import PageHero, { HeroFilters } from "@/app/components/ui/PageHero";
 interface Department {
   name: string;
   slug: string;
-  level: string;
+  level: string[];
 }
 
 export interface FacultyItem {
@@ -66,7 +66,7 @@ function FacultyCard({ faculty, index }: { faculty: FacultyItem; index: number }
             {faculty.departments.map((dept) => (
               <li key={dept.slug || dept.name}>
                 <Link
-                  href={`/academics`}
+                  href={`/academics/${dept.slug}`}
                   className="flex items-start gap-2.5 text-[13px] leading-snug mb-1 hover:underline text-ospoly-navy group"
                 >
                   <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-black shrink-0 group-hover:bg-ospoly-gold transition-colors" />

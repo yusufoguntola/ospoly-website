@@ -11,13 +11,16 @@ export interface HeroAnnouncement {
   id: string;
   title: string;
   href: string;
-  category?: "News" | "Events" | "Announcements";
+  category?: "News" | "Events" | "Blog";
+}
+
+interface HeroSectionProps {
+  announcements?: HeroAnnouncement[];
 }
 
 // ─── Fallback data (used until Sanity is populated) ───────────────────────────
 
 const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
-  // ─── NEWS ─────────────────────────────────────────────
   {
     id: "1",
     title:
@@ -43,23 +46,21 @@ const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
   // ─── ANNOUNCEMENTS ────────────────────────────────────
   {
     id: "4",
-    title: "2025/2026 Admission is now open — Apply before the deadline",
-    href: "/admission/undergraduate-studies",
-    category: "Announcements",
+    title: "How Osun State Polytechnic is Shaping the Next Generation of Tech Innovators",
+    href: "/news-events",
+    category: "Blog",
   },
   {
     id: "5",
-    title:
-      "Important Notice: Students are advised to complete course registration before deadline",
-    href: "/admission/undergraduate-studies",
-    category: "Announcements",
+    title: "Life on Campus: A First-Year Student's Guide to Thriving at OSPOLY",
+    href: "/news-events",
+    category: "Blog",
   },
   {
     id: "6",
-    title:
-      "Resumption Date for 2025/2026 Academic Session Has Been Officially Released",
-    href: "/admission/undergraduate-studies",
-    category: "Announcements",
+    title: "From Classroom to Career: Alumni Stories That Inspire",
+    href: "/news-events",
+    category: "Blog",
   },
 
   // ─── EVENTS ───────────────────────────────────────────
@@ -86,21 +87,19 @@ const FALLBACK_ANNOUNCEMENTS: HeroAnnouncement[] = [
   },
 ];
 
-const TABS = ["News", "Events", "Announcements"] as const;
+const TABS = ["News", "Events", "Blog"] as const;
 
-export default function HeroSection() {
+export default function HeroSection({ announcements }: HeroSectionProps) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("News");
   const [activeItem, setActiveItem] = useState(0);
 
-  const items = FALLBACK_ANNOUNCEMENTS;
+  const items = announcements?.length ? announcements : FALLBACK_ANNOUNCEMENTS;
   const filteredItems = useMemo(() => {
     return items.filter((item) => item.category === activeTab);
   }, [items, activeTab]);
 
   useEffect(() => {
     if (!filteredItems.length) return;
-
-    // setActiveItem(0); // reset when tab changes
 
     const interval = setInterval(() => {
       setActiveItem((prev) => (prev + 1) % filteredItems.length);
@@ -113,10 +112,25 @@ export default function HeroSection() {
     <section className="relative w-full min-h-screen">
       {/* Background */}
       <div className="absolute inset-0">
-        <div
+        {/* <div
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('/assets/hero-section.png')` }}
-        />
+        /> */}
+        <div className="absolute inset-0">
+  {/* Video */}
+  <video
+    autoPlay
+    muted
+    loop
+    playsInline
+    className="w-full h-full object-cover"
+  >
+    <source src="/assets/ospoly-video.mp4" type="video/mp4" />
+  </video>
+
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/20" />
+</div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.15),transparent_60%)]" />
         <div
           className="absolute inset-0 opacity-5"

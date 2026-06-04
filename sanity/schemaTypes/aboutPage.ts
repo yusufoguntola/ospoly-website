@@ -69,7 +69,7 @@ export const aboutPage = defineType({
                 defineField({ name: 'alt', title: 'Alt Text', type: 'string' }),
                 defineField({ name: 'caption', title: 'Caption', type: 'string' }),
               ],
-              validation: (Rule) => Rule.required(),
+              // validation: (Rule) => Rule.(),
             }),
           ],
           preview: {
