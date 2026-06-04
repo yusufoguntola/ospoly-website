@@ -47,17 +47,28 @@ export default async function FacultiesPage() {
     const levels = [
       ...new Set(
         progs
-          .flatMap((p) => p.level || []) // 👈 flatten array
-          .map((lvl) => LEVEL_LABEL[lvl] ?? lvl)
-          .filter(Boolean),
+          .flatMap((p) => {
+            if (Array.isArray(p.level)) return p.level;
+            if (p.level) return [p.level];
+            return [];
+          })
+          .map((lvl) => LEVEL_LABEL[lvl] ?? lvl),
       ),
     ];
 
-    const departments = progs.map((p: SanityProgramme) => ({
-      name: p.programmeName,
-      slug: p.slug.current,
-      level: (p.level || []).map((lvl) => LEVEL_LABEL[lvl] ?? lvl), // 👈 array-safe
-    }));
+    const departments = progs.map((p: SanityProgramme) => {
+      const normalizedLevels = Array.isArray(p.level)
+        ? p.level
+        : p.level
+          ? [p.level]
+          : [];
+
+      return {
+        name: p.programmeName,
+        slug: p.slug.current,
+        level: normalizedLevels.map((lvl) => LEVEL_LABEL[lvl] ?? lvl),
+      };
+    });
 
     return {
       id: f._id,
