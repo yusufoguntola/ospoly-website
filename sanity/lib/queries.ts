@@ -137,25 +137,30 @@ export async function getNewsArticles(
 }
 
 export async function getNewsArticleBySlug(
-  slug: string,
+  slug: string
 ): Promise<SanityNewsArticleDetail | null> {
   return client.fetch(
     `
-    *[_type == "newsArticle" && slug.current == $slug][0] {
+    *[
+      _type == "newsArticle" &&
+      slug.current == $slug &&
+      status == "published"
+    ][0] {
       _id,
       title,
       slug,
       category,
       excerpt,
-      body,
       publishDate,
       author,
       tags,
+      externalLink,
+      body,
       featuredImage { ${imageFields} }
     }
-  `,
-    { slug },
-  );
+    `,
+    { slug }
+  )
 }
 
 export async function getHomepageArticles(
