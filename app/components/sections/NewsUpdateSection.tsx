@@ -236,7 +236,7 @@ export default function NewsUpdateSection({
     currentPage * itemsPerPage,
   );
 
-  const basePath = activeTabKey === "news" ? "/news" : "/events";
+  const basePath = activeTabKey === "blog" ? "/news-events" : "/news-events";
 
   const handleTabChange = (key: string) => {
     setActiveTabKey(key);
