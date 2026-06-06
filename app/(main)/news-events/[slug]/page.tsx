@@ -1,22 +1,20 @@
 import { notFound } from 'next/navigation'
-import { getNewsArticleBySlug } from '@/sanity/lib/queries'
+import { getNewsArticleBySlugQuery } from '@/sanity/lib/queries'
+import { sanityFetch } from '@/sanity/lib/live'
 import type { SanityNewsArticleDetail } from '@/sanity/lib/sanity.types'
 import PageHero from '@/app/components/ui/PageHero'
 import { PortableText } from '@portabletext/react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, CalendarDays, User, Tag } from 'lucide-react'
-
-export const revalidate = 60
-
 interface Props {
   params: Promise<{ slug: string }>
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
   const { slug } = await params
-  const article: SanityNewsArticleDetail | null = await getNewsArticleBySlug(slug).catch(() => null)
-
+const { data } = await sanityFetch({ query: getNewsArticleBySlugQuery, params: { slug } }).catch(() => ({ data: null }))
+  const article = data as SanityNewsArticleDetail | null
+  
   if (!article) notFound()
 
   const isEvent = article.category === 'events'

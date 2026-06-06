@@ -1,9 +1,8 @@
-import { getFaculties, getProgrammes } from "@/sanity/lib/queries";
+import { getFacultiesQuery, getProgrammesQuery } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
 import type { SanityFaculty, SanityProgramme } from "@/sanity/lib/sanity.types";
 import FacultiesClient from "./FacultiesClient";
 
-export const dynamic = "force-static";
-export const revalidate = 60;
 
 const LEVEL_LABEL: Record<string, string> = {
   ond: "National Diploma (ND)",
@@ -25,10 +24,13 @@ function deriveAbbreviation(name: string): string {
 }
 
 export default async function FacultiesPage() {
-  const [rawFaculties, rawProgrammes] = await Promise.all([
-    getFaculties().catch((): SanityFaculty[] => []),
-    getProgrammes().catch((): SanityProgramme[] => []),
+const [facultiesRes, programmesRes] = await Promise.all([
+    sanityFetch({ query: getFacultiesQuery }).catch(() => ({ data: [] })),
+    sanityFetch({ query: getProgrammesQuery, params: { facultyId: null, level: null } }).catch(() => ({ data: [] })),
   ]);
+
+  const rawFaculties = (facultiesRes.data ?? []) as SanityFaculty[];
+  const rawProgrammes = (programmesRes.data ?? []) as SanityProgramme[];
 
   // Group programmes by faculty _id
   const programmesByFaculty = rawProgrammes.reduce<

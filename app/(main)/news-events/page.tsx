@@ -1,14 +1,14 @@
-import { getNewsArticles } from '@/sanity/lib/queries'
+import { getNewsArticlesQuery } from '@/sanity/lib/queries'
 import NewsUpdateSection from '@/app/components/sections/NewsUpdateSection'
 import PageHero from '@/app/components/ui/PageHero'
 import type { NewsItem } from '@/app/components/sections/NewsUpdateSection'
-import { SanityNewsArticle } from '@/types'
+import type { SanityNewsArticle } from '@/sanity/lib/sanity.types'
+import { sanityFetch } from '@/sanity/lib/live'
 
 export default async function NewsEventsPage() {
-  // Single source of truth — fetch all published articles (no category filter)
-  const allArticles: SanityNewsArticle[] = await getNewsArticles(60)
+const { data } = await sanityFetch({ query: getNewsArticlesQuery, params: { limit: 60, category: null } }).catch(() => ({ data: [] }))
+  const allArticles = (data ?? []) as SanityNewsArticle[]
 
-  // ── News tab: category === 'news' OR 'blog' ────────────────────────────────
   const newsItems: NewsItem[] = allArticles
     .filter((a) => a.category === 'news' || a.category === 'blog')
     .map((article) => ({
@@ -24,14 +24,12 @@ export default async function NewsEventsPage() {
             year: 'numeric',
           })
         : undefined,
-      // News → external redirect; Blog → internal slug route
       slug:
         article.category === 'news'
           ? (article.externalLink ?? '')
           : (article.slug?.current ?? ''),
     }))
 
-  // ── Events tab: category === 'events' ─────────────────────────────────────
   const eventItems: NewsItem[] = allArticles
     .filter((a) => a.category === 'events')
     .map((article) => ({

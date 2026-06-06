@@ -1,17 +1,18 @@
-export const dynamic = 'force-static'
-export const revalidate = 60
-
 import { notFound } from 'next/navigation'
-import { getAboutPage, getNewsArticles } from '@/sanity/lib/queries'
+import { getAboutPageQuery, getNewsArticlesQuery } from '@/sanity/lib/queries'
+import { sanityFetch } from '@/sanity/lib/live'
 import type {
   SanityBodyBlock,
   SanityStatGridBlock,
   SanityNewsArticle,
+  SanityAboutPage,
 } from '@/sanity/lib/sanity.types'
 import AboutLayout from '@/app/components/sections/about/AboutLayout'
 import BodyBlockRenderer from '@/app/components/sections/about/BodyBlockRenderer'
 import type { NewsItem } from '@/app/components/sections/NewsUpdateSection'
 import type { SanityStatItem } from '@/app/components/sections/about/AtAGlanceSection'
+
+
 
 type AboutIdentifier = 'about-ospoly' | 'vision-mission' | 'administration'
 
@@ -49,10 +50,13 @@ export default async function AboutSubPage({
   const identifier = SLUG_MAP[slug]
   if (!identifier) notFound()
 
-  const [pageData, allArticles] = await Promise.all([
-    getAboutPage(identifier).catch(() => null),
-    getNewsArticles(60).catch((): SanityNewsArticle[] => []),
+const [pageDataRes, allArticlesRes] = await Promise.all([
+    sanityFetch({ query: getAboutPageQuery, params: { identifier } }).catch(() => ({ data: null })),
+    sanityFetch({ query: getNewsArticlesQuery, params: { limit: 60, category: null } }).catch(() => ({ data: [] })),
   ])
+
+  const pageData = pageDataRes.data as SanityAboutPage | null
+  const allArticles = (allArticlesRes.data ?? []) as SanityNewsArticle[]
 
   if (!pageData) notFound()
 

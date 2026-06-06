@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
-import { getAdmissionPage } from '@/sanity/lib/queries'
+import { getAdmissionPageQuery } from '@/sanity/lib/queries'
+import { sanityFetch } from '@/sanity/lib/live'
 import type {
   SanityPortableTextBlock,
   SanityPortableTextContent,
@@ -21,9 +22,6 @@ const SLUG_MAP: Record<string, AdmissionType> = {
 export function generateStaticParams() {
   return Object.keys(SLUG_MAP).map((slug) => ({ slug }))
 }
-
-export const dynamic    = 'force-static'
-export const revalidate = 60
 
 const SLUG_CONFIG: Record<string, {
   breadcrumbLabel: string
@@ -122,7 +120,8 @@ export default async function AdmissionSubPage({
   const admissionType = SLUG_MAP[slug]
   if (!admissionType) notFound()
 
-  const pageData: SanityAdmissionPage | null = await getAdmissionPage(admissionType).catch(() => null)
+  const { data } = await sanityFetch({ query: getAdmissionPageQuery, params: { type: admissionType } }).catch(() => ({ data: null }))
+  const pageData = data as SanityAdmissionPage | null
   if (!pageData) notFound()
 
   const config = SLUG_CONFIG[slug]

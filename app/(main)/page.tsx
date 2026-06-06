@@ -1,7 +1,8 @@
 import {
-  getKeyStatistics,
-  getNewsArticles,
+  getKeyStatisticsQuery,
+  getNewsArticlesQuery,
 } from '@/sanity/lib/queries'
+import { sanityFetch } from '@/sanity/lib/live'
 import type {
   SanityKeyStatistic,
   SanityNewsArticle,
@@ -16,10 +17,13 @@ import type { HeroAnnouncement } from '../components/sections/home/heroSection'
 
 
 export default async function Home() {
-  const [rawStats, allArticles] = await Promise.all([
-    getKeyStatistics('home').catch((): SanityKeyStatistic[] => []),
-    getNewsArticles(30).catch((): SanityNewsArticle[]       => []),
+const [rawStatsRes, allArticlesRes] = await Promise.all([
+    sanityFetch({ query: getKeyStatisticsQuery, params: { page: 'home' } }).catch(() => ({ data: [] })),
+    sanityFetch({ query: getNewsArticlesQuery, params: { limit: 30, category: null } }).catch(() => ({ data: [] })),
   ])
+
+  const rawStats = (rawStatsRes.data ?? []) as SanityKeyStatistic[]
+  const allArticles = (allArticlesRes.data ?? []) as SanityNewsArticle[]
 
   const stats = rawStats.map((s: SanityKeyStatistic) => ({
     value: s.statValue,

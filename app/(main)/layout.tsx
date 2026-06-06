@@ -16,3 +16,5 @@ export default function MainLayout({
     </>
   );
 }
+
+export const revalidate = 60;

@@ -18,3 +18,7 @@ function assertValue<T>(v: T | undefined, errorMessage: string): T {
 
   return v
 }
+
+export const readToken = process.env.SANITY_API_READ_TOKEN || ''
+
+export const publicReadToken = process.env.NEXT_PUBLIC_SANITY_API_READ_TOKEN || ''

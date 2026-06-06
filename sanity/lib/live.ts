@@ -3,9 +3,10 @@
 // https://github.com/sanity-io/next-sanity#live-content-api for more information.
 import { defineLive } from "next-sanity/live";
 import { client } from "./client";
+import { publicReadToken, readToken } from "../env";
 
 export const { sanityFetch, SanityLive } = defineLive({
   client,
-  serverToken: false,
-  browserToken: false,
+  serverToken: readToken,
+  browserToken: publicReadToken,
 });
