@@ -281,3 +281,12 @@ export interface SanityAboutPage {
   hero: SanityHeroBanner
   bodyBlocks: SanityBodyBlock[]
 }
+
+export interface SanityAdmissionCard {
+  _id: string
+  pageTitle: string
+  admissionType: 'undergraduate' | 'postgraduate' | 'distance-learning'
+  hero?: {
+    backgroundImage?: SanityImage
+  }
+}

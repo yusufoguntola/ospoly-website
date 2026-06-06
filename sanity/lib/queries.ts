@@ -58,7 +58,6 @@ export const getQuickLinksQuery = `
 export const getNewsArticlesQuery = `
   *[
     _type == "newsArticle" &&
-    status == "published" &&
     (!defined($category) || category == $category)
   ]
   | order(publishDate desc)[0...$limit] {
@@ -78,8 +77,7 @@ export const getNewsArticlesQuery = `
 export const getNewsArticleBySlugQuery = `
   *[
     _type == "newsArticle" &&
-    slug.current == $slug &&
-    status == "published"
+    slug.current == $slug
   ][0] {
     _id,
     title,
@@ -98,8 +96,6 @@ export const getNewsArticleBySlugQuery = `
 export const getHomepageArticlesQuery = `
   *[
     _type == "newsArticle" &&
-    status == "published" &&
-    showOnHomepage == true
   ]
   | order(publishDate desc)[0...$limit] {
     _id,
@@ -230,6 +226,16 @@ export const getStaffProfilesQuery = `
 // ─────────────────────────────────────────────────────────────
 // Pages
 // ─────────────────────────────────────────────────────────────
+export const getAdmissionPagesQuery = `
+  *[_type == "admissionPage"] | order(admissionType asc) {
+    _id,
+    pageTitle,
+    admissionType,
+    hero {
+      backgroundImage { ${imageFields} }
+    }
+  }
+`
 
 export const getAdmissionPageQuery = `
   *[
