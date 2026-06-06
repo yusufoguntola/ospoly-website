@@ -175,13 +175,14 @@ export const getProgrammesQuery = `
     programmeName,
     slug,
     level,
+    studyMode,
     duration,
     accreditation,
     faculty->{ _id, facultyName, slug },
     icon { ${imageFields} },
     featuredImage { ${imageFields} }
   }
-`;
+`
 
 export const getProgrammeBySlugQuery = `
   *[

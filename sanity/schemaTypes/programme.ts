@@ -86,6 +86,20 @@ export const programme = defineType({
       fields: [defineField({ name: "alt", title: "Alt Text", type: "string" })],
     }),
     defineField({
+      name: "studyMode",
+      title: "Study Mode",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Full-Time", value: "full-time" },
+          { title: "Part-Time / Distance Learning", value: "part-time" },
+        ],
+        layout: "grid",
+      },
+      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({
       name: "status",
       title: "Status",
       type: "string",

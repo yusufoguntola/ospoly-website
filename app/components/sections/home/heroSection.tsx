@@ -95,7 +95,7 @@ export default function HeroSection({ announcements }: HeroSectionProps) {
 
   const items = announcements?.length ? announcements : FALLBACK_ANNOUNCEMENTS;
   const filteredItems = useMemo(() => {
-    return items.filter((item) => item.category === activeTab);
+    return items.filter((item) => item.category === activeTab).slice(0, 3);
   }, [items, activeTab]);
 
   useEffect(() => {

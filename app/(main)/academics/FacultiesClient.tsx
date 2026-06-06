@@ -22,6 +22,23 @@ export interface FacultyItem {
   deanName: string | null;
   departments: Department[];
   levels: string[];
+  modes: string[];
+}
+
+export interface FacultyItem {
+  id: string;
+  name: string;
+  abbreviation: string;
+  deanName: string | null;
+  departments: Department[];
+  levels: string[];
+}
+
+interface FacultiesClientProps {
+  faculties: FacultyItem[];
+  facultyNames: string[];
+  levelOptions: string[];
+  modeOptions: string[];
 }
 
 interface FacultiesClientProps {
@@ -91,7 +108,7 @@ function FacultyCard({ faculty, index }: { faculty: FacultyItem; index: number }
 
 // ─── Main Client Component ────────────────────────────────────────────────────
 
-export default function FacultiesClient({ faculties }: FacultiesClientProps) {
+export default function FacultiesClient({ faculties, facultyNames, levelOptions, modeOptions }: FacultiesClientProps) {
   const [filters, setFilters] = useState<HeroFilters>({
     query:   "",
     faculty: null,
@@ -127,8 +144,8 @@ export default function FacultiesClient({ faculties }: FacultiesClientProps) {
       // Faculty name filter
       if (filters.faculty && f.name !== filters.faculty) return false
 
-      // Level filter — check if any department in this faculty matches
       if (filters.level && !f.levels.includes(filters.level)) return false
+      if (filters.mode && !f.modes.includes(filters.mode)) return false
 
       // Search query — match faculty name, abbreviation, or any department name
       if (filters.query) {
@@ -145,11 +162,14 @@ export default function FacultiesClient({ faculties }: FacultiesClientProps) {
 
   return (
     <div className="bg-white min-h-screen">
-      <PageHero
+  <PageHero
         title="Programmes"
         size="default"
         showFinder
         onFilterChange={handleFilterChange}
+        facultyOptions={facultyNames}
+        levelOptions={levelOptions}
+        modeOptions={modeOptions}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-24">

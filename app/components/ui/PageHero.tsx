@@ -171,6 +171,8 @@ export interface PageHeroProps {
   onFilterChange?: (filters: HeroFilters) => void;
   /** Real faculty names from Sanity. Falls back to hardcoded list when omitted. */
   facultyOptions?: string[];
+   levelOptions?: string[];
+  modeOptions?: string[];
 }
 
 export interface HeroFilters {
@@ -179,24 +181,6 @@ export interface HeroFilters {
   level: string | null;
   mode: string | null;
 }
-
-// ─── Filter data ──────────────────────────────────────────────────────────────
-
-const DEFAULT_FACULTY_OPTIONS = [
-  "Faculty of Information and Communication Technology",
-  "Faculty of Science",
-  "Faculty of Art and Industrial Design",
-  "Faculty of Financial Studies",
-  "Faculty of Management Studies",
-  "Faculty of Engineering",
-  "Faculty of Environmental Studies",
-  "School of Vocational and Technical Education",
-];
-const LEVEL_OPTIONS = [
-  "National Diploma (ND)",
-  "Higher National Diploma (HND)",
-];
-const MODE_OPTIONS = ["Full-Time", "Part-Time / Distance Learning"];
 
 
 
@@ -237,6 +221,7 @@ function Dropdown({
     const spaceBelow = window.innerHeight - rect.bottom;
     setOpenUp(spaceBelow < 280);
   }, [isOpen]);
+  
 
   const displayLabel = selected
     ? selected.length > 18
@@ -319,6 +304,8 @@ export default function PageHero({
   showFinder = false,
   onFilterChange,
   facultyOptions,
+   levelOptions,
+  modeOptions,
 }: PageHeroProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -340,9 +327,9 @@ export default function PageHero({
 
   // Build filter groups here so faculty options can come from props
   const FILTER_GROUPS = [
-    { key: "faculty" as const, label: "By Faculties", options: facultyOptions?.length ? facultyOptions : DEFAULT_FACULTY_OPTIONS },
-    { key: "level"   as const, label: "By Level",     options: LEVEL_OPTIONS },
-    { key: "mode"    as const, label: "By Modes",     options: MODE_OPTIONS },
+    { key: "faculty" as const, label: "By Faculties", options: facultyOptions ?? [] },
+    { key: "level"   as const, label: "By Level",     options: levelOptions ?? [] },
+    { key: "mode"    as const, label: "By Modes",     options: modeOptions ?? [] },
   ];
 
   // Notify parent on any change

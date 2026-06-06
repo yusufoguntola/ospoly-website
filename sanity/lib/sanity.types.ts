@@ -181,6 +181,7 @@ export interface SanityProgramme {
   programmeName: string
   slug: SanitySlug
   level: SanityProgrammeLevel[]
+  studyMode: ('full-time' | 'part-time')[]
   duration?: string
   accreditation?: string
   faculty: SanityFacultyRef

@@ -4,6 +4,7 @@ import type { SanityFaculty, SanityProgramme } from "@/sanity/lib/sanity.types";
 import FacultiesClient from "./FacultiesClient";
 
 
+
 const LEVEL_LABEL: Record<string, string> = {
   ond: "National Diploma (ND)",
   hnd: "Higher National Diploma (HND)",
@@ -11,6 +12,14 @@ const LEVEL_LABEL: Record<string, string> = {
   master: "Master",
   certificate: "Certificate",
 };
+
+
+  // Mode comes from programme level — part-time maps to distance-learning type
+  // Add a modeOptions field to your Sanity schema later; for now derive from levels
+  const MODE_LABEL: Record<string, string> = {
+    'full-time': 'Full-Time',
+    'part-time': 'Part-Time / Distance Learning',
+  }
 
 function deriveAbbreviation(name: string): string {
   const cleaned = name
@@ -58,6 +67,14 @@ const [facultiesRes, programmesRes] = await Promise.all([
       ),
     ];
 
+    const modes = [
+      ...new Set(
+        progs
+          .flatMap((p) => Array.isArray(p.studyMode) ? p.studyMode : [])
+          .map((m) => MODE_LABEL[m] ?? m)
+      ),
+    ]
+
     const departments = progs.map((p: SanityProgramme) => {
       const normalizedLevels = Array.isArray(p.level)
         ? p.level
@@ -79,8 +96,28 @@ const [facultiesRes, programmesRes] = await Promise.all([
       deanName: f.deanName ?? null,
       departments,
       levels,
+      modes,
     };
   });
 
-  return <FacultiesClient faculties={faculties} />;
+  const facultyNames = rawFaculties.map((f) => f.facultyName);
+
+  const levelOptions = [
+    ...new Set(
+      rawProgrammes.flatMap((p) =>
+        Array.isArray(p.level) ? p.level : p.level ? [p.level] : []
+      ).map((lvl) => LEVEL_LABEL[lvl] ?? lvl)
+    ),
+  ];
+
+
+  const modeOptions = [
+    ...new Set(
+      rawProgrammes
+        .flatMap((p) => Array.isArray(p.studyMode) ? p.studyMode : [])
+        .map((m) => MODE_LABEL[m] ?? m)
+    ),
+  ]
+
+  return <FacultiesClient faculties={faculties} facultyNames={facultyNames} levelOptions={levelOptions} modeOptions={modeOptions} />;
 }
