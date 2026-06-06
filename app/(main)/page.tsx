@@ -1,11 +1,15 @@
 import {
+  getFacultiesQuery,
   getKeyStatisticsQuery,
   getNewsArticlesQuery,
+  getProgrammesQuery,
 } from '@/sanity/lib/queries'
 import { sanityFetch } from '@/sanity/lib/live'
 import type {
+  SanityFaculty,
   SanityKeyStatistic,
   SanityNewsArticle,
+  SanityProgramme,
 } from '@/sanity/lib/sanity.types'
 import HeroSection from '../components/sections/home/heroSection'
 import MissionSection from '../components/sections/home/missionSection'
@@ -17,18 +21,29 @@ import type { HeroAnnouncement } from '../components/sections/home/heroSection'
 
 
 export default async function Home() {
-const [rawStatsRes, allArticlesRes] = await Promise.all([
+const [rawStatsRes, allArticlesRes, facultiesRes, programmesRes] = await Promise.all([
     sanityFetch({ query: getKeyStatisticsQuery, params: { page: 'home' } }).catch(() => ({ data: [] })),
     sanityFetch({ query: getNewsArticlesQuery, params: { limit: 30, category: null } }).catch(() => ({ data: [] })),
+    sanityFetch({ query: getFacultiesQuery }).catch(() => ({ data: [] })),
+    sanityFetch({ query: getProgrammesQuery, params: { facultyId: null, level: null } }).catch(() => ({ data: [] })),
   ])
 
-  const rawStats = (rawStatsRes.data ?? []) as SanityKeyStatistic[]
+ const rawStats = (rawStatsRes.data ?? []) as SanityKeyStatistic[]
   const allArticles = (allArticlesRes.data ?? []) as SanityNewsArticle[]
+  const facultyCount = ((facultiesRes.data ?? []) as unknown[]).length
+  const programmeCount = ((programmesRes.data ?? []) as unknown[]).length
 
-  const stats = rawStats.map((s: SanityKeyStatistic) => ({
-    value: s.statValue,
-    label: s.label,
-  }))
+  const AUTO_LABELS = ['faculties', 'faculty', 'departments', 'department', 'programmes', 'programme', 'programs', 'program']
+
+  const stats = rawStats.map((s: SanityKeyStatistic) => {
+    const labelLower = s.label.toLowerCase()
+    const isFaculty = labelLower.includes('facult')
+    const isDepartment = labelLower.includes('department') || labelLower.includes('programme') || labelLower.includes('program')
+
+    if (isFaculty) return { value: String(facultyCount), label: s.label }
+    if (isDepartment) return { value: String(programmeCount), label: s.label }
+    return { value: s.statValue, label: s.label }
+  })
 
   // ── Hero ticker ────────────────────────────────────────────────────────────
   const announcements: HeroAnnouncement[] = allArticles.map((a) => ({
