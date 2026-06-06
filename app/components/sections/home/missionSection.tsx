@@ -75,7 +75,7 @@ export default function MissionSection({ stats }: MissionSectionProps) {
             <div className="relative rounded-2xl overflow-hidden aspect-4/3 bg-ospoly-pale">
               <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url('/assets/mission.png')" }}
+                style={{ backgroundImage: "url('/assets/pgd.jpg')" }}
               />
               <div className="absolute bottom-0 right-0 w-24 h-24 bg-ospoly-gold/20 rounded-tl-[40px]" />
             </div>
