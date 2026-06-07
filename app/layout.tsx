@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "Osun State Polytechnic",
     images: [
       {
-        url: "/og-image.jpg", // 🔥 add this image in /public
+        url: "/assets/logo.svg", // 🔥 add this image in /public
         width: 1200,
         height: 630,
         alt: "Osun State Polytechnic",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     title: "Osun State Polytechnic, Iree",
     description:
       "Official website of Osun State Polytechnic, Iree.",
-    images: ["/og-image.jpg"],
+    images: ["/assets/logo.svg"],
   },
 
   robots: {
@@ -88,7 +88,7 @@ export default function RootLayout({
             "@type": "CollegeOrUniversity",
             name: "Osun State Polytechnic, Iree",
             url: "https://ospoly.edu.ng",
-            logo: "https://ospoly.edu.ng/logo.png",
+            logo: "/assets/logo.svg",
             address: {
               "@type": "PostalAddress",
               streetAddress: "Iree Town",
