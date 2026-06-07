@@ -476,8 +476,8 @@ export default function OspolyFooter() {
         <div className="relative border-t border-white/8 px-4 sm:px-8 md:px-12 py-5">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p className="text-white/35 text-[12px]">
-              Copyright &copy; 2025 Osun State Polytechnic, Iree. All rights
-              reserved.
+              Copyright &copy; {new Date().getFullYear()} Osun State
+              Polytechnic, Iree. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link

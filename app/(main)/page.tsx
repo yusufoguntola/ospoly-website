@@ -6,10 +6,8 @@ import {
 } from '@/sanity/lib/queries'
 import { sanityFetch } from '@/sanity/lib/live'
 import type {
-  SanityFaculty,
   SanityKeyStatistic,
   SanityNewsArticle,
-  SanityProgramme,
 } from '@/sanity/lib/sanity.types'
 import HeroSection from '../components/sections/home/heroSection'
 import MissionSection from '../components/sections/home/missionSection'
