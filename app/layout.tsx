@@ -10,7 +10,7 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  // metadataBase: new URL(""), // 🔥 change this
+  metadataBase: new URL("https://ospoly.edu.ng"), // 🔥 change this
 
   title: {
     default: "Osun State Polytechnic, Iree",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     title: "Osun State Polytechnic, Iree",
     description:
       "Official website of Osun State Polytechnic, Iree. Explore admissions, courses, news, and campus life.",
-    url: "", // 🔥 change this
+    url: "https://ospoly.edu.ng", // 🔥 change this
     siteName: "Osun State Polytechnic",
     images: [
       {
@@ -85,8 +85,8 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "CollegeOrUniversity",
             name: "Osun State Polytechnic, Iree",
-            url: "",
-            logo: "",
+            url: "https://ospoly.edu.ng",
+            logo: "https://ospoly.edu.ng/logo.png",
             address: {
               "@type": "PostalAddress",
               streetAddress: "Iree Town",
