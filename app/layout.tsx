@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 import { SanityLive } from "@/sanity/lib/live";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -77,6 +78,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
         <SanityLive />
+        <SpeedInsights />
       </body>
       <script
         type="application/ld+json"
