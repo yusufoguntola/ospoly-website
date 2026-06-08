@@ -18,25 +18,25 @@ const QUICK_LINKS: QuickLink[] = [
   {
     key: "certificate",
     label: "Certificate Application",
-    href: "#",
+    href: "https://portal.ospoly.edu.ng/graduate/login",
     imageUrl: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1400&q=80&fit=crop",
   },
   {
     key: "elibrary",
     label: "E-Library",
-    href: "#",
+    href: "https://ospoly3.lib.ng/",
     imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1400&q=80&fit=crop",
   },
   {
     key: "transcript",
     label: "Transcript Portal",
-    href: "#",
+    href: "https://portal.ospoly.edu.ng/graduate/login",
     imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80&fit=crop",
   },
   {
     key: "elearning",
     label: "E-Learning Portal",
-    href: "#",
+    href: "https://portal.ospoly.edu.ng/",
     imageUrl: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1400&q=80&fit=crop",
   },
 ];
