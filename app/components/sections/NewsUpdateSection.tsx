@@ -69,8 +69,8 @@ function ArticleRow({ item, index, isInView, basePath }: ArticleRowProps) {
       <Link
         href={
           item.slug.startsWith("http") || item.slug.startsWith("//")
-            ? item.slug // external URL — use as-is
-            : `${basePath}/${item.slug}` // internal slug — prefix with basePath
+            ? item.slug // external URL
+            : `${basePath}/${item.slug}` // internal slug
         }
         target={item.slug.startsWith("http") ? "_blank" : undefined}
         rel={item.slug.startsWith("http") ? "noopener noreferrer" : undefined}
