@@ -273,7 +273,7 @@ export default function OspolyFooter() {
             {/* CTAs */}
             <div className="flex flex-col gap-3 w-full sm:w-auto min-w-70">
               <Link
-                href="/admission"
+                href="https://portal.ospoly.edu.ng/apply"
                 className="
                 block text-center bg-white text-ospoly-deep text-[13px] font-semibold
                 tracking-[0.06em] py-3.5 px-8 rounded-sm
@@ -283,7 +283,7 @@ export default function OspolyFooter() {
                 Apply Now
               </Link>
               <Link
-                href="/admission"
+                href="#"
                 className="
                 block text-center border border-white text-white text-[13px] font-semibold
                 tracking-[0.06em] py-3.5 px-8 rounded-sm
