@@ -419,7 +419,7 @@ export default function OspolyFooter() {
                 aria-label="OSPOLY home"
               >
                 <Image
-                  src={"/assets/logo.png"}
+                  src={"/assets/logo.svg"}
                   alt="Ospoly Logo"
                   width={120}
                   height={60}
