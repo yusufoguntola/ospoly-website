@@ -23,14 +23,14 @@ export const NAV_ITEMS = [
     label: "Admissions",
     href: "/admissions",
     children: [
-      { label: "How to Apply", href: "/admissions/apply" },
-      { label: "Requirements", href: "/admissions/requirements" },
-      { label: "Fees & Scholarships", href: "/admissions/fees" },
+      { label: "How to Apply", href: "/admissions" },
+      { label: "Requirements", href: "/admissions" },
+      { label: "Fees & Scholarships", href: "/admissions" },
     ],
   },
-  { label: "Research", href: "/research" },
-  { label: "Campus Life", href: "/campus-life" },
-  { label: "Contact", href: "/contact" },
+  { label: "Research", href: "#" },
+  { label: "Campus Life", href: "#" },
+  { label: "Contact", href: "#" },
 ];
 
 export const STATS: StatItem[] = [

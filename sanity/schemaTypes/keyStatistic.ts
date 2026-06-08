@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 
 export const keyStatistic = defineType({
   name: 'keyStatistic',
-  title: 'Key Statistic',
+  title: 'Home Statistic',
   type: 'document',
   fields: [
     defineField({
@@ -26,21 +26,21 @@ export const keyStatistic = defineType({
       description: 'Controls display order',
       validation: (Rule) => Rule.required().integer(),
     }),
-    defineField({
-      name: 'page',
-      title: 'Page',
-      type: 'string',
-      description: 'Where this stat appears',
-      options: {
-        list: [
-          { title: 'Home', value: 'home' },
-          { title: 'About', value: 'about' },
-          { title: 'Both', value: 'both' },
-        ],
-        layout: 'radio',
-      },
-      validation: (Rule) => Rule.required(),
-    }),
+    // defineField({
+    //   name: 'page',
+    //   title: 'Page',
+    //   type: 'string',
+    //   description: 'Where this stat appears',
+    //   options: {
+    //     list: [
+    //       { title: 'Home', value: 'home' },
+    //       { title: 'About', value: 'about' },
+    //       { title: 'Both', value: 'both' },
+    //     ],
+    //     layout: 'radio',
+    //   },
+    //   validation: (Rule) => Rule.required(),
+    // }),
   ],
   orderings: [
     { title: 'Sort Order', name: 'sortOrderAsc', by: [{ field: 'sortOrder', direction: 'asc' }] },
