@@ -15,8 +15,7 @@ const heroBannerFields = `
 
 export const getKeyStatisticsQuery = `
   *[
-    _type == "keyStatistic" &&
-    (!defined($page) || page == $page || page == "both")
+    _type == "keyStatistic" 
   ]
   | order(sortOrder asc) {
     _id,

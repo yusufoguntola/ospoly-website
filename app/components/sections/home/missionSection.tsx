@@ -29,10 +29,7 @@ export default function MissionSection({ stats }: MissionSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
-  const STATS = stats?.length ? stats : FALLBACK_STATS
-
-  console.log(stats);
-  
+  const STATS = stats?.length ? stats : FALLBACK_STATS  
 
   return (
     <section
