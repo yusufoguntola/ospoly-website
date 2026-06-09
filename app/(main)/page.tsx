@@ -20,7 +20,7 @@ import type { HeroAnnouncement } from '../components/sections/home/heroSection'
 
 export default async function Home() {
 const [rawStatsRes, allArticlesRes, facultiesRes, programmesRes] = await Promise.all([
-    sanityFetch({ query: getKeyStatisticsQuery, params: { page: 'home' } }).catch(() => ({ data: [] })),
+    sanityFetch({ query: getKeyStatisticsQuery, }).catch(() => ({ data: [] })),
     sanityFetch({ query: getNewsArticlesQuery, params: { limit: 30, category: null } }).catch(() => ({ data: [] })),
     sanityFetch({ query: getFacultiesQuery }).catch(() => ({ data: [] })),
     sanityFetch({ query: getProgrammesQuery, params: { facultyId: null, level: null } }).catch(() => ({ data: [] })),
