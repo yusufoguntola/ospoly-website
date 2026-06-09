@@ -448,10 +448,10 @@ export default function OspolyFooter() {
                     className="shrink-0 text-ospoly-gold"
                   />
                   <a
-                    href="tel:+2348000000000"
+                    href="tel:+2348070580088"
                     className="hover:text-white transition-colors"
                   >
-                    +234 (0)80X XXX XXXX
+                    +234 (0)807 058 0088
                   </a>
                 </div>
                 <div className="flex items-center gap-3 text-white/55 text-[13px]">

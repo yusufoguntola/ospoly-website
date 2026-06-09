@@ -283,3 +283,16 @@ export const getAboutPageQuery = `
     }
   }
 `;
+
+export const FOOTER_COLUMNS_QUERY = `
+*[_type == "footerColumn"] | order(sortOrder asc) {
+  _id,
+  columnHeading,
+  sortOrder,
+  links[] {
+    _key,
+    label,
+    url
+  }
+}
+`;
