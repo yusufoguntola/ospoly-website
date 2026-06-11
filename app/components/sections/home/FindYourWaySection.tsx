@@ -133,16 +133,12 @@ export default function FindYourWaySection() {
             <div className="flex flex-col gap-3">
               {[
                 {
-                  label: "Undergraduate programmes",
-                  href: "/admission/undergraduate-studies",
-                },
-                {
-                  label: "Graduate Programmes",
-                  href: "/admission/postgraduate-studies",
-                },
+                  label: "Explore Programmes",
+                  href: "/admission",
+                }
               ].map((prog) => (
                 <Link
-                  target="_blank"
+                  // target="_blank"
                   key={prog.label}
                   href={prog.href}
                   className="inline-flex items-center gap-2 self-start p-4 sm:p-5 rounded-full border border-white/35 text-white text-sm font-medium hover:bg-white/10 hover:border-white transition-all group w-full sm:w-64 md:w-70 justify-center"
