@@ -162,8 +162,7 @@ export default function FindYourWaySection() {
             className="grid grid-cols-2 rounded-2xl overflow-hidden"
           >
             {QUICK_LINKS.map((link) => (
-              <Link
-                Cell
+              <LinkCell
                 key={link.key}
                 link={link}
                 isHovered={hovered === link.key}
