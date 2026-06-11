@@ -1,47 +1,52 @@
-import { notFound } from 'next/navigation'
-import { getNewsArticleBySlugQuery } from '@/sanity/lib/queries'
-import { sanityFetch } from '@/sanity/lib/live'
-import type { SanityNewsArticleDetail } from '@/sanity/lib/sanity.types'
-import PageHero from '@/app/components/ui/PageHero'
-import { PortableText } from '@portabletext/react'
-import Link from 'next/link'
-import { ChevronLeft, CalendarDays, User, Tag } from 'lucide-react'
+import { notFound } from "next/navigation";
+import { getNewsArticleBySlugQuery } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
+import type { SanityNewsArticleDetail } from "@/sanity/lib/sanity.types";
+import PageHero from "@/app/components/ui/PageHero";
+import { PortableText } from "@portabletext/react";
+import Link from "next/link";
+import { ChevronLeft, CalendarDays, User, Tag } from "lucide-react";
 interface Props {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }
 
 export default async function ArticleDetailPage({ params }: Props) {
-  const { slug } = await params
-const { data } = await sanityFetch({ query: getNewsArticleBySlugQuery, params: { slug } }).catch(() => ({ data: null }))
-  const article = data as SanityNewsArticleDetail | null
-  
-  if (!article) notFound()
+  const { slug } = await params;
+  const { data } = await sanityFetch({
+    query: getNewsArticleBySlugQuery,
+    params: { slug },
+  }).catch(() => ({ data: null }));
+  const article = data as SanityNewsArticleDetail | null;
 
-  const isEvent = article.category === 'events'
-  const isBlog  = article.category === 'blog'
+  if (!article) notFound();
 
-  const categoryLabel = isEvent ? 'Events' : isBlog ? 'Blog' : 'News'
-  const backLabel     = isEvent ? 'Back to Events' : 'Back to News & Blog'
+  const isEvent = article.category === "events";
+  const isBlog = article.category === "blog";
+
+  const categoryLabel = isEvent ? "Events" : isBlog ? "Blog" : "News";
+  const backLabel = isEvent ? "Back to Events" : "Back to News & Blog";
 
   const formattedDate = article.publishDate
-    ? new Date(article.publishDate).toLocaleDateString('en-NG', {
-        day: 'numeric', month: 'long', year: 'numeric',
+    ? new Date(article.publishDate).toLocaleDateString("en-NG", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
       })
-    : null
+    : null;
 
   return (
     <div className="bg-white min-h-screen">
       <PageHero
         title={article.title}
         size="default"
-        description={article.excerpt ?? ''}
-        imageUrl={article.featuredImage?.url ?? ''}
+        description={article.excerpt ?? ""}
+        imageUrl={article.featuredImage?.url ?? ""}
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-16">
-
         {/* Back link */}
         <Link
+          target="_blank"
           href="/news-events"
           className="inline-flex items-center gap-2 text-sm text-ospoly-gold font-semibold hover:text-ospoly-navy transition-colors mb-10 group"
         >
@@ -109,8 +114,7 @@ const { data } = await sanityFetch({ query: getNewsArticleBySlugQuery, params: {
             ))}
           </div>
         ) : null}
-
       </div>
     </div>
-  )
+  );
 }

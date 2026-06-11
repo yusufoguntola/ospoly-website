@@ -7,32 +7,33 @@ import { getAdmissionPagesQuery } from "@/sanity/lib/queries";
 import type { SanityAdmissionCard } from "@/sanity/lib/sanity.types";
 
 const BREADCRUMBS = [
-  { label: "Home",      href: "/" },
+  { label: "Home", href: "/" },
   { label: "Admission", href: "/admission" },
-]
+];
 
 const ADMISSION_SLUG: Record<string, string> = {
-  'undergraduate':    'undergraduate-studies',
-  'postgraduate':     'postgraduate-studies',
-  'distance-learning': 'distance-learning',
-}
+  undergraduate: "undergraduate-studies",
+  postgraduate: "postgraduate-studies",
+  "distance-learning": "distance-learning",
+};
 
 export default async function AdmissionPage() {
-  const { data } = await sanityFetch({ query: getAdmissionPagesQuery }).catch(() => ({ data: [] }))
-  const pages = (data ?? []) as SanityAdmissionCard[]
+  const { data } = await sanityFetch({ query: getAdmissionPagesQuery }).catch(
+    () => ({ data: [] }),
+  );
+  const pages = (data ?? []) as SanityAdmissionCard[];
 
   const programmes = pages
     .map((page) => {
-      const slug = ADMISSION_SLUG[page.admissionType]
-      if (!slug || !page.hero?.backgroundImage?.url) return null
+      const slug = ADMISSION_SLUG[page.admissionType];
+      if (!slug || !page.hero?.backgroundImage?.url) return null;
       return {
         label: page.pageTitle,
         href: `/admission/${slug}`,
         imageUrl: page.hero.backgroundImage.url,
-      }
+      };
     })
-    .filter(Boolean) as { label: string; href: string; imageUrl: string }[]
-
+    .filter(Boolean) as { label: string; href: string; imageUrl: string }[];
 
   return (
     <div className="bg-white min-h-screen">
@@ -48,7 +49,7 @@ export default async function AdmissionPage() {
         <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
           {programmes.map((prog) => (
             <div key={prog.href}>
-              <Link href={prog.href}>
+              <Link target="_blank" href={prog.href}>
                 <div className="group rounded-2xl overflow-hidde border border-ospoly-gold/70 shadow-sm hover:shadow-md transition-all p-2">
                   <div className="relative w-full h-50 md:h-80 overflow-hidden bg-ospoly-pale rounded-2xl">
                     <Image
@@ -72,5 +73,5 @@ export default async function AdmissionPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

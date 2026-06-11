@@ -12,20 +12,25 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm mb-8">
+    <nav
+      aria-label="Breadcrumb"
+      className="flex items-center gap-1.5 text-sm mb-8"
+    >
       {items.map((item, i) => {
         const isLast = i === items.length - 1;
         return (
           <span key={item.label} className="flex items-center gap-1.5">
             {i > 0 && (
-              <ChevronRight size={13} className="text-gray-300 shrink-0" aria-hidden />
+              <ChevronRight
+                size={13}
+                className="text-gray-300 shrink-0"
+                aria-hidden
+              />
             )}
             {isLast || !item.href ? (
               <span
                 className={
-                  isLast
-                    ? "text-ospoly-navy font-medium"
-                    : "text-gray-400"
+                  isLast ? "text-ospoly-navy font-medium" : "text-gray-400"
                 }
                 aria-current={isLast ? "page" : undefined}
               >

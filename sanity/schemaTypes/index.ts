@@ -34,7 +34,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
   programme,
  
   // People
-  staffProfile,
+  // staffProfile,
  
   // Pages
   admissionPage,

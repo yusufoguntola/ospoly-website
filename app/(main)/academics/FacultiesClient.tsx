@@ -48,14 +48,20 @@ interface FacultiesClientProps {
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const BREADCRUMBS = [
-  { label: "Home",      href: "/" },
+  { label: "Home", href: "/" },
   { label: "Academics", href: "/academics" },
   { label: "Faculties" },
-]
+];
 
 // ─── Faculty Card ─────────────────────────────────────────────────────────────
 
-function FacultyCard({ faculty, index }: { faculty: FacultyItem; index: number }) {
+function FacultyCard({
+  faculty,
+  index,
+}: {
+  faculty: FacultyItem;
+  index: number;
+}) {
   return (
     <motion.div
       layout
@@ -83,6 +89,7 @@ function FacultyCard({ faculty, index }: { faculty: FacultyItem; index: number }
             {faculty.departments.map((dept) => (
               <li key={dept.slug || dept.name}>
                 <Link
+                  target="_blank"
                   href={`/academics/${dept.slug}`}
                   className="flex items-start gap-2.5 text-[13px] leading-snug mb-1 hover:underline text-ospoly-navy group"
                 >
@@ -103,22 +110,27 @@ function FacultyCard({ faculty, index }: { faculty: FacultyItem; index: number }
         )}
       </div>
     </motion.div>
-  )
+  );
 }
 
 // ─── Main Client Component ────────────────────────────────────────────────────
 
-export default function FacultiesClient({ faculties, facultyNames, levelOptions, modeOptions }: FacultiesClientProps) {
+export default function FacultiesClient({
+  faculties,
+  facultyNames,
+  levelOptions,
+  modeOptions,
+}: FacultiesClientProps) {
   const [filters, setFilters] = useState<HeroFilters>({
-    query:   "",
+    query: "",
     faculty: null,
-    level:   null,
-    mode:    null,
-  })
+    level: null,
+    mode: null,
+  });
 
   const handleFilterChange = useCallback((f: HeroFilters) => {
-    setFilters(f)
-  }, [])
+    setFilters(f);
+  }, []);
 
   // Active filter chips
   const activeChips = [
@@ -137,32 +149,34 @@ export default function FacultiesClient({ faculties, facultyNames, levelOptions,
       label: filters.mode,
       clear: () => setFilters((p) => ({ ...p, mode: null })),
     },
-  ].filter(Boolean) as { key: string; label: string; clear: () => void }[]
+  ].filter(Boolean) as { key: string; label: string; clear: () => void }[];
 
   const filtered = useMemo(() => {
     return faculties.filter((f) => {
       // Faculty name filter
-      if (filters.faculty && f.name !== filters.faculty) return false
+      if (filters.faculty && f.name !== filters.faculty) return false;
 
-      if (filters.level && !f.levels.includes(filters.level)) return false
-      if (filters.mode && !f.modes.includes(filters.mode)) return false
+      if (filters.level && !f.levels.includes(filters.level)) return false;
+      if (filters.mode && !f.modes.includes(filters.mode)) return false;
 
       // Search query — match faculty name, abbreviation, or any department name
       if (filters.query) {
-        const q = filters.query.toLowerCase()
-        const inName  = f.name.toLowerCase().includes(q)
-        const inAbbr  = f.abbreviation.toLowerCase().includes(q)
-        const inDepts = f.departments.some((d) => d.name.toLowerCase().includes(q))
-        if (!inName && !inAbbr && !inDepts) return false
+        const q = filters.query.toLowerCase();
+        const inName = f.name.toLowerCase().includes(q);
+        const inAbbr = f.abbreviation.toLowerCase().includes(q);
+        const inDepts = f.departments.some((d) =>
+          d.name.toLowerCase().includes(q),
+        );
+        if (!inName && !inAbbr && !inDepts) return false;
       }
 
-      return true
-    })
-  }, [filters, faculties])
+      return true;
+    });
+  }, [filters, faculties]);
 
   return (
     <div className="bg-white min-h-screen">
-  <PageHero
+      <PageHero
         title="Programmes"
         size="default"
         showFinder
@@ -184,12 +198,21 @@ export default function FacultiesClient({ faculties, facultyNames, levelOptions,
                 onClick={chip.clear}
                 className="flex items-center gap-1.5 px-3 py-1.5 bg-ospoly-pale rounded-full text-xs text-ospoly-navy font-medium hover:bg-ospoly-light/40 transition-colors"
               >
-                {chip.label.length > 24 ? chip.label.slice(0, 24) + "…" : chip.label}
+                {chip.label.length > 24
+                  ? chip.label.slice(0, 24) + "…"
+                  : chip.label}
                 <X size={11} />
               </button>
             ))}
             <button
-              onClick={() => setFilters({ query: "", faculty: null, level: null, mode: null })}
+              onClick={() =>
+                setFilters({
+                  query: "",
+                  faculty: null,
+                  level: null,
+                  mode: null,
+                })
+              }
               className="px-3 py-1.5 text-xs text-gray-400 hover:text-gray-600 underline underline-offset-2 transition-colors"
             >
               Clear all
@@ -207,7 +230,10 @@ export default function FacultiesClient({ faculties, facultyNames, levelOptions,
         {/* Faculty grid */}
         <AnimatePresence mode="popLayout">
           {filtered.length > 0 ? (
-            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <motion.div
+              layout
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
               {filtered.map((faculty, i) => (
                 <FacultyCard key={faculty.id} faculty={faculty} index={i} />
               ))}
@@ -244,5 +270,5 @@ export default function FacultiesClient({ faculties, facultyNames, levelOptions,
         </AnimatePresence>
       </div>
     </div>
-  )
+  );
 }

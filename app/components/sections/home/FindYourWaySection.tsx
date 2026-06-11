@@ -19,25 +19,29 @@ const QUICK_LINKS: QuickLink[] = [
     key: "certificate",
     label: "Certificate Application",
     href: "https://portal.ospoly.edu.ng/graduate/login",
-    imageUrl: "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1400&q=80&fit=crop",
+    imageUrl:
+      "https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=1400&q=80&fit=crop",
   },
   {
     key: "elibrary",
     label: "E-Library",
     href: "https://ospoly3.lib.ng/",
-    imageUrl: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1400&q=80&fit=crop",
+    imageUrl:
+      "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1400&q=80&fit=crop",
   },
   {
     key: "transcript",
     label: "Transcript Portal",
     href: "https://portal.ospoly.edu.ng/graduate/login",
-    imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80&fit=crop",
+    imageUrl:
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1400&q=80&fit=crop",
   },
   {
     key: "elearning",
     label: "E-Learning Portal",
     href: "https://portal.ospoly.edu.ng/",
-    imageUrl: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1400&q=80&fit=crop",
+    imageUrl:
+      "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1400&q=80&fit=crop",
   },
 ];
 
@@ -51,6 +55,7 @@ interface LinkCellProps {
 function LinkCell({ link, isHovered, onEnter, onLeave }: LinkCellProps) {
   return (
     <Link
+      target="_blank"
       href={link.href}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
@@ -110,7 +115,6 @@ export default function FindYourWaySection() {
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-24 lg:py-42 min-h-80 sm:min-h-100 lg:min-h-120 flex items-center">
         <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
-
           {/* Left — heading + programme pills */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
@@ -128,10 +132,13 @@ export default function FindYourWaySection() {
 
             <div className="flex flex-col gap-3">
               {[
-                { label: "Undergraduate programmes", href: "/admission/undergraduate-studies" },
-                { label: "Graduate Programmes", href: "/admission/postgraduate-studies" },
+                {
+                  label: "Explore Programmes",
+                  href: "/admission",
+                }
               ].map((prog) => (
                 <Link
+                  // target="_blank"
                   key={prog.label}
                   href={prog.href}
                   className="inline-flex items-center gap-2 self-start p-4 sm:p-5 rounded-full border border-white/35 text-white text-sm font-medium hover:bg-white/10 hover:border-white transition-all group w-full sm:w-64 md:w-70 justify-center"
@@ -160,7 +167,6 @@ export default function FindYourWaySection() {
               />
             ))}
           </motion.div>
-
         </div>
       </div>
     </section>
