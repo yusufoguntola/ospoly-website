@@ -31,9 +31,7 @@ export default function ApplyCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.2 }}
       className={`rounded-2xl p-6 shadow-lg ${
-        isGold
-          ? "bg-ospoly-gold text-white"
-          : "bg-ospoly-navy text-white"
+        isGold ? "bg-ospoly-gold text-white" : "bg-ospoly-navy text-white"
       }`}
     >
       <h3 className="font-display font-bold text-sm sm:text-base leading-snug mb-5">
@@ -45,9 +43,7 @@ export default function ApplyCard({
           <li key={i} className="flex items-start gap-3">
             <span
               className={`shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold mt-0.5 ${
-                isGold
-                  ? "bg-white/20 text-white"
-                  : "bg-white/15 text-white"
+                isGold ? "bg-white/20 text-white" : "bg-white/15 text-white"
               }`}
             >
               {i + 1}
@@ -64,6 +60,7 @@ export default function ApplyCard({
       </ol>
 
       <Link
+        target="_blank"
         href={ctaHref}
         className={`block w-full text-center text-xs font-semibold px-4 py-2.5 rounded-xl transition-all ${
           isGold

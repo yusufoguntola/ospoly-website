@@ -30,7 +30,7 @@
 //                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
 //                 />
 //               )}
-//               <Link
+//               <Link target="_blank"
 //                 href={item.href}
 //                 className={`
 //                   block pl-4 pr-3 py-2.5 text-sm rounded-r-lg transition-all
@@ -51,7 +51,6 @@
 //     </nav>
 //   );
 // }
-
 
 "use client";
 

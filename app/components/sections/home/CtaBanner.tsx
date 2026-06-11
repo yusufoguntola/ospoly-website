@@ -61,7 +61,8 @@ export default function CtaBanner({
   const bgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
 
   const lines = parseHeadline(headline);
-  const minH = size === "tall" ? "min-h-[90vh]" : "min-h-[60vh] sm:min-h-[75vh]";
+  const minH =
+    size === "tall" ? "min-h-[90vh]" : "min-h-[60vh] sm:min-h-[75vh]";
 
   return (
     <section
@@ -150,6 +151,7 @@ export default function CtaBanner({
             {buttons.map((btn) =>
               btn.variant === "secondary" ? (
                 <Link
+                  target="_blank"
                   key={btn.label}
                   href={btn.href}
                   className="inline-flex items-center px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl border-2 border-white/60 text-white text-sm font-semibold hover:bg-white/10 hover:border-white transition-all"
@@ -158,13 +160,14 @@ export default function CtaBanner({
                 </Link>
               ) : (
                 <Link
+                  target="_blank"
                   key={btn.label}
                   href={btn.href}
                   className="inline-flex items-center px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-ospoly-gold text-white text-sm font-semibold hover:bg-ospoly-gold/90 transition-all shadow-lg shadow-ospoly-gold/20 hover:shadow-ospoly-gold/40 hover:-translate-y-0.5"
                 >
                   {btn.label}
                 </Link>
-              )
+              ),
             )}
           </motion.div>
         )}

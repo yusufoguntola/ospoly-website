@@ -273,6 +273,7 @@ export default function OspolyFooter() {
             {/* CTAs */}
             <div className="flex flex-col gap-3 w-full sm:w-auto min-w-70">
               <Link
+                target="_blank"
                 href="https://portal.ospoly.edu.ng/apply"
                 className="
                 block text-center bg-white text-ospoly-deep text-[13px] font-semibold
@@ -283,6 +284,7 @@ export default function OspolyFooter() {
                 Apply Now
               </Link>
               <Link
+                target="_blank"
                 href="#"
                 className="
                 block text-center border border-white text-white text-[13px] font-semibold
@@ -366,6 +368,7 @@ export default function OspolyFooter() {
                   className="border-b border-white/7 w-45 md:w-55"
                 >
                   <Link
+                    target="_blank"
                     href={link.href}
                     className="
                     block py-3 text-white/60 text-[13.5px] font-light
@@ -393,6 +396,7 @@ export default function OspolyFooter() {
                   className="border-b border-white/7 w-45 md:w-55"
                 >
                   <Link
+                    target="_blank"
                     href={link.href}
                     className="
                     block py-3 text-white/60 text-[13.5px] font-light
@@ -414,6 +418,7 @@ export default function OspolyFooter() {
               className="flex flex-col items-start gap-6 col-span-2 md:col-span-1"
             >
               <Link
+                target="_blank"
                 href="/"
                 className="flex items-center gap-2.5 shrink-0 mr-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
                 aria-label="OSPOLY home"
@@ -481,12 +486,14 @@ export default function OspolyFooter() {
             </p>
             <div className="flex items-center gap-6">
               <Link
+                target="_blank"
                 href="/terms"
                 className="text-white/35 text-[12px] hover:text-white/60 transition-colors underline underline-offset-2"
               >
                 Terms of Use
               </Link>
               <Link
+                target="_blank"
                 href="/privacy"
                 className="text-white/35 text-[12px] hover:text-white/60 transition-colors underline underline-offset-2"
               >

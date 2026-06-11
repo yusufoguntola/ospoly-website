@@ -19,17 +19,17 @@ interface MissionSectionProps {
 // ─── Fallback stats (used until Sanity is populated) ─────────────────────────
 
 const FALLBACK_STATS: StatItem[] = [
-  { value: '98%',    label: 'Graduate Rate' },
-  { value: '10,000+', label: 'Students' },
-  { value: '4,000+', label: 'Faculty' },
-  { value: '150+',   label: 'No. of Programs' },
-]
+  { value: "98%", label: "Graduate Rate" },
+  { value: "10,000+", label: "Students" },
+  { value: "4,000+", label: "Faculty" },
+  { value: "150+", label: "No. of Programs" },
+];
 
 export default function MissionSection({ stats }: MissionSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
-  const STATS = stats?.length ? stats : FALLBACK_STATS  
+  const STATS = stats?.length ? stats : FALLBACK_STATS;
 
   return (
     <section
@@ -50,9 +50,10 @@ export default function MissionSection({ stats }: MissionSectionProps) {
             </h2>
             <p className="text-white text-sm sm:text-base leading-relaxed mb-6 sm:mb-8 max-w-xl">
               The Mission of Osun State Polytechnic, Iree is to produce
-              highly-motivated, technically proficient, and efficient manpower in
-              the fields of Science, Engineering, Environmental Studies, Information
-              and Communication Technology, Management, and Financial Studies.
+              highly-motivated, technically proficient, and efficient manpower
+              in the fields of Science, Engineering, Environmental Studies,
+              Information and Communication Technology, Management, and
+              Financial Studies.
             </p>
             <Link
               href="/about/vision"

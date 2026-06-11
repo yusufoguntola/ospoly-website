@@ -140,6 +140,7 @@ export default function ProgrammeContent({
         >
           {buttons.map((btn) => (
             <Link
+              target="_blank"
               key={btn.label}
               href={btn.href}
               className={`px-5 py-2.5 text-sm font-semibold rounded-xl border transition-all ${
