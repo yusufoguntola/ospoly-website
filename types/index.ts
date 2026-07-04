@@ -35,3 +35,31 @@ export interface QuickLink {
   href: string
   icon?: string
 }
+
+// types/footer.ts (or wherever your Sanity types live)
+
+export interface SanityFooterLink {
+  _key: string;
+  label: string;
+  url?: string;
+}
+
+export interface SanityFooterAddress {
+  lines?: string[];
+}
+
+export interface SanityFooterContact {
+  phone?: string;
+  email?: string;
+}
+
+export interface SanityFooterContent {
+  leftLinks?: SanityFooterLink[];
+  rightLinks?: SanityFooterLink[];
+  address?: SanityFooterAddress;
+  contact?: SanityFooterContact;
+}
+
+export interface SanityFooterDoc {
+  content?: SanityFooterContent;
+}
