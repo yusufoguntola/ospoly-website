@@ -448,7 +448,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { DiagonalPattern } from "../footer";
+// import { DiagonalPattern } from "../footer";
 
 // ─── Types ────────────────────────────────────────────────
 interface NavSection {
@@ -728,7 +728,7 @@ export default function OspolyNavbar() {
           }}
           aria-hidden="true"
         />
-        <DiagonalPattern />
+        {/* <DiagonalPattern /> */}
 
         <div className="relative px-4 sm:px-8 md:px-12 pt-19 max-w-7xl mx-auto">
           {/* Search + close row */}

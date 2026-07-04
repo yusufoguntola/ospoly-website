@@ -207,21 +207,21 @@ export const getProgrammeBySlugQuery = `
 // Staff
 // ─────────────────────────────────────────────────────────────
 
-export const getStaffProfilesQuery = `
-  *[
-    _type == "staffProfile" &&
-    (!defined($category) || category == $category)
-  ]
-  | order(sortOrder asc) {
-    _id,
-    fullName,
-    titleRole,
-    email,
-    category,
-    sortOrder,
-    photo { ${imageFields} }
-  }
-`;
+// export const getStaffProfilesQuery = `
+//   *[
+//     _type == "staffProfile" &&
+//     (!defined($category) || category == $category)
+//   ]
+//   | order(sortOrder asc) {
+//     _id,
+//     fullName,
+//     titleRole,
+//     email,
+//     category,
+//     sortOrder,
+//     photo { ${imageFields} }
+//   }
+// `;
 
 // ─────────────────────────────────────────────────────────────
 // Pages
@@ -284,15 +284,40 @@ export const getAboutPageQuery = `
   }
 `;
 
-export const FOOTER_COLUMNS_QUERY = `
-*[_type == "footerColumn"] | order(sortOrder asc) {
-  _id,
-  columnHeading,
-  sortOrder,
-  links[] {
-    _key,
-    label,
-    url
+// export const FOOTER_COLUMNS_QUERY = `
+// *[_type == "footerColumn"] | order(sortOrder asc) {
+//   _id,
+//   columnHeading,
+//   sortOrder,
+//   links[] {
+//     _key,
+//     label,
+//     url
+//   }
+// }
+// `;
+
+
+export const getFooterLinksQuery = `
+*[_type == "footer"][0]{
+  content{
+    leftLinks[]{
+      _key,
+      label,
+      url
+    },
+    rightLinks[]{
+      _key,
+      label,
+      url
+    },
+    address{
+      lines
+    },
+    contact{
+      phone,
+      email
+    }
   }
 }
-`;
+`

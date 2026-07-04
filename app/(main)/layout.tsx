@@ -1,4 +1,5 @@
 import Footer from "../components/layouts/footer";
+import OspolyFooter from "../components/layouts/footer";
 import OspolyNavbar from "../components/layouts/navbar";
 import BackToTop from "../components/ui/backToTop";
 
@@ -12,7 +13,7 @@ export default function MainLayout({
       <OspolyNavbar />
       {children}
       <BackToTop />
-      <Footer />
+      <OspolyFooter />
     </>
   );
 }

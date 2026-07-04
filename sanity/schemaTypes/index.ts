@@ -3,14 +3,16 @@ import { aboutPage } from './aboutPage'
 import { admissionPage } from './admissionPage'
 // import { announcement } from './announcement'
 import { faculty } from './faculty'
-import { footerColumn } from './footerColumn'
+// import { footerColumn } from './footerColumn'
 import { heroBanner } from './heroBanner'
 import { keyStatistic } from './keyStatistic'
 import { newsArticle } from './newsArticle'
 import { newsletterCta } from './newsletterCta'
 import { programme } from './programme'
 import { quickLink } from './quickLink'
-import { staffProfile } from './staffProfile'
+import { footer } from './footerColumn'
+import { footerContent } from './objects'
+// import { staffProfile } from './staffProfile'
 // import { event } from "./event";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -19,8 +21,10 @@ export const schema: { types: SchemaTypeDefinition[] } = {
   heroBanner,
  
   // Global / Shared
-  footerColumn,
+  // footerColumn,
   // announcement,
+  footer,
+  footerContent,
   keyStatistic,
   newsletterCta,
   quickLink,
